@@ -18,7 +18,7 @@ export const SideMenu: React.FC = () => {
                             <Heading size='2xl'>Menu</Heading>
                         </DrawerHeader>
                         <DrawerBody>
-                            <Heading as='h2' size='lg' mb={4} 
+                            <Heading as='h2' size='lg' mb={4}
                                 onClick={() => navigate('/cards')}>
                                 My Flashcards
                             </Heading>

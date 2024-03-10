@@ -9,8 +9,8 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
     return (
         <Card margin='16px' variant='elevated' shadow='md'>
             <CardBody>
-                <Text>{flashCard.foreignWord}</Text>
-                <Text>{flashCard.translatedWord}</Text>
+                <Text userSelect='text'>{flashCard.foreignWord}</Text>
+                <Text userSelect='text'>{flashCard.translatedWord}</Text>
             </CardBody>
         </Card>
     )
