@@ -1,12 +1,18 @@
 import './App.css'
-import { Card } from './components/Card'
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { MyFlashCardsPage } from './pages/MyFlashCardsPage';
+import { LearnPage } from './pages/LearnPage';
+import { QuizPage } from './pages/QuizPage';
 
-function App() {
+export const App = () => {
   return (
-    <div>
-        <Card card={{originalWord: 'cat', translatedWord: 'kot'}} />
-    </div>
+    <>
+        <Routes>
+          <Route path='/' element={<Navigate to='/cards' />} />
+          <Route path='/cards' element={<MyFlashCardsPage />} />
+          <Route path='/learn' element={<LearnPage></LearnPage>} />
+          <Route path='/quiz' element={<QuizPage></QuizPage>} />
+        </Routes>
+    </>
   )
 }
-
-export default App
