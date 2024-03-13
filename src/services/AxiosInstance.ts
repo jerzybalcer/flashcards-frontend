@@ -1,5 +1,8 @@
-// import axios, { AxiosInstance } from 'axios';
+import axios from "axios";
+import { useCasingInterceptors as setupCasingInterceptors } from "./CasingConverterInterceptor";
 
-// const baseUrl = 'http://127.0.0.1:5000';
+export const apiClient = axios.create({
+  baseURL: "http://127.0.0.1:5000",
+});
 
-// export const apiClient: AxiosInstance = axios.create({ baseURL: baseUrl });
+setupCasingInterceptors();

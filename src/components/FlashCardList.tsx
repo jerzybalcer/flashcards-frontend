@@ -1,49 +1,15 @@
 import { useQuery } from "react-query";
+import { Flex, Spinner } from "@chakra-ui/react";
 import { getCards } from "../services/CardService";
-import { Center, Flex, Spinner, Text } from "@chakra-ui/react";
 import { FlashCard } from './../model/FlashCard';
-import { apiClient } from "../services/AxiosInstance";
-
-import axios from "axios";
-
-export const axiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:5000",
-});
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import humps from 'humps'
 import { FlashCardListElement } from "./FlashCardListElement";
-
-axiosInstance.interceptors.request.use(function (config) {
-    // const data: any = config.data;
-    // config.data = data.map((obj: any) => humps.decamelizeKeys(obj))
-    console.log('request');
-    return config;
-  }, function (error) {
-    return Promise.reject(error);
-});
-
-axiosInstance.interceptors.response.use(function (response) {
-    const responseData: any = response.data;
-    response.data = responseData.map((obj: any) => humps.camelizeKeys(obj));
-    console.log('response');
-    return response;
-  }, function (error) {
-    return Promise.reject(error); 
-});
 
 interface FlashCardListProps {
     searchPhrase: string;
 }
 
 export const FlashCardList: React.FC<FlashCardListProps> = ({ searchPhrase }) => {
-  const { isLoading, data } = useQuery({
-    queryKey: ['repoData'],
-    queryFn: () =>
-      axiosInstance.get('/cards').then((res) =>
-        res.data,
-      ),
-    })
+    const { isLoading: cardsLoading, data: flashCards } = useQuery('cards', getCards);
 
     const search = (cards: FlashCard[]) => {
         return cards.filter(c => 
@@ -55,7 +21,7 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ searchPhrase }) =>
 
     return (
         <Flex direction='column' height='100%'>
-            {isLoading && <Flex
+            {cardsLoading && <Flex
                 height="100vh"
                 justify='center'
                 alignItems='center'
@@ -63,8 +29,8 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ searchPhrase }) =>
                 <Spinner size='xl' />
             </Flex>}
             <Flex flex={1} overflowY='auto' direction='column'>
-            {!isLoading 
-            && search(data!).map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} />)}
+            {!cardsLoading 
+            && search(flashCards!).map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} />)}
             </Flex>
         </Flex>
     )
