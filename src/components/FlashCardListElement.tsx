@@ -7,7 +7,7 @@ interface FlasCardListElementProps {
 
 export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flashCard }) => {
     return (
-        <Card mx={4} my={2} variant='elevated' shadow='md'>
+        <Card variant='elevated' shadow='md' my={2}>
             <CardBody>
                 <Text userSelect='text'>{flashCard.foreignWord}</Text>
                 <Text userSelect='text'>{flashCard.translatedWord}</Text>

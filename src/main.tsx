@@ -5,7 +5,6 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { App } from './App.tsx'
-import { AxiosInterceptorProvider } from './services/AxiosInterceptorProvider.tsx';
 
 const queryClient = new QueryClient();
 

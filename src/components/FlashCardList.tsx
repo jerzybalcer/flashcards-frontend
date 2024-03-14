@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { Flex, Spinner } from "@chakra-ui/react";
+import { Flex, Heading, Spinner, Text } from "@chakra-ui/react";
 import { getCards } from "../services/CardService";
 import { FlashCard } from './../model/FlashCard';
 import { FlashCardListElement } from "./FlashCardListElement";
@@ -20,7 +20,7 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ searchPhrase }) =>
     }
 
     return (
-        <Flex direction='column' height='100%'>
+        <Flex direction='column' h='100%' px={4}>
             {cardsLoading && <Flex
                 height="100vh"
                 justify='center'
@@ -28,7 +28,8 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ searchPhrase }) =>
             >
                 <Spinner size='xl' />
             </Flex>}
-            <Flex flex={1} overflowY='auto' direction='column'>
+            <Heading size='md' opacity={0.8} my={2}>{flashCards?.length ?? 0} items total</Heading>
+            <Flex overflowY='auto' direction='column' h='100%'>
             {!cardsLoading 
             && search(flashCards!).map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} />)}
             </Flex>

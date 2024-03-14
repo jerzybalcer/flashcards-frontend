@@ -9,7 +9,7 @@ export const SideMenu: React.FC = () => {
     return (
         <>
             <Box>
-                <IconMenu2 onClick={onOpen} />
+                <IconMenu2 size={32} onClick={onOpen} />
             </Box>
             <Drawer isOpen={isOpen} onClose={onClose} placement="left">
                 <DrawerOverlay />
