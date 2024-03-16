@@ -1,12 +1,18 @@
 import { Box, Card, Center, Text } from '@chakra-ui/react';
 import { FlashCard } from '../../model/FlashCard'
 import './FlippableFlashCard.css'
+import { useEffect } from 'react';
 
 interface FlippableFlashCardProps {
     flashCard: FlashCard;
 }
 
 export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCard })  => {
+
+    useEffect(() => {
+        document.querySelector('.flip-card')!.classList.remove("flipped");
+    }, [flashCard]);
+
     return (
     <Box className="flip-card" onClick={() => document.querySelector('.flip-card')!.classList.add("flipped")}>
         <Box className="flip-card-inner">
