@@ -1,44 +1,31 @@
-import { useState } from 'react';
-import { Box, Card, CardBody, Text } from '@chakra-ui/react';
+import { Box, Card, Center, Text } from '@chakra-ui/react';
 import { FlashCard } from '../../model/FlashCard'
-import './FlashCard.css'
+import './FlippableFlashCard.css'
 
 interface FlippableFlashCardProps {
     flashCard: FlashCard;
 }
 
 export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCard })  => {
-
-    // const [isUnveiled, setIsUnveiled] = useState<boolean>(false);
-
     return (
-    <Box 
-        className='flip-container' 
-        margin='10%' 
-        height='30%'
-        onClick={() => document.querySelector('#flip-container')!.classList.toggle("flip")}
-    >
-        <Card
-        className='flipper'
-        bgColor='#c7efff'
-        >
-            <CardBody 
-                display='flex' 
-                alignItems='center' 
-                justifyContent='center'
-            >
-                {/* {!isUnveiled 
-                ?  */}
-                (<Box className='originalSide'>
-                    <Text fontSize='15vw'>{flashCard.foreignWord}</Text>
-                </Box>) 
-                {/* :  */}
-                (<Box className='translatedSide'>
-                    <Text fontSize='15vw'>{flashCard.translatedWord}</Text>
-                </Box>)
-                {/* } */}
-            </CardBody>
-        </Card>
+    <Box className="flip-card" onClick={() => document.querySelector('.flip-card')!.classList.add("flipped")}>
+        <Box className="flip-card-inner">
+            <Box className="flip-card-front">
+                <Card w='100%' h='100%'>
+                    <Center h='100%'>
+                        <Text>{flashCard.foreignWord}</Text>
+                    </Center>
+                </Card>
+
+            </Box>
+            <Box className="flip-card-back">
+                <Card w='100%' h='100%'>
+                    <Center h='100%'>
+                        <Text>{flashCard.translatedWord}</Text>
+                    </Center>
+                </Card>
+            </Box>
+        </Box>
     </Box>
     )
 }
