@@ -9,7 +9,7 @@ interface FlashCardListProps {
 }
 
 export const FlashCardList: React.FC<FlashCardListProps> = ({ searchPhrase }) => {
-    const { isLoading: cardsLoading, data: flashCards } = useQuery('cards', () => getCards().then(res => res.data));
+    const { isLoading: cardsLoading, data: flashCards } = useQuery('cards', getCards);
 
     const search = (cards: FlashCard[]) => {
         return cards.filter(c => 

@@ -9,7 +9,7 @@ import { useQuery } from "react-query"
 export const LearnPage = () => {
     const [currentWord, setCurrentWord] = useState<number>(1);
 
-    const { isLoading: cardsLoading, data: flashCards } = useQuery('cards', () => getCards().then(res => res.data));
+    const { isLoading: cardsLoading, data: flashCards } = useQuery('cards', getCards);
 
     const currentFlashCard = () => flashCards![currentWord - 1];
 
