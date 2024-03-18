@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { Flex, Heading, Spinner, Text } from "@chakra-ui/react";
+import { Flex, Heading, Spinner } from "@chakra-ui/react";
 import { getCards } from "../services/CardService";
 import { FlashCard } from './../model/FlashCard';
 import { FlashCardListElement } from "./FlashCardListElement";
