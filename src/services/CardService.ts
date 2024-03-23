@@ -10,7 +10,7 @@ export const getCards = async () =>
 
 export const addCard = async (card: FlashCard) =>
     apiClient
-        .post(`/card`, card, { headers: {'Content-Type': 'application/json'} })
+        .post(`/card`, {foreign_word: card.foreignWord, translated_word: card.translatedWord}, { headers: {'Content-Type': 'application/json'} })
         .then(res => res.data as number)
         .catch((err: AxiosResponse) => Promise.reject(err));
 
