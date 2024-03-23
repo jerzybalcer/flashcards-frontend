@@ -3,6 +3,7 @@ import {Button} from "@chakra-ui/react"
 import { useState } from "react";
 import {addCard} from "../services/CardService"
 import { FlashCard } from "../model/FlashCard";
+import { AxiosError } from 'axios';
 
 interface AddCardModalProps {
     isOpen: boolean;    
@@ -34,10 +35,21 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, onClose, ref
                     status: 'success',
                     duration: 9000,
                     isClosable: true,
+                    position: 'top'
                   });
 
                 onClose();
                 refreshCardList();
+            })
+            .catch((err: AxiosError) => {
+                toast({
+                    title: 'Error',
+                    description: err.response?.data as string,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'top'
+                  });
             })
             .finally(() => {
                 setIsCardAdding(false);
@@ -47,7 +59,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, onClose, ref
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent>
+            <ModalContent mt='50%'>
             <ModalHeader>Add new card</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
