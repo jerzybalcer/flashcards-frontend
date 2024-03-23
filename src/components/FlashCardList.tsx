@@ -1,15 +1,14 @@
-import { useQuery } from "react-query";
 import { Flex, Heading, Spinner } from "@chakra-ui/react";
-import { getCards } from "../services/CardService";
 import { FlashCard } from './../model/FlashCard';
 import { FlashCardListElement } from "./FlashCardListElement";
 
 interface FlashCardListProps {
+    cards: FlashCard[] | undefined;
+    cardsLoading: boolean;
     searchPhrase: string;
 }
 
-export const FlashCardList: React.FC<FlashCardListProps> = ({ searchPhrase }) => {
-    const { isLoading: cardsLoading, data: flashCards } = useQuery('cards', getCards);
+export const FlashCardList: React.FC<FlashCardListProps> = ({ cards, cardsLoading, searchPhrase }) => {
 
     const search = (cards: FlashCard[]) => {
         return cards.filter(c => 
@@ -28,10 +27,10 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ searchPhrase }) =>
             >
                 <Spinner size='xl' />
             </Flex>}
-            <Heading size='md' opacity={0.8} my={2}>{flashCards?.length ?? 0} items total</Heading>
+            <Heading size='md' opacity={0.8} my={2}>{cards?.length ?? 0} items total</Heading>
             <Flex overflowY='auto' direction='column' h='100%'>
             {!cardsLoading 
-            && search(flashCards!).map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} />)}
+            && search(cards!).map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} />)}
             </Flex>
         </Flex>
     )

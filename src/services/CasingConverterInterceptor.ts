@@ -7,7 +7,6 @@ export const useCasingInterceptors = () => {
         // const data: any = config.data;
         // config.data = data.map((obj: any) => humps.decamelizeKeys(obj))
         // config.data = humps.decamelizeKeys(config.data)
-        console.log('request');
         return config;
     }, function (error) {
         return Promise.reject(error);
@@ -15,8 +14,10 @@ export const useCasingInterceptors = () => {
 
     apiClient.interceptors.response.use(function (response) {
         const responseData: any = response.data;
-        response.data = responseData.map((obj: any) => humps.camelizeKeys(obj));
-        console.log('response');
+
+        if(Array.isArray(response.data))
+            response.data = responseData.map((obj: any) => humps.camelizeKeys(obj));
+        
         return response;
     }, function (error) {
         return Promise.reject(error); 
