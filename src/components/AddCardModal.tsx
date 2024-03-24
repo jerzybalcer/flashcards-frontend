@@ -33,13 +33,15 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, onClose, ref
                     title: 'Card added',
                     description: `Added: ${foreignWord} - ${translatedWord}`,
                     status: 'success',
-                    duration: 9000,
+                    duration: 3000,
                     isClosable: true,
                     position: 'top'
                   });
 
                 onClose();
                 refreshCardList();
+                setTranslatedWord('');
+                setForeignWord('')
             })
             .catch((err: AxiosError) => {
                 toast({
@@ -65,12 +67,12 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, onClose, ref
             <ModalBody>
                 <FormControl>
                 <FormLabel>Foreign Word</FormLabel>
-                <Input placeholder='Enter the word' value={foreignWord} onChange={(event) => setForeignWord(event.target.value)} />
+                <Input maxLength={100} placeholder='Enter the word' value={foreignWord} onChange={(event) => setForeignWord(event.target.value)} />
                 </FormControl>
 
                 <FormControl mt={4}>
                 <FormLabel>Translated Word</FormLabel>
-                <Input placeholder='Enter the word' value={translatedWord} onChange={(event) => setTranslatedWord(event.target.value)} />
+                <Input maxLength={100} placeholder='Enter the word' value={translatedWord} onChange={(event) => setTranslatedWord(event.target.value)} />
                 </FormControl>
             </ModalBody>
 
