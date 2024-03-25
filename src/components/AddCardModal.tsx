@@ -65,12 +65,12 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, onClose, ref
             <ModalHeader>Add new card</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <FormControl>
+                <FormControl isRequired>
                 <FormLabel>Foreign Word</FormLabel>
                 <Input maxLength={100} placeholder='Enter the word' value={foreignWord} onChange={(event) => setForeignWord(event.target.value)} />
                 </FormControl>
 
-                <FormControl mt={4}>
+                <FormControl mt={4} isRequired>
                 <FormLabel>Translated Word</FormLabel>
                 <Input maxLength={100} placeholder='Enter the word' value={translatedWord} onChange={(event) => setTranslatedWord(event.target.value)} />
                 </FormControl>
