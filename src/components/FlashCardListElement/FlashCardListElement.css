@@ -1,0 +1,14 @@
+.slide {
+    transform: translateX(-180px);
+    transition: transform 0.2s;
+}
+
+.slider {
+    transition: transform 0.2s;
+    position: relative;
+}
+
+.side-menu {
+    position: absolute;
+    right: -176px;
+}

@@ -14,16 +14,7 @@ export const MyFlashCardsPage = () => {
     return (
         <Flex direction='column' h='100%'>
             <PageHeading title="My Flashcards" />
-            <Flex gap={2} mx={4} mb={4}>
-                <SearchBar onSearch={(phrase: string) => setCardsSearchPhrase(phrase)} />
-                <SortButton />
-            </Flex>
-            <FlashCardList searchPhrase={cardsSearchPhrase} />
-            <Button position='fixed' bottom={0} right={0} m={6} p={2} borderRadius='50%' colorScheme='blue' 
-                onClick={() => setAddCardModalOpen(true)} w='4em' h='4em'
-            >
-                <IconPlus size='60%' />
-            </Button>
+            <FlashCardList searchPhrase={cardsSearchPhrase} onAddCardModalOpen={() => setAddCardModalOpen(true)}/>
             <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} />
         </Flex>
     )
