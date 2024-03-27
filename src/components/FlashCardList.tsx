@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import { getCards } from "../services/CardService";
@@ -9,7 +9,7 @@ import { Loading } from "./Loading";
 
 interface FlashCardListProps {
     searchPhrase: string;
-    onAddCardModalOpen: () => void;
+    onAddCardModalOpen: (flashCard?: FlashCard) => void;
 }
 
 export const FlashCardList: React.FC<FlashCardListProps> = ({ searchPhrase, onAddCardModalOpen }) => {
@@ -40,8 +40,8 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ searchPhrase, onAd
                     <Heading size='md' opacity={0.8}>{flashCards?.length ?? 0} flashcards</Heading>
                     <Button colorScheme="teal" onClick={() => onAddCardModalOpen()}>Add</Button>
                 </Flex>
-                <Flex h='75%' overflowY='auto' overflowX='hidden' direction='column' ref={listRef}>
-                    {currentCards.map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} />)}
+                <Flex h='75%' overflowY='auto' overflowX='hidden' direction='column' ref={listRef} id='flashCardList'>
+                    {currentCards.map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} onDelete={() => {}} onEdit={(currentFlashCard) => onAddCardModalOpen(currentFlashCard)}/>)}
                 </Flex>
                 <Pagination items={search(flashCards!)} itemsPerPage={20} onPageChange={(currentPage) => handlePageChange(currentPage as FlashCard[])}/>
             </Flex>

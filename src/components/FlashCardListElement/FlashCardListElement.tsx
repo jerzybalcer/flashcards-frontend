@@ -1,17 +1,20 @@
-import { useEffect, useRef } from "react";
-import { Box, Button, Card, CardBody, Flex, Text, useToast } from "@chakra-ui/react"
+import { useEffect, useRef, useState } from "react";
+import { Button, Card, CardBody, Flex, Text } from "@chakra-ui/react"
 import { FlashCard } from "../../model/FlashCard"
-import './FlashCardListElement.css';
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { deleteCard } from "../../services/CardService";
+import './FlashCardListElement.css';
+import { DeleteConfirmationModal } from "../DeleteConfirmationModal";
 
 interface FlasCardListElementProps {
     flashCard: FlashCard;
+    onEdit: (current: FlashCard) => void;
+    onDelete: (id: number) => void;
 }
 
-export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flashCard }) => {
+export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flashCard, onEdit, onDelete }) => {
     const elementRef = useRef<HTMLDivElement>(null);
-    const toast = useToast();
+
+    const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState<boolean>(false);
 
     useEffect(() => {
         document.addEventListener('click', handleOutsideClick);
@@ -29,21 +32,12 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
         event.currentTarget.classList.toggle('slide');
     }
 
-    const handleDelete = () => {
-        deleteCard(flashCard.id ?? NaN)
-            .then(() => {
-                toast({
-                    title: 'Card deleted',
-                    description: `Deleted: ${flashCard.foreignWord} - ${flashCard.translatedWord}`,
-                    status: 'success',
-                    duration: 3000,
-                    isClosable: true,
-                    position: 'top'
-                  });
-            })
-    }
+    const handleDelete = () => onDelete(flashCard.id ?? NaN);
+
+    const handleEdit = () => onEdit(flashCard);
 
     return (
+        <>
         <Flex flexDirection='row' align='center' justifyContent='space-between' w='100%' my={2} ref={elementRef} className="slider" onClick={handleClick}>
             <Card variant='elevated' shadow='md' flex={1}>
                 <CardBody>
@@ -53,15 +47,17 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
             </Card>
 
             <Flex h='100%' className="side-menu">
-                <Button w={20} h='100%' display='flex' flexDirection='column' gap={4} mr={2}>
+                <Button w={20} h='100%' display='flex' flexDirection='column' gap={4} mr={2} onClick={() => handleEdit()}>
                     <IconEdit />
                     <Text>Edit</Text>
                 </Button>
-                <Button w={20} h='100%' display='flex' flexDirection='column' gap={4}>
-                    <IconTrash onClick={() => handleDelete()}/>
+                <Button w={20} h='100%' display='flex' flexDirection='column' gap={4} onClick={() => setDeleteConfirmationOpen(true)}>
+                    <IconTrash />
                     <Text>Delete</Text>
                 </Button>
             </Flex>
         </Flex>
+        <DeleteConfirmationModal isOpen={isDeleteConfirmationOpen} onClose={() => setDeleteConfirmationOpen(false)} flashCard={flashCard} onConfirm={() => handleDelete()}/>
+        </>
     )
 }
