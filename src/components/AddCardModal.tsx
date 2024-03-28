@@ -68,14 +68,14 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
             <ModalBody>
                 <FormControl isRequired>
                 <FormLabel>Foreign Word</FormLabel>
-                <Input maxLength={100} placeholder='Enter the word' value={foreignWord} 
+                <Input maxLength={100} placeholder='Enter the word'
                     defaultValue={flashCard?.foreignWord ?? ''} onChange={(event) => setForeignWord(event.target.value)} />
                 </FormControl>
 
                 <FormControl mt={4} isRequired>
                 <FormLabel>Translated Word</FormLabel>
-                <Input maxLength={100} placeholder='Enter the word' defaultValue={flashCard?.translatedWord ?? ''} 
-                    value={translatedWord} onChange={(event) => setTranslatedWord(event.target.value)} />
+                <Input maxLength={100} placeholder='Enter the word' defaultValue={flashCard?.translatedWord ?? ''}
+                    onChange={(event) => setTranslatedWord(event.target.value)} />
                 </FormControl>
             </ModalBody>
 
