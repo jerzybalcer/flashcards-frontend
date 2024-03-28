@@ -1,7 +1,7 @@
 import { FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast } from "@chakra-ui/react"
 import {Button} from "@chakra-ui/react"
-import { useState } from "react";
-import {addCard} from "../services/CardService"
+import { useEffect, useState } from "react";
+import {addCard, editCard} from "../services/CardService"
 import { FlashCard } from "../model/FlashCard";
 import { AxiosError } from 'axios';
 
@@ -25,14 +25,20 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
         const card = 
         {
             foreignWord: foreignWord,
-            translatedWord: translatedWord
+            translatedWord: translatedWord,
+            id: flashCard ? flashCard.id : undefined
         } as FlashCard;
+        
+        let promise;
 
-        addCard(card)
+        if (!flashCard) promise = addCard(card) 
+        else promise = editCard(card)
+
+        promise
             .then(() => {
                 toast({
-                    title: 'Card added',
-                    description: `Added: ${foreignWord} - ${translatedWord}`,
+                    title: 'Succesfully saved card',
+                    description: `${foreignWord} - ${translatedWord}`,
                     status: 'success',
                     duration: 3000,
                     isClosable: true,
@@ -41,6 +47,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
 
                 onClose();
                 refreshCardList();
+
                 setTranslatedWord('');
                 setForeignWord('')
             })
@@ -57,7 +64,14 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
             .finally(() => {
                 setIsCardAdding(false);
             })
-    } 
+    }
+
+    useEffect(() => {
+        if(!flashCard) return;
+
+        setForeignWord(flashCard.foreignWord);
+        setTranslatedWord(flashCard.translatedWord);
+    }, [flashCard]);
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} autoFocus={false} returnFocusOnClose={false}>
@@ -80,7 +94,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
             </ModalBody>
 
             <ModalFooter>
-                <Button colorScheme='teal' mr={3} onClick={handleAddCard} isLoading={isCardAdding}> {flashCard ? 'Edit Item' : 'Add Item'} </Button>
+                <Button colorScheme='teal' mr={3} onClick={() => handleAddCard()} isLoading={isCardAdding}> {flashCard ? 'Edit Item' : 'Add Item'} </Button>
                 <Button variant='ghost' onClick={onClose}> Close </Button>
             </ModalFooter>
             </ModalContent>

@@ -24,7 +24,7 @@ export const MyFlashCardsPage = () => {
         <Flex direction='column' h='100%'>
             <PageHeading title="My Flashcards" />
             <FlashCardList cards={cards} cardsLoading={cardsLoading} searchPhrase={cardsSearchPhrase} onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) }/>
-            <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit} refreshCardList={refreshCards}/>
+            <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit} refreshCardList={() => refreshCards()}/>
         </Flex>
     )
 }

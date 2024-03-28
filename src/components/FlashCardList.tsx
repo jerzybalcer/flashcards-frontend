@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import { FlashCard } from './../model/FlashCard';
 import { FlashCardListElement } from "./FlashCardListElement/FlashCardListElement";
@@ -17,6 +17,7 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ cards, cardsLoadin
     const [currentCards, setCurrentCards] = useState<FlashCard[]>([]);
     const listRef = useRef<HTMLDivElement>(null);
 
+    // @ts-ignore
     const search = (cards: FlashCard[]) => {
         return cards.filter(c => 
             c.foreignWord.toLowerCase().includes(searchPhrase.toLowerCase())
@@ -42,7 +43,7 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ cards, cardsLoadin
                 <Flex h='75%' overflowY='auto' overflowX='hidden' direction='column' ref={listRef} id='flashCardList'>
                     {currentCards.map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} onDelete={() => {}} onEdit={(currentFlashCard) => onAddCardModalOpen(currentFlashCard)}/>)}
                 </Flex>
-                <Pagination items={search(cards!)} itemsPerPage={20} onPageChange={(currentPage) => handlePageChange(currentPage as FlashCard[])}/>
+                <Pagination items={cards!} itemsPerPage={20} onPageChange={(currentPage) => handlePageChange(currentPage as FlashCard[])}/>
             </Flex>
             }
         </Box>

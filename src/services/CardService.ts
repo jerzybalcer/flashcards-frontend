@@ -10,13 +10,17 @@ export const getCards = async () =>
 
 export const addCard = async (card: FlashCard) =>
     apiClient
-        .post(`/card`, {foreign_word: card.foreignWord, translated_word: card.translatedWord}, { headers: {'Content-Type': 'application/json'} })
+        .post(`/card`, 
+            {foreign_word: card.foreignWord, translated_word: card.translatedWord}, 
+            { headers: {'Content-Type': 'application/json'} })
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const editCard = async (id: number, card: FlashCard) =>
+export const editCard = async (card: FlashCard) =>
     apiClient
-        .put(`/card/${id}`, card, { headers: {'Content-Type': 'application/json'} })
+        .put(`/card/${card.id}`, 
+            {foreign_word: card.foreignWord, translated_word: card.translatedWord, id: card.id}, 
+            { headers: {'Content-Type': 'application/json'} })
         .catch((err: AxiosError) => Promise.reject(err));
 
 export const deleteCard = async (id: number) =>
