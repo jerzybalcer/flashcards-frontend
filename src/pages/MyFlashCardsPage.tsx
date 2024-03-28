@@ -8,6 +8,7 @@ import { useQuery } from "react-query"
 import { getCards } from "../services/CardService"
 
 export const MyFlashCardsPage = () => {
+    // @ts-ignore
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
     const [isAddCardModalOpen, setAddCardModalOpen] = useState<boolean>(false);
     const [flashCardInEdit, setFlashCardInEdit] = useState<FlashCard | undefined>();
