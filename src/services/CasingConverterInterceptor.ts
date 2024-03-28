@@ -13,7 +13,10 @@ export const useCasingInterceptors = () => {
 
     apiClient.interceptors.response.use(function (response) {
         const responseData: any = response.data;
-        response.data = responseData.map((obj: any) => humps.camelizeKeys(obj));
+
+        if(Array.isArray(response.data))
+            response.data = responseData.map((obj: any) => humps.camelizeKeys(obj));
+        
         return response;
     }, function (error) {
         return Promise.reject(error); 

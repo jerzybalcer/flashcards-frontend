@@ -4,6 +4,8 @@ import { PageHeading } from "../components/PageHeading"
 import { useState } from "react"
 import { AddCardModal } from "../components/AddCardModal"
 import { FlashCard } from "../model/FlashCard"
+import { useQuery } from "react-query"
+import { getCards } from "../services/CardService"
 
 export const MyFlashCardsPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
@@ -15,11 +17,13 @@ export const MyFlashCardsPage = () => {
         setAddCardModalOpen(true);
     }
 
+    const { isLoading: cardsLoading, data: cards, refetch: refreshCards } = useQuery('cards', getCards);
+
     return (
         <Flex direction='column' h='100%'>
             <PageHeading title="My Flashcards" />
-            <FlashCardList searchPhrase={cardsSearchPhrase} onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) }/>
-            <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit}/>
+            <FlashCardList cards={cards} cardsLoading={cardsLoading} searchPhrase={cardsSearchPhrase} onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) }/>
+            <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit} refreshCardList={refreshCards}/>
         </Flex>
     )
 }
