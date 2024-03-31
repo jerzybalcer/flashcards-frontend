@@ -1,10 +1,10 @@
+import { useState } from "react"
+import { useQuery } from "react-query"
 import { Button, Center, Flex, Text } from "@chakra-ui/react"
+import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"
 import { PageHeading } from "../components/PageHeading"
 import { FlippableFlashCard } from "../components/FlippableFlashCard/FlippableFlashCard"
-import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"
-import { useState } from "react"
 import { getCards } from "../services/CardService"
-import { useQuery } from "react-query"
 
 export const LearnPage = () => {
     const [currentWord, setCurrentWord] = useState<number>(1);
