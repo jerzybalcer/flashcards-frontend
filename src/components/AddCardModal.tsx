@@ -5,6 +5,7 @@ import {addCard, editCard} from "../services/CardService"
 import { FlashCard } from "../model/FlashCard";
 import { AxiosError } from 'axios';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import { FlashCardInputForm } from "./FlashCardInputForm";
 
 
 interface AddCardModalProps {
@@ -89,17 +90,10 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
                     </TabList>
                     <TabPanels>
                         <TabPanel>
-                            <FormControl isRequired>
-                            <FormLabel>Foreign Word</FormLabel>
-                            <Input maxLength={100} placeholder='Enter the word'
-                                defaultValue={flashCard?.foreignWord ?? ''} onChange={(event) => setForeignWord(event.target.value)} />
-                            </FormControl>
-
-                            <FormControl mt={4} isRequired>
-                            <FormLabel>Translated Word</FormLabel>
-                            <Input maxLength={100} placeholder='Enter the word' defaultValue={flashCard?.translatedWord ?? ''}
-                                onChange={(event) => setTranslatedWord(event.target.value)} />
-                            </FormControl>
+                            <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
+                            translatednWordOnChange={(value) => setForeignWord(value)}
+                            foreignDefaultValue={''}
+                            translatednWordDefaultValue={''} />                    
                         </TabPanel>
                         <TabPanel>
                             <Input placeholder="Select the file" size="l" type="file" />
@@ -107,8 +101,13 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
                     </TabPanels>
                 </Tabs>
                 )}
+                {flashCard && (
+                    <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
+                    translatednWordOnChange={(value) => setForeignWord(value)}
+                    foreignDefaultValue={flashCard.foreignWord}
+                    translatednWordDefaultValue={flashCard.translatedWord} />          
+                )}
             </ModalBody>
-
             <ModalFooter>
                 <Button colorScheme='teal' mr={3} onClick={() => handleAddCard()} isLoading={isCardAdding}> {flashCard ? 'Edit Item' : 'Add Item'} </Button>
                 <Button variant='ghost' onClick={onClose}> Close </Button>
