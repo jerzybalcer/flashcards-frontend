@@ -30,9 +30,13 @@ export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, mi
         }
     };
 
-    useLayoutEffect(() => {
+    const resetTextToDefault = () => {
         setFontSize(minFontSize);
         setIsDoneResizing(false);
+    };
+
+    useLayoutEffect(() => {
+        resetTextToDefault();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [content]);
 
@@ -41,6 +45,13 @@ export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, mi
             scaleText();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fontSize]);
+
+    useLayoutEffect(() => {
+        window.addEventListener('resize', resetTextToDefault);
+
+        return () => window.removeEventListener('resize', resetTextToDefault);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return <Text ref={textRef} fontSize={fontSize}>{content}</Text>
 }
