@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import {addCard, editCard} from "../services/CardService"
 import { FlashCard } from "../model/FlashCard";
 import { AxiosError } from 'axios';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+
 
 interface AddCardModalProps {
     isOpen: boolean;
@@ -80,17 +82,31 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
             <ModalHeader>{flashCard ? 'Edit card' : 'Add new card'}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <FormControl isRequired>
-                <FormLabel>Foreign Word</FormLabel>
-                <Input maxLength={100} placeholder='Enter the word'
-                    defaultValue={flashCard?.foreignWord ?? ''} onChange={(event) => setForeignWord(event.target.value)} />
-                </FormControl>
+                {!flashCard && (<Tabs variant='enclosed' colorScheme='green' isFitted>
+                    <TabList>
+                        <Tab>Raw input</Tab>
+                        <Tab>From CSV</Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>
+                            <FormControl isRequired>
+                            <FormLabel>Foreign Word</FormLabel>
+                            <Input maxLength={100} placeholder='Enter the word'
+                                defaultValue={flashCard?.foreignWord ?? ''} onChange={(event) => setForeignWord(event.target.value)} />
+                            </FormControl>
 
-                <FormControl mt={4} isRequired>
-                <FormLabel>Translated Word</FormLabel>
-                <Input maxLength={100} placeholder='Enter the word' defaultValue={flashCard?.translatedWord ?? ''}
-                    onChange={(event) => setTranslatedWord(event.target.value)} />
-                </FormControl>
+                            <FormControl mt={4} isRequired>
+                            <FormLabel>Translated Word</FormLabel>
+                            <Input maxLength={100} placeholder='Enter the word' defaultValue={flashCard?.translatedWord ?? ''}
+                                onChange={(event) => setTranslatedWord(event.target.value)} />
+                            </FormControl>
+                        </TabPanel>
+                        <TabPanel>
+                            <Input placeholder="Select the file" size="l" type="file" />
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
+                )}
             </ModalBody>
 
             <ModalFooter>
