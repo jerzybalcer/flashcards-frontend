@@ -1,11 +1,12 @@
-import { FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast } from "@chakra-ui/react"
+import { Flex, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useToast } from "@chakra-ui/react"
 import {Button} from "@chakra-ui/react"
 import { useEffect, useState } from "react";
-import {addCard, editCard} from "../services/CardService"
+import {addCard, addCardsFromFile, editCard} from "../services/CardService"
 import { FlashCard } from "../model/FlashCard";
 import { AxiosError } from 'axios';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { FlashCardInputForm } from "./FlashCardInputForm";
+import { IconUpload } from "@tabler/icons-react";
 
 
 interface AddCardModalProps {
@@ -96,7 +97,20 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
                             translatednWordDefaultValue={''} />                    
                         </TabPanel>
                         <TabPanel>
-                            <Input placeholder="Select the file" size="l" type="file" />
+                        <Button
+                            height='100px'
+                            width='380px'
+                            border='2px'
+                            borderStyle='dashed'
+                            variant = 'ghost'>
+                            <Input type='file' w ='100%' h='100%' opacity='0' 
+                                position='absolute' onChange={(event) => addCardsFromFile(event.target.files![0] as File)}></Input>
+                            <Flex direction='column' justifyContent='center' alignItems = 'center' gap={2}> 
+                                <IconUpload></IconUpload>
+                                Choose file to upload
+                                <Text color='gray' fontSize='sm'>Supported formats: CSV</Text>
+                            </Flex>
+                        </Button>
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
