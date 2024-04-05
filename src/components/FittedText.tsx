@@ -7,7 +7,7 @@ interface FittedTextProps {
     minFontSize?: number;
 }
 
-export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, minFontSize = 20}) => {
+export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, minFontSize = 32}) => {
     const [fontSize, setFontSize] = useState<number>(0);
     const [isDoneResizing, setIsDoneResizing] = useState<boolean>(false);
     
@@ -21,8 +21,9 @@ export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, mi
         const scalingFactor = scalingStep * Math.ceil(fontSize / 100);
 
         // make font size bigger when text is still smaller than container
-        if((textRef.current.scrollWidth <= containerRef.current.scrollWidth) && 
-            (textRef.current.scrollHeight <= containerRef.current.scrollHeight)){
+        if((textRef.current.offsetWidth <= getWidthWithoutPadding(containerRef.current)) && 
+            (textRef.current.offsetHeight <= getHeightWithoutPadding(containerRef.current))){
+                console.log(containerRef.current.clientWidth, containerRef.current.offsetWidth)
             setFontSize(fontSize + scalingFactor);
             return;
         }
@@ -32,6 +33,18 @@ export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, mi
             setIsDoneResizing(true);
             return;
         }
+    };
+
+    const getWidthWithoutPadding = (element: HTMLDivElement) => {
+        const paddingLeft = parseFloat(window.getComputedStyle(element, null).getPropertyValue('padding-left'));
+        const paddingRight = parseFloat(window.getComputedStyle(element, null).getPropertyValue('padding-right'));
+        return element.offsetWidth - paddingLeft - paddingRight;
+    };
+
+    const getHeightWithoutPadding = (element: HTMLDivElement) => {
+        const paddingTop = parseFloat(window.getComputedStyle(element, null).getPropertyValue('padding-top'));
+        const paddingBottom = parseFloat(window.getComputedStyle(element, null).getPropertyValue('padding-bottom'));
+        return element.offsetWidth - paddingTop - paddingBottom;
     };
 
     const resetTextToDefault = () => {

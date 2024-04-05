@@ -24,7 +24,7 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
     <Box w='100%' h='100%' className="flip-card" onClick={() => handleFlip()}>
         <Box className="flip-card-inner">
             <Box className="flip-card-front">
-                <Card w='100%' h='100%' ref={foreignSideRef}>
+                <Card w='100%' h='100%' ref={foreignSideRef} p={4}>
                     <Center h='100%'>
                         <FittedText content={flashCard.foreignWord} containerRef={foreignSideRef}/>
                     </Center>
@@ -32,7 +32,7 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
 
             </Box>
             <Box className="flip-card-back">
-                <Card w='100%' h='100%' ref={translatedSideRef}>
+                <Card w='100%' h='100%' ref={translatedSideRef} p={4}>
                     <Center h='100%'>
                         <FittedText content={flashCard.translatedWord} containerRef={translatedSideRef}/>
                     </Center>
