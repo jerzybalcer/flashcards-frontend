@@ -11,7 +11,7 @@ interface DeleteConfirmationModalProps{
     onClose: () => void;
 }
 
-export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({ isOpen, flashCard, onConfirm, onClose }) => {
+export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({ isOpen, flashCard, onClose }) => {
     const [isCardDeleting, setIsCardDeleting] = useState<boolean>(false)
 
     const toast = useToast();

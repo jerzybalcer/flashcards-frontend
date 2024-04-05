@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import { FlashCard } from './../model/FlashCard';
 import { FlashCardListElement } from "./FlashCardListElement/FlashCardListElement";
