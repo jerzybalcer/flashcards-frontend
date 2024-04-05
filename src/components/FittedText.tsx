@@ -23,7 +23,6 @@ export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, mi
         // make font size bigger when text is still smaller than container
         if((textRef.current.offsetWidth <= getWidthWithoutPadding(containerRef.current)) && 
             (textRef.current.offsetHeight <= getHeightWithoutPadding(containerRef.current))){
-                console.log(containerRef.current.clientWidth, containerRef.current.offsetWidth)
             setFontSize(fontSize + scalingFactor);
             return;
         }
