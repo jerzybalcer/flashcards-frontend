@@ -21,7 +21,7 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
     };
 
     return (
-    <Box className="flip-card" onClick={() => handleFlip()}>
+    <Box w='100%' h='100%' className="flip-card" onClick={() => handleFlip()}>
         <Box className="flip-card-inner">
             <Box className="flip-card-front">
                 <Card w='100%' h='100%' ref={foreignSideRef}>

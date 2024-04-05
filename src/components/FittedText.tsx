@@ -10,21 +10,25 @@ interface FittedTextProps {
 export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, minFontSize = 20}) => {
     const [fontSize, setFontSize] = useState<number>(0);
     const [isDoneResizing, setIsDoneResizing] = useState<boolean>(false);
-
+    
     const textRef = useRef<HTMLParagraphElement>(null);
 
+    const scalingStep = 4;
+    
     const scaleText = () => {
         if(!textRef.current || !containerRef.current) return;
+
+        const scalingFactor = scalingStep * Math.ceil(fontSize / 100);
 
         // make font size bigger when text is still smaller than container
         if((textRef.current.scrollWidth <= containerRef.current.scrollWidth) && 
             (textRef.current.scrollHeight <= containerRef.current.scrollHeight)){
-            setFontSize(fontSize + 4);
+            setFontSize(fontSize + scalingFactor);
             return;
         }
         // when text finally overflows container, make it just a bit smaller to fit
         else {
-            setFontSize(fontSize - 4);
+            setFontSize(fontSize - scalingFactor);
             setIsDoneResizing(true);
             return;
         }
@@ -37,6 +41,7 @@ export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, mi
 
     useLayoutEffect(() => {
         resetTextToDefault();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [content]);
 
