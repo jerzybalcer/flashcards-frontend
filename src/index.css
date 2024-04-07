@@ -12,3 +12,20 @@ html, body, #root, #root {
   user-select: none;
   -webkit-user-select: none;
 }
+
+::-webkit-scrollbar {
+  background-color: #302c2c;
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #5a5a5a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #898989;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}

@@ -7,7 +7,7 @@ interface SearchBarProps {
 
 export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     return (
-    <InputGroup width='85%' margin='auto'>
+    <InputGroup margin='auto'>
         <InputLeftElement pointerEvents='none'>
             <IconSearch color='gray' />
         </InputLeftElement>

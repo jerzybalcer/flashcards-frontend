@@ -32,15 +32,11 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ cards, cardsLoadin
     }
 
     return (
-        <Box px={4} h='100%'>
+        <Box h='100%'>
             {cardsLoading && <Loading />}
             {!cardsLoading && 
             <Flex flexDirection='column' h='100%' gap={4}>
-                <Flex justifyContent='space-between' alignItems='center'>
-                    <Heading size='md' opacity={0.8}>{cards?.length ?? 0} flashcards</Heading>
-                    <Button colorScheme="teal" onClick={() => onAddCardModalOpen()}>Add</Button>
-                </Flex>
-                <Flex h='75%' overflowY='auto' overflowX='hidden' direction='column' ref={listRef} id='flashCardList'>
+                <Flex h='60%' overflowY='auto' overflowX='hidden' direction='column' ref={listRef} pr={2}>
                     {currentCards.map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} onDelete={() => {}} onEdit={(currentFlashCard) => onAddCardModalOpen(currentFlashCard)}/>)}
                 </Flex>
                 <Pagination items={cards!} itemsPerPage={20} onPageChange={(currentPage) => handlePageChange(currentPage as FlashCard[])}/>
