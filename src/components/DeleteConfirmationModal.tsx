@@ -13,7 +13,7 @@ interface DeleteConfirmationModalProps{
 }
 
 export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({ isOpen, flashCard, onClose }) => {
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
 
     const handleDeleteSuccess = () => {
         onClose(); 
@@ -31,7 +31,7 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
 
     const handleDeleteCard = async () => {
         deleteMutation.mutate(flashCard.id as number);
-    }
+    };
 
     return (
             <Modal isOpen={isOpen} onClose={() => onClose()} autoFocus={false} returnFocusOnClose={false}>

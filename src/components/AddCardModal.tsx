@@ -1,76 +1,62 @@
-import { FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast } from "@chakra-ui/react"
-import {Button} from "@chakra-ui/react"
-import { useEffect, useState } from "react";
-import {addCard, editCard} from "../services/CardService"
-import { FlashCard } from "../model/FlashCard";
+import { useEffect, useRef, useState } from "react";
+import { FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react"
+import { Button } from "@chakra-ui/react"
 import { AxiosError } from 'axios';
+import { useMutation, useQueryClient } from "react-query";
+import { addCard, editCard} from "../services/CardService"
+import { FlashCard } from "../model/FlashCard";
+import { errorToast, successToast } from "../utils/toasts";
 
 interface AddCardModalProps {
     isOpen: boolean;
     flashCard?: FlashCard;
     onClose: () => void;
-    refreshCardList: () => void;
 }
 
-export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, onClose, refreshCardList }) => {
-    const [foreignWord, setForeignWord] = useState<string>("")
-    const [translatedWord, setTranslatedWord] = useState<string>("")
-    const [isCardAdding, setIsCardAdding] = useState<boolean>(false)
+export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, onClose }) => {
+    const [foreignWord, setForeignWord] = useState<string>("");
+    const [translatedWord, setTranslatedWord] = useState<string>("");
+    const mutationFunction = useRef<(card: FlashCard) => Promise<unknown>>();
+    const queryClient = useQueryClient();
 
-    const toast = useToast()
+    const handleSuccess = () => {
+        successToast('Succesfully saved card', `${foreignWord} - ${translatedWord}`);
+        setTranslatedWord('');
+        setForeignWord('');
+        onClose();
+        queryClient.invalidateQueries('cards');
+    };
+
+    const handleError = (error: AxiosError) => {
+        errorToast(error.response?.data as string);
+    };
+
+    const mutation = useMutation((card: FlashCard) => mutationFunction.current!(card), 
+    {
+        onSuccess: handleSuccess,
+        onError: handleError,
+    });
 
     const handleAddCard = async () => {
-        setIsCardAdding(true);
-
-        const card = 
+        const newFlashCard = 
         {
             foreignWord: foreignWord,
             translatedWord: translatedWord,
             id: flashCard ? flashCard.id : undefined
         } as FlashCard;
-        
-        let promise;
 
-        if (!flashCard) promise = addCard(card) 
-        else promise = editCard(card)
-
-        promise
-            .then(() => {
-                toast({
-                    title: 'Succesfully saved card',
-                    description: `${foreignWord} - ${translatedWord}`,
-                    status: 'success',
-                    duration: 3000,
-                    isClosable: true,
-                    position: 'top'
-                  });
-
-                onClose();
-                refreshCardList();
-
-                setTranslatedWord('');
-                setForeignWord('')
-            })
-            .catch((err: AxiosError) => {
-                toast({
-                    title: 'Error',
-                    description: err.response?.data as string,
-                    status: 'error',
-                    duration: 3000,
-                    isClosable: true,
-                    position: 'top'
-                  });
-            })
-            .finally(() => {
-                setIsCardAdding(false);
-            })
+        mutation.mutate(newFlashCard);
     }
 
     useEffect(() => {
-        if(!flashCard) return;
-
-        setForeignWord(flashCard.foreignWord);
-        setTranslatedWord(flashCard.translatedWord);
+        if(!flashCard){
+            mutationFunction.current = addCard;
+        }
+        else{
+            mutationFunction.current = editCard;
+            setForeignWord(flashCard.foreignWord);
+            setTranslatedWord(flashCard.translatedWord);
+        }
     }, [flashCard]);
 
     return (
@@ -94,7 +80,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
             </ModalBody>
 
             <ModalFooter>
-                <Button colorScheme='teal' mr={3} onClick={() => handleAddCard()} isLoading={isCardAdding}> {flashCard ? 'Edit Item' : 'Add Item'} </Button>
+                <Button colorScheme='teal' mr={3} onClick={() => handleAddCard()} isLoading={mutation.isLoading}> {flashCard ? 'Edit Item' : 'Add Item'} </Button>
                 <Button variant='ghost' onClick={onClose}> Close </Button>
             </ModalFooter>
             </ModalContent>
