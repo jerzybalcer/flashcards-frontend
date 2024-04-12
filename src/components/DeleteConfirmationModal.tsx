@@ -8,7 +8,6 @@ import { errorToast, infoToast } from "../utils/toasts";
 interface DeleteConfirmationModalProps{
     isOpen: boolean;
     flashCard: FlashCard;
-    onConfirm: () => void;
     onClose: () => void;
 }
 

@@ -8,10 +8,9 @@ import { DeleteConfirmationModal } from "../DeleteConfirmationModal";
 interface FlasCardListElementProps {
     flashCard: FlashCard;
     onEdit: (current: FlashCard) => void;
-    onDelete: (id: number) => void;
 }
 
-export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flashCard, onEdit, onDelete }) => {
+export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flashCard, onEdit }) => {
     const elementRef = useRef<HTMLDivElement>(null);
 
     const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState<boolean>(false);
@@ -31,8 +30,6 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
     const handleClick = (event: React.MouseEvent) => {
         event.currentTarget.classList.toggle('slide');
     }
-
-    const handleDelete = () => onDelete(flashCard.id ?? NaN);
 
     const handleEdit = () => onEdit(flashCard);
 
@@ -57,7 +54,7 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
                 </Button>
             </Flex>
         </Flex>
-        <DeleteConfirmationModal isOpen={isDeleteConfirmationOpen} onClose={() => setDeleteConfirmationOpen(false)} flashCard={flashCard} onConfirm={() => handleDelete()}/>
+        <DeleteConfirmationModal isOpen={isDeleteConfirmationOpen} onClose={() => setDeleteConfirmationOpen(false)} flashCard={flashCard}/>
         </>
     )
 }

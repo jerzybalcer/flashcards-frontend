@@ -33,10 +33,10 @@ export const MyFlashCardsPage = () => {
     }, [cards, cardsSearchPhrase]);
 
     return (
-        <Flex direction='column' h='100%'>
+        <Flex direction='column' h='100%' pb={4}>
             <PageHeading title="My Flashcards" />
             <Flex direction='column' px={4} gap={2} h='90%'>
-                <Flex justifyContent='space-between' alignItems='center' mb={2}>
+                <Flex justifyContent='space-between' alignItems='center' mb={4}>
                     <Heading size='md' opacity={0.8}>{displayedCards?.length ?? 0} flashcards</Heading>
                     <Button colorScheme="teal" onClick={() => onAddCardModalOpen()}>Add</Button>
                 </Flex>
