@@ -8,23 +8,15 @@ import { Loading } from "./Loading";
 interface FlashCardListProps {
     cards: FlashCard[] | undefined;
     cardsLoading: boolean;
-    searchPhrase: string;
     onAddCardModalOpen: (flashCard?: FlashCard) => void;
 }
 
-export const FlashCardList: React.FC<FlashCardListProps> = ({ cards, cardsLoading, searchPhrase, onAddCardModalOpen }) => {
+export const FlashCardList: React.FC<FlashCardListProps> = ({ cards, cardsLoading, onAddCardModalOpen }) => {
 
     const [currentCards, setCurrentCards] = useState<FlashCard[]>([]);
+
     const listRef = useRef<HTMLDivElement>(null);
 
-    // @ts-ignore
-    const search = (cards: FlashCard[]) => {
-        return cards.filter(c => 
-            c.foreignWord.toLowerCase().includes(searchPhrase.toLowerCase())
-            || 
-            c.translatedWord.toLowerCase().includes(searchPhrase.toLowerCase())
-        )
-    }
 
     const handlePageChange = (currentPage: FlashCard[]) => {
         setCurrentCards(currentPage)
