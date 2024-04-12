@@ -1,8 +1,9 @@
-import { Button, Card, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useToast } from "@chakra-ui/react";
-import { FlashCard } from "../model/FlashCard";
-import {deleteCard} from "../services/CardService"
-import { useState } from "react";
+import { Button, Card, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
 import { AxiosError } from "axios";
+import { useMutation, useQueryClient } from "react-query";
+import { FlashCard } from "../model/FlashCard";
+import { deleteCard } from "../services/CardService";
+import { errorToast, infoToast } from "../utils/toasts";
 
 interface DeleteConfirmationModalProps{
     isOpen: boolean;
@@ -12,39 +13,24 @@ interface DeleteConfirmationModalProps{
 }
 
 export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({ isOpen, flashCard, onClose }) => {
-    const [isCardDeleting, setIsCardDeleting] = useState<boolean>(false)
+    const queryClient = useQueryClient()
 
-    const toast = useToast();
+    const handleDeleteSuccess = () => {
+        onClose(); 
+        queryClient.invalidateQueries('cards'); 
+        infoToast('Card deleted', `${flashCard.foreignWord} - ${flashCard.translatedWord}`);
+    };
 
-    const handleDeleteCard = async() => {
-        setIsCardDeleting(true);
-        deleteCard(flashCard.id as number)
-            .then(() => {
-                toast({
-                    title: 'Succesfully deleted card',
-                    description: `${flashCard.foreignWord} - ${flashCard.translatedWord}`,
-                    status: 'success',
-                    duration: 3000,
-                    isClosable: true,
-                    position: 'top'
-                });
+    const handleDeleteError = (error: AxiosError) => errorToast(error.response?.data as string);
 
-                onClose();
-                // refreshCardList();
-            })
-            .catch((err: AxiosError) => {
-                toast({
-                    title: 'Error',
-                    description: err.response?.data as string,
-                    status: 'error',
-                    duration: 3000,
-                    isClosable: true,
-                    position: 'top'
-                });
-            })
-            .finally(() => {
-                setIsCardDeleting(false);
-            })
+    const deleteMutation = useMutation((id: number) => deleteCard(id), 
+    {
+        onSuccess: handleDeleteSuccess,
+        onError: handleDeleteError,
+    });
+
+    const handleDeleteCard = async () => {
+        deleteMutation.mutate(flashCard.id as number);
     }
 
     return (
@@ -64,7 +50,7 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme="red" mr={3} onClick={() => handleDeleteCard()} isLoading={isCardDeleting}>Delete</Button>
+                        <Button colorScheme="red" mr={3} onClick={() => handleDeleteCard()} isLoading={deleteMutation.isLoading}>Delete</Button>
                         <Button variant='ghost' onClick={() => onClose()}>Cancel</Button>
                     </ModalFooter>
                     </ModalContent>
