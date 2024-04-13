@@ -21,8 +21,9 @@ export const FileInput: React.FC<FileInputProps> = ({ onChange }) => {
 
     return (
         <Button
-            height='100px'
-            width='380px'
+            w='100%'
+            h='100%'
+            p={4}
             border='2px'
             borderStyle='dashed'
             variant = 'ghost'>

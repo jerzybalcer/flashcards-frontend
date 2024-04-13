@@ -26,10 +26,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
 
     const handleSuccess = (toastTitle: string, toastDescription: string) => {
         successToast(toastTitle, toastDescription);
-        setTranslatedWord('');
-        setForeignWord('');
-        setFile(undefined);
-        onClose();
+        handleClose();
         queryClient.invalidateQueries('cards');
     };
 
@@ -72,6 +69,23 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
         }
     };
 
+    const isMutationLoading = currentTab === 0 ? cardMutation.isLoading : fileMutation.isLoading;
+
+    const isSaveEnabled = () => {
+        if(currentTab === 0 && foreignWord && translatedWord) return true;
+        console.log(file)
+        if(currentTab === 1 && file) return true;
+
+        return false;
+    };
+
+    const handleClose = () => {
+        setTranslatedWord('');
+        setForeignWord('');
+        setFile(undefined);
+        onClose();
+    };
+
     useEffect(() => {
         if(!flashCard){
             cardMutationFunction.current = addCard;
@@ -84,18 +98,18 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
     }, [flashCard]);
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} autoFocus={false} returnFocusOnClose={false}>
+        <Modal isOpen={isOpen} onClose={handleClose} autoFocus={false} returnFocusOnClose={false}>
             <ModalOverlay />
             <ModalContent>
             <ModalHeader>{flashCard ? 'Edit card' : 'Add new card'}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                {!flashCard && (<Tabs variant='enclosed' colorScheme='green' isFitted onChange={(index) => setCurrentTab(index)}>
+                {!flashCard && (<Tabs colorScheme='teal' isFitted onChange={(index) => setCurrentTab(index)}>
                     <TabList>
                         <Tab>Manually</Tab>
                         <Tab>From CSV</Tab>
                     </TabList>
-                    <TabPanels>
+                    <TabPanels pt={4}>
                         <TabPanel>
                             <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
                             translatednWordOnChange={(value) => setTranslatedWord(value)}
@@ -116,8 +130,8 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
                 )}
             </ModalBody>
             <ModalFooter>
-                <Button colorScheme='teal' mr={3} onClick={() => handleSave()} isLoading={cardMutation.isLoading}> Save </Button>
-                <Button variant='ghost' onClick={onClose}> Close </Button>
+                <Button colorScheme='teal' mr={3} onClick={() => handleSave()} isLoading={isMutationLoading} isDisabled={!isSaveEnabled()}> Save </Button>
+                <Button variant='ghost' onClick={handleClose}> Close </Button>
             </ModalFooter>
             </ModalContent>
         </Modal>
