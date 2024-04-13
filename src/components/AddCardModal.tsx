@@ -1,4 +1,4 @@
-import { Flex, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useToast } from "@chakra-ui/react"
+import {Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast } from "@chakra-ui/react"
 import {Button} from "@chakra-ui/react"
 import { useEffect, useState } from "react";
 import {addCard, addCardsFromFile, editCard} from "../services/CardService"
@@ -6,7 +6,7 @@ import { FlashCard } from "../model/FlashCard";
 import { AxiosError } from 'axios';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { FlashCardInputForm } from "./FlashCardInputForm";
-import { IconUpload } from "@tabler/icons-react";
+import { FileInput } from "./FileInput";
 
 
 interface AddCardModalProps {
@@ -19,7 +19,9 @@ interface AddCardModalProps {
 export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, onClose, refreshCardList }) => {
     const [foreignWord, setForeignWord] = useState<string>("")
     const [translatedWord, setTranslatedWord] = useState<string>("")
+    const [file, setFile] = useState<File>()
     const [isCardAdding, setIsCardAdding] = useState<boolean>(false)
+    const [currentTab, setCurrentTab] = useState<number>(0);
 
     const toast = useToast()
 
@@ -70,6 +72,48 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
             })
     }
 
+    const handleAddFile = () => {
+        if(!file) return;
+
+        setIsCardAdding(true);
+
+        addCardsFromFile(file)
+            .then(() => {
+                toast({
+                    title: 'Succesfully uploaded file',
+                    description: `Saved x cards`,
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'top'
+                });
+
+                onClose();
+                refreshCardList();
+            })
+            .catch((err: AxiosError) => {
+                toast({
+                    title: 'Error',
+                    description: err.response?.data as string,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'top'
+                });
+            })
+            .finally(() => {
+                setIsCardAdding(false);
+            })
+    };
+
+    const handleSave = () => {
+        if(currentTab === 0 ){
+            handleAddCard();
+        } else{
+            handleAddFile();
+        }
+    };
+
     useEffect(() => {
         if(!flashCard) return;
 
@@ -84,7 +128,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
             <ModalHeader>{flashCard ? 'Edit card' : 'Add new card'}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                {!flashCard && (<Tabs variant='enclosed' colorScheme='green' isFitted>
+                {!flashCard && (<Tabs variant='enclosed' colorScheme='green' isFitted onChange={(index) => setCurrentTab(index)}>
                     <TabList>
                         <Tab>Raw input</Tab>
                         <Tab>From CSV</Tab>
@@ -92,38 +136,25 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
                     <TabPanels>
                         <TabPanel>
                             <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
-                            translatednWordOnChange={(value) => setForeignWord(value)}
+                            translatednWordOnChange={(value) => setTranslatedWord(value)}
                             foreignDefaultValue={''}
                             translatednWordDefaultValue={''} />                    
                         </TabPanel>
                         <TabPanel>
-                        <Button
-                            height='100px'
-                            width='380px'
-                            border='2px'
-                            borderStyle='dashed'
-                            variant = 'ghost'>
-                            <Input type='file' w ='100%' h='100%' opacity='0' 
-                                position='absolute' onChange={(event) => addCardsFromFile(event.target.files![0] as File)}></Input>
-                            <Flex direction='column' justifyContent='center' alignItems = 'center' gap={2}> 
-                                <IconUpload></IconUpload>
-                                Choose file to upload
-                                <Text color='gray' fontSize='sm'>Supported formats: CSV</Text>
-                            </Flex>
-                        </Button>
+                            <FileInput onChange={(currentFile) => setFile(currentFile)}/>
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
                 )}
                 {flashCard && (
                     <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
-                    translatednWordOnChange={(value) => setForeignWord(value)}
+                    translatednWordOnChange={(value) => setTranslatedWord(value)}
                     foreignDefaultValue={flashCard.foreignWord}
                     translatednWordDefaultValue={flashCard.translatedWord} />          
                 )}
             </ModalBody>
             <ModalFooter>
-                <Button colorScheme='teal' mr={3} onClick={() => handleAddCard()} isLoading={isCardAdding}> {flashCard ? 'Edit Item' : 'Add Item'} </Button>
+                <Button colorScheme='teal' mr={3} onClick={() => handleSave()} isLoading={isCardAdding}> Save </Button>
                 <Button variant='ghost' onClick={onClose}> Close </Button>
             </ModalFooter>
             </ModalContent>
