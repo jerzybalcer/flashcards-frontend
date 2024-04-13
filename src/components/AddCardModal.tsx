@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react"
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import { Button } from "@chakra-ui/react"
 import { AxiosError } from 'axios';
 import { useMutation, useQueryClient } from "react-query";
-import { addCard, editCard} from "../services/CardService"
+import { addCard, addCardsFromFile, editCard} from "../services/CardService"
 import { FlashCard } from "../model/FlashCard";
 import { errorToast, successToast } from "../utils/toasts";
+import { FlashCardInputForm } from "./FlashCardInputForm";
+import { FileInput } from "./FileInput";
 
 interface AddCardModalProps {
     isOpen: boolean;
@@ -16,13 +18,17 @@ interface AddCardModalProps {
 export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, onClose }) => {
     const [foreignWord, setForeignWord] = useState<string>("");
     const [translatedWord, setTranslatedWord] = useState<string>("");
-    const mutationFunction = useRef<(card: FlashCard) => Promise<unknown>>();
+    const [currentTab, setCurrentTab] = useState<number>(0);
+    const [file, setFile] = useState<File>()
+
+    const cardMutationFunction = useRef<(card: FlashCard) => Promise<unknown>>();
     const queryClient = useQueryClient();
 
-    const handleSuccess = () => {
-        successToast('Succesfully saved card', `${foreignWord} - ${translatedWord}`);
+    const handleSuccess = (toastTitle: string, toastDescription: string) => {
+        successToast(toastTitle, toastDescription);
         setTranslatedWord('');
         setForeignWord('');
+        setFile(undefined);
         onClose();
         queryClient.invalidateQueries('cards');
     };
@@ -31,9 +37,15 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
         errorToast(error.response?.data as string);
     };
 
-    const mutation = useMutation((card: FlashCard) => mutationFunction.current!(card), 
+    const cardMutation = useMutation((card: FlashCard) => cardMutationFunction.current!(card), 
     {
-        onSuccess: handleSuccess,
+        onSuccess: () => handleSuccess('Succesfully saved card',`${foreignWord} - ${translatedWord}`),
+        onError: handleError,
+    });
+
+    const fileMutation = useMutation((file: File) => addCardsFromFile(file), 
+    {
+        onSuccess: () => handleSuccess('Succesfully saved cards', `Unique cards from file imported`),
         onError: handleError,
     });
 
@@ -45,15 +57,27 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
             id: flashCard ? flashCard.id : undefined
         } as FlashCard;
 
-        mutation.mutate(newFlashCard);
+        cardMutation.mutate(newFlashCard);
     }
+
+    const handleAddFile = () => {
+        fileMutation.mutate(file!);
+    };
+
+    const handleSave = () => {
+        if(currentTab === 0 ){
+            handleAddCard();
+        } else{
+            handleAddFile();
+        }
+    };
 
     useEffect(() => {
         if(!flashCard){
-            mutationFunction.current = addCard;
+            cardMutationFunction.current = addCard;
         }
         else{
-            mutationFunction.current = editCard;
+            cardMutationFunction.current = editCard;
             setForeignWord(flashCard.foreignWord);
             setTranslatedWord(flashCard.translatedWord);
         }
@@ -66,21 +90,33 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
             <ModalHeader>{flashCard ? 'Edit card' : 'Add new card'}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <FormControl isRequired>
-                <FormLabel>Foreign Word</FormLabel>
-                <Input maxLength={100} placeholder='Enter the word'
-                    defaultValue={flashCard?.foreignWord ?? ''} onChange={(event) => setForeignWord(event.target.value)} />
-                </FormControl>
-
-                <FormControl mt={4} isRequired>
-                <FormLabel>Translated Word</FormLabel>
-                <Input maxLength={100} placeholder='Enter the word' defaultValue={flashCard?.translatedWord ?? ''}
-                    onChange={(event) => setTranslatedWord(event.target.value)} />
-                </FormControl>
+                {!flashCard && (<Tabs variant='enclosed' colorScheme='green' isFitted onChange={(index) => setCurrentTab(index)}>
+                    <TabList>
+                        <Tab>Manually</Tab>
+                        <Tab>From CSV</Tab>
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>
+                            <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
+                            translatednWordOnChange={(value) => setTranslatedWord(value)}
+                            foreignDefaultValue={''}
+                            translatednWordDefaultValue={''} />                    
+                        </TabPanel>
+                        <TabPanel>
+                            <FileInput onChange={(currentFile) => setFile(currentFile)}/>
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
+                )}
+                {flashCard && (
+                    <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
+                    translatednWordOnChange={(value) => setTranslatedWord(value)}
+                    foreignDefaultValue={flashCard.foreignWord}
+                    translatednWordDefaultValue={flashCard.translatedWord} />          
+                )}
             </ModalBody>
-
             <ModalFooter>
-                <Button colorScheme='teal' mr={3} onClick={() => handleAddCard()} isLoading={mutation.isLoading}> {flashCard ? 'Edit Item' : 'Add Item'} </Button>
+                <Button colorScheme='teal' mr={3} onClick={() => handleSave()} isLoading={cardMutation.isLoading}> Save </Button>
                 <Button variant='ghost' onClick={onClose}> Close </Button>
             </ModalFooter>
             </ModalContent>

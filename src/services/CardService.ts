@@ -28,10 +28,12 @@ export const deleteCard = async (id: number) =>
         .delete(`/card/${id}`)
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const addCardsFromFile = async (file: File) =>
-    apiClient
-        .post(`/card`, 
-            new FormData().append('file', file), 
-            { headers: {'Content-Type': 'multipart/formdata'} })
+export const addCardsFromFile = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return apiClient
+        .post(`/card/file`, formData)
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
+}
