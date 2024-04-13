@@ -28,7 +28,7 @@ export const LearnPage = () => {
 
             {!cardsLoading && (
             <Flex direction='column' justifyContent='space-around' align='center' h='100%' p={6}>
-                <Center w='80vw' h='45vh'>
+                <Center w='80dvw' h='45dvh'>
                     <FlippableFlashCard flashCard={currentFlashCard()} />
                 </Center>
                 <Flex justifyContent='center' alignItems='center' w='100%' gap={4}>
