@@ -70,12 +70,12 @@ export const SolveQuiz: React.FC<SolveQuizProps> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentIndex, cards]);
 
-    return <Flex direction='column' justifyContent='center' align='center' h='100%'>
+    return <Flex direction='column' justifyContent='center' align='center' h='100%' w='100%' p={2}>
         {cardsLoading && <Loading />}
         {!cardsLoading && cards && 
             (
-                <Flex direction='column' h='100%'>
-                    <Flex justifyContent='space-between' mb={8}>
+                <Flex direction='column' h='100%' w='100%' align='center'>
+                    <Flex justifyContent='space-between' mb={8} w='100%'>
                         <Flex justify='left' gap={2}>
                             <Text>Deck: </Text>
                             <Text fontWeight={500}>Italiano</Text>
@@ -85,7 +85,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = () => {
                         </Text>
                     </Flex>
 
-                    <Card w='400px' h='200px' mb={16} p={4}>
+                    <Card w='80%' h='20%' mb={16} p={4}>
                         <CardBody h='100%'>
                             <Center h='100%'>
                                 <Text fontSize={32}>{currentCard().foreignWord}</Text>
@@ -93,7 +93,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = () => {
                         </CardBody>
                     </Card>
 
-                    <Flex direction='column' gap={8} mb={8}>
+                    <Flex direction='column' gap={8} mb={8} w='80%'>
                         {answers.map(answer => 
                             <Card variant='outline' border="solid 2px" transition='border 0.2s' borderRadius='md' py={4} px={2} 
                                 borderColor={getAnswerBorderColor(answer)} backgroundColor={getAnswerBackgroundColor(answer)}

@@ -10,8 +10,8 @@ export const App = () => {
         <Routes>
           <Route path='/' element={<Navigate to='/cards' />} />
           <Route path='/cards' element={<MyFlashCardsPage />} />
-          <Route path='/learn' element={<LearnPage></LearnPage>} />
-          <Route path='/quiz' element={<QuizPage></QuizPage>} />
+          <Route path='/learn' element={<LearnPage />} />
+          <Route path='/quiz' element={<QuizPage />} />
         </Routes>
     </>
   )
