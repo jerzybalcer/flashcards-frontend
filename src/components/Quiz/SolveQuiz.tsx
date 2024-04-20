@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, Center, Flex, Text } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import {  getQuizCards } from "../../services/CardService";
 import { Loading } from "../Loading";
@@ -26,7 +26,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = () => {
         {cardsLoading && <Loading />}
         {!cardsLoading && cards && 
             (
-                <Flex direction='column' h='100%' w='100%' justify='space-between' align='center' gap={8}>
+                <Flex direction='column' h='100%' w='100%' justify='space-between' align='center' gap={8} overflow='scroll'>
                     <Flex direction='column' w='100%' gap={8} pb={8} flexGrow={1}>
                         <Flex justify='space-between'>
                             <Flex gap={2}>
@@ -36,13 +36,13 @@ export const SolveQuiz: React.FC<SolveQuizProps> = () => {
                             <Text>{currentIndex} / {cards?.length ?? 1}</Text>
                         </Flex>
 
-                        {/* <Card w='100%' p={4} flexGrow={1}>
+                        <Card w='100%' p={4} flexGrow={1}>
                             <CardBody h='100%'>
                                 <Center h='100%'>
                                     <Text fontSize={32}>{currentCard().foreignWord}</Text>
                                 </Center>
                             </CardBody>
-                        </Card> */}
+                        </Card>
                     </Flex>
 
                     <Box w='100%'>
