@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Flex } from "@chakra-ui/react"
+import { Box, Flex } from "@chakra-ui/react"
 import { PageHeading } from "../components/PageHeading"
 import { SetupQuiz } from "../components/Quiz/SetupQuiz";
 import { SolveQuiz } from "../components/Quiz/SolveQuiz";
@@ -19,7 +19,9 @@ export const QuizPage = () => {
         return (
         <Flex direction='column' h='100%'>
             <PageHeading title="Quiz" />
-            {renderQuizStep()}
+            <Box px={4} pb={8} h='100%' w='100%'>
+                {renderQuizStep()}
+            </Box>
         </Flex>
     )
 }

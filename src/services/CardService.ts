@@ -37,3 +37,9 @@ export const addCardsFromFile = async (file: File) => {
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
 }
+
+export const getQuizCards = async () =>
+    apiClient
+        .get(`/quiz/cards`)
+        .then(res => res.data as FlashCard[])
+        .catch((err: AxiosError) => Promise.reject(err));
