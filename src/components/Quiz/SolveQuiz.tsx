@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Card, CardBody, Center, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import {  getQuizCards } from "../../services/CardService";
 import { Loading } from "../Loading";
