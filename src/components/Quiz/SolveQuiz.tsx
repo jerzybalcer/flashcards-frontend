@@ -36,13 +36,13 @@ export const SolveQuiz: React.FC<SolveQuizProps> = () => {
                             <Text>{currentIndex} / {cards?.length ?? 1}</Text>
                         </Flex>
 
-                        <Card w='100%' p={4} flexGrow={1}>
+                        {/* <Card w='100%' p={4} flexGrow={1}>
                             <CardBody h='100%'>
                                 <Center h='100%'>
                                     <Text fontSize={32}>{currentCard().foreignWord}</Text>
                                 </Center>
                             </CardBody>
-                        </Card>
+                        </Card> */}
                     </Flex>
 
                     <Box w='100%'>
