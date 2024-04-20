@@ -26,8 +26,8 @@ export const SolveQuiz: React.FC<SolveQuizProps> = () => {
         {cardsLoading && <Loading />}
         {!cardsLoading && cards && 
             (
-                <Flex direction='column' h='100%' w='100%' justify='space-between' align='center' gap={8} overflow='scroll'>
-                    <Flex direction='column' w='100%' gap={8} pb={8} flexGrow={1}>
+                <Flex direction='column' h='100%' w='100%' justify='space-between' align='center' gap={8}>
+                    <Flex direction='column' w='100%' gap={8} flexGrow={1}>
                         <Flex justify='space-between'>
                             <Flex gap={2}>
                                 <Text>Deck: </Text>

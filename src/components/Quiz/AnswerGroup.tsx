@@ -68,7 +68,7 @@ export const AnswerGroup: React.FC<AnswerGroupProps> = ({ correctAnswer, allAnsw
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [correctAnswer]);
 
-    return <Flex direction='column' gap={8} w='100%'>
+    return <Flex direction='column' gap={4} w='100%'>
         {answers.map((answer, index) => 
             <Card key={index} variant='outline' border="solid 2px" transition='border 0.2s' borderRadius='md' p={4} 
                 borderColor={getAnswerBorderColor(answer)} backgroundColor={getAnswerBackgroundColor(answer)}
