@@ -18,8 +18,10 @@ export const QuizPage = () => {
 
         return (
         <Flex direction='column' h='100%'>
-            <PageHeading title="Quiz" />
-            <Box px={4} pb={8} h='90%' w='100%'>
+            <Box flexGrow={0}>
+                <PageHeading title="Quiz" />
+            </Box>
+            <Box px={4} pb={8} flexGrow={1} w='100%'>
                 {renderQuizStep()}
             </Box>
         </Flex>
