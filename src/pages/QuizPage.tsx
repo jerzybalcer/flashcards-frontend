@@ -17,7 +17,7 @@ export const QuizPage = () => {
         };
 
         return (
-        <Flex direction='column' h='100dvh'>
+        <Flex direction='column' h='100%'>
             <Box flexGrow={0}>
                 <PageHeading title="Quiz" />
             </Box>
