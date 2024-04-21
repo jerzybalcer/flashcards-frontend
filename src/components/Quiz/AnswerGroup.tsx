@@ -6,7 +6,7 @@ import { shuffle } from "../../utils/shuffle";
 interface AnswerGroupProps {
     correctAnswer: string;
     allAnswers: string[];
-    onAnswered: () => void;
+    onAnswered: (answer: string) => void;
 }
 
 export const AnswerGroup: React.FC<AnswerGroupProps> = ({ correctAnswer, allAnswers, onAnswered }) => {
@@ -59,7 +59,7 @@ export const AnswerGroup: React.FC<AnswerGroupProps> = ({ correctAnswer, allAnsw
     const handleAnswerClick = (answer: string) => {
         if(selectedAnswer) return;
         setSelectedAnswer(answer);
-        onAnswered();
+        onAnswered(answer);
     };
 
     useEffect(() => {
