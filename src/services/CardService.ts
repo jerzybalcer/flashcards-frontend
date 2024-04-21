@@ -49,6 +49,6 @@ export const getQuizCards = async () =>
 
 export const updateQuizCards = async (resultCards: QuizResultFlashCard[]) =>
     apiClient
-        .post(`/cards/quiz`, humps.decamelizeKeys(resultCards), { headers: {'Content-Type': 'application/json'} })
+        .put(`/cards/quiz`, humps.decamelizeKeys(resultCards), { headers: {'Content-Type': 'application/json'} })
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
