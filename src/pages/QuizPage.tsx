@@ -1,34 +1,53 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Box, Flex } from "@chakra-ui/react"
+import { useMutation } from "react-query";
 import { PageHeading } from "../components/PageHeading"
 import { SetupQuiz } from "../components/Quiz/SetupQuiz";
 import { SolveQuiz } from "../components/Quiz/SolveQuiz";
 import { QuizResult } from "../components/Quiz/QuizResult";
-import { QuizResultFlashCard } from "../model/QuizResultFlashCard";
-import { useMutation } from "react-query";
+import { QuizFlashCard } from "../model/QuizFlashCard";
 import { updateQuizCards } from "../services/CardService";
+import { QuizStat } from "../model/QuizStat";
+
+enum QuizSteps {
+    Setup,
+    Solve,
+    Result
+}
 
 export const QuizPage = () => {
-        const [currentStep, setCurrentStep] = useState<number>(0);
-        const quizResultMutation = useMutation((resultCards: QuizResultFlashCard[]) => updateQuizCards(resultCards),
-            {
-                onSuccess: () => {},
-                onError: () => {}
-            }
+        const [currentStep, setCurrentStep] = useState<QuizSteps>(QuizSteps.Setup);
+        const [resultCards, setResultCards] = useState<QuizFlashCard[]>([]);
+        
+        const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(resultCards)
         );
+        
+        const handleQuizSolved = () => {
+            const quizStats = resultCards.map(c => ({id: c.id, answerTimeMs: c.answerTimeMs, lastAnswerCorrect: c.lastAnswerCorrect }));
+            quizResultMutation.mutate(quizStats);
+            setCurrentStep(QuizSteps.Result);
+        };
 
-        const handleQuizSolved = (resultCards: QuizResultFlashCard[]) => {
-            quizResultMutation.mutate(resultCards);
-            setCurrentStep(2);
+        const handleAnswered = (resultCard: QuizFlashCard) => {
+            setResultCards([...resultCards, resultCard]);
         };
 
         const renderQuizStep = () => {
             switch(currentStep){
-                case 0: return <SetupQuiz onStartQuiz={() => setCurrentStep(1)} />;
-                case 1: return <SolveQuiz onSolvedQuiz={(resultCards) => handleQuizSolved(resultCards)} />
-                case 2: return <QuizResult onFinish={() => setCurrentStep(0)} onStartAgain={() => setCurrentStep(1)}/>;
+                case QuizSteps.Setup: 
+                    return <SetupQuiz onStartQuiz={() => setCurrentStep(QuizSteps.Solve)} />;
+                case QuizSteps.Solve: 
+                    return <SolveQuiz onAnswered={(resultCard) => handleAnswered(resultCard)} onSolvedQuiz={() => handleQuizSolved()} />
+                case QuizSteps.Result: 
+                    return <QuizResult resultCards={resultCards} numberOfCards={20}
+                        onFinish={() => setCurrentStep(QuizSteps.Setup)} onStartAgain={() => setCurrentStep(QuizSteps.Solve)} />;
             }
         };
+
+        useEffect(() => {
+            if(currentStep !== QuizSteps.Result)
+                setResultCards([]);
+        }, [currentStep]);
 
         return (
         <Flex direction='column' h='100%'>

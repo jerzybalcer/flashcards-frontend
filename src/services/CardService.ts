@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
+import humps from 'humps';
 import { apiClient } from './AxiosInstance';
 import { FlashCard } from "../model/FlashCard";
-import { QuizResultFlashCard } from "../model/QuizResultFlashCard";
-import humps from 'humps';
+import { QuizStat } from "../model/QuizStat";
 
 export const getCards = async () =>
     apiClient
@@ -47,7 +47,7 @@ export const getQuizCards = async () =>
         .catch((err: AxiosError) => Promise.reject(err));
 
 
-export const updateQuizCards = async (resultCards: QuizResultFlashCard[]) =>
+export const updateQuizCards = async (resultCards: QuizStat[]) =>
     apiClient
         .put(`/cards/quiz`, humps.decamelizeKeys(resultCards), { headers: {'Content-Type': 'application/json'} })
         .then(res => res.data as number)

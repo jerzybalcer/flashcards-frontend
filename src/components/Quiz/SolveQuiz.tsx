@@ -4,16 +4,17 @@ import { useQuery } from "react-query";
 import {  getQuizCards } from "../../services/CardService";
 import { Loading } from "../Loading";
 import { AnswerGroup } from "./AnswerGroup";
-import { QuizResultFlashCard } from "../../model/QuizResultFlashCard";
+import { QuizFlashCard } from "../../model/QuizFlashCard";
 
 interface SolveQuizProps {
-    onSolvedQuiz: (resultCards: QuizResultFlashCard[]) => void;
+    onAnswered: (resultCard: QuizFlashCard) => void;
+    onSolvedQuiz: () => void;
 }
 
-export const SolveQuiz: React.FC<SolveQuizProps> = ({ onSolvedQuiz }) => {
+export const SolveQuiz: React.FC<SolveQuizProps> = ({ onAnswered, onSolvedQuiz }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(1);
     const [isAnswered, setIsAnswered] = useState<boolean>(false);
-    const [resultCards, setResultCards] = useState<QuizResultFlashCard[]>([]);
+    const [startTimeMs, setStartTimeMs] = useState<number>(0);
 
     const { data: cards, isLoading: cardsLoading } = useQuery('quizCards', getQuizCards, {staleTime: Infinity});
 
@@ -23,23 +24,26 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ onSolvedQuiz }) => {
         if(currentIndex < cards!.length)
             setCurrentIndex(currentIndex + 1)
         else
-            onSolvedQuiz(resultCards);
+            onSolvedQuiz();
     };
 
     const handleOnAnswered = (answer: string) => {
         setIsAnswered(true);
 
-        const resultFlashCard: QuizResultFlashCard = {
+        const resultFlashCard: QuizFlashCard = {
             id: currentCard().id!,
+            foreignWord: currentCard().foreignWord,
+            translatedWord: currentCard().translatedWord,
             lastAnswerCorrect: answer === currentCard().translatedWord,
-            answerTimeMs: 1000
+            answerTimeMs: new Date().getTime() - startTimeMs
         }
 
-        setResultCards([...resultCards, resultFlashCard]);
+        onAnswered(resultFlashCard);
     };
 
     useEffect(() => {
         setIsAnswered(false);
+        setStartTimeMs(new Date().getTime());
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentIndex, cards]);
 
