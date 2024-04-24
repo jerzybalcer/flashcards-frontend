@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Button, Card, CardBody, Center, Flex, Text } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import {  getQuizCards } from "../../services/CardService";
 import { Loading } from "../Loading";
 import { AnswerGroup } from "./AnswerGroup";
 import { QuizFlashCard } from "../../model/QuizFlashCard";
+import { FittedText } from "../FittedText";
 
 interface SolveQuizProps {
     onAnswered: (resultCard: QuizFlashCard) => void;
@@ -15,6 +16,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ onAnswered, onSolvedQuiz }
     const [currentIndex, setCurrentIndex] = useState<number>(1);
     const [isAnswered, setIsAnswered] = useState<boolean>(false);
     const [startTimeMs, setStartTimeMs] = useState<number>(0);
+    const wordContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: cards, isLoading: cardsLoading } = useQuery('quizCards', getQuizCards, {staleTime: Infinity});
 
@@ -61,10 +63,10 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ onAnswered, onSolvedQuiz }
                             <Text>{currentIndex} / {cards?.length ?? 1}</Text>
                         </Flex>
 
-                        <Card w='100%' p={4} flexGrow={1}>
+                        <Card w='100%' p={4} flexGrow={1} ref={wordContainerRef}>
                             <CardBody h='100%'>
                                 <Center h='100%'>
-                                    <Text fontSize={32}>{currentCard().foreignWord}</Text>
+                                    <FittedText content={currentCard().foreignWord} containerRef={wordContainerRef} />
                                 </Center>
                             </CardBody>
                         </Card>
