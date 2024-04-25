@@ -12,8 +12,8 @@ interface AnswerGroupProps {
 export const AnswerGroup: React.FC<AnswerGroupProps> = ({ correctAnswer, allAnswers, onAnswered }) => {
     const [answers, setAnswers] = useState<string[]>([]);
     const [selectedAnswer, setSelectedAnswer] = useState<string>('');
-    const [transparent, white, red500, green500, red800, green800] 
-        = useToken('colors', ['transparent', 'white', 'red.500', 'green.500', 'red.800', 'green.800']);
+    const [transparent, gray, red500, green500, red800, green800] 
+        = useToken('colors', ['transparent', 'gray', 'red.500', 'green.500', 'red.800', 'green.800']);
 
     const getPossibleAnswers = (): string[] => {
         const incorrectAnswers: string[] = [];
@@ -35,7 +35,7 @@ export const AnswerGroup: React.FC<AnswerGroupProps> = ({ correctAnswer, allAnsw
     };
 
     const getAnswerBorderColor = (answer: string): string => {
-        if(!selectedAnswer) return white;
+        if(!selectedAnswer) return gray;
         if(answer === correctAnswer) return green500;
         return red500;
     };
@@ -68,7 +68,7 @@ export const AnswerGroup: React.FC<AnswerGroupProps> = ({ correctAnswer, allAnsw
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [correctAnswer]);
 
-    return <Flex direction='column' gap={4} w='100%'>
+    return <Flex direction='column' gap={4} w='100%' h='100%'>
         {answers.map((answer, index) => 
             <Card key={index} variant='outline' border="solid 2px" transition='border 0.2s' borderRadius='md' p={4} 
                 borderColor={getAnswerBorderColor(answer)} backgroundColor={getAnswerBackgroundColor(answer)}

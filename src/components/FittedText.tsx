@@ -1,30 +1,38 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Text } from "@chakra-ui/react";
 
 interface FittedTextProps {
     content: string;
     containerRef: React.RefObject<HTMLDivElement>;
+    singleLine?: boolean;
+    padding?: number;
+    maxFontSize?: number;
 }
 
-export const FittedText: React.FC<FittedTextProps> = ({content, containerRef}) => {
-    const [fontSize, setFontSize] = useState<number>(100);
-    
+export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, singleLine = false, padding = 0, maxFontSize = 100}) => {
     const textRef = useRef<HTMLParagraphElement>(null);
 
-    const adjustFontSize = () => {
+      const adjustFontSize = () => {
         const container = containerRef.current;
-
         if (container) {
-            const containerWidth = container.clientWidth;
-            const containerHeight = container.clientHeight;
+            const containerWidth = container.offsetWidth;
+            const containerHeight = container.offsetHeight;
 
-        // Adjust font size based on a simple formula considering the container size
-        // This example uses a simple proportion, you might need more complex logic
-        // depending on your exact requirements
-        const newFontSize = Math.min(containerWidth / 10, containerHeight / 2);
-        setFontSize(newFontSize);
-    }
-  };
+            let calculatedFontSize = maxFontSize;
+            let isOverflowing = false;
+
+            do {
+                container.style.fontSize = `${calculatedFontSize}px`;
+                isOverflowing = container.scrollWidth > containerWidth || container.scrollHeight > containerHeight;
+
+                if (isOverflowing) {
+                    calculatedFontSize--;
+                } else {
+                    calculatedFontSize++;
+                }
+            } while (isOverflowing && calculatedFontSize > 0);
+        }
+    };
 
     useEffect(() => {
         if (textRef.current && containerRef.current) {
@@ -42,5 +50,5 @@ export const FittedText: React.FC<FittedTextProps> = ({content, containerRef}) =
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <Text ref={textRef} fontSize={fontSize}>{content}</Text>
+    return <Text p={padding} whiteSpace={singleLine ? 'nowrap' : 'initial'} ref={textRef}>{content}</Text>
 }
