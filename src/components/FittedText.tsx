@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Text } from "@chakra-ui/react";
 
 interface FittedTextProps {
@@ -11,7 +11,6 @@ interface FittedTextProps {
 
 export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, singleLine = false, padding = 0, maxFontSize = 100}) => {
     const textRef = useRef<HTMLParagraphElement>(null);
-    const [readyToShow, setReadyToShow] = useState<boolean>(false);
 
     const adjustFontSize = () => {
         const container = containerRef.current;
@@ -32,8 +31,6 @@ export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, si
                     calculatedFontSize++;
                 }
             } while (isOverflowing && calculatedFontSize > 0);
-
-            setReadyToShow(true);
         }
     };
 
@@ -53,7 +50,5 @@ export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, si
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => setReadyToShow(false), [content]);
-
-    return <Text opacity={readyToShow ? 1 : 0} p={padding} whiteSpace={singleLine ? 'nowrap' : 'initial'} ref={textRef}>{content}</Text>
+    return <Text p={padding} whiteSpace={singleLine ? 'nowrap' : 'initial'} ref={textRef}>{content}</Text>
 }
