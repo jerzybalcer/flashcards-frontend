@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useQuery } from "react-query"
 import { Box, Card, Flex, Progress, Text } from "@chakra-ui/react"
-import { IconAdjustmentsHorizontal, IconChevronLeft } from "@tabler/icons-react"
+import { IconChevronLeft, IconDotsVertical } from "@tabler/icons-react"
 import { useSwipeable } from "react-swipeable"
 import { PageHeading } from "../components/PageHeading"
 import { FlippableFlashCard } from "../components/FlippableFlashCard/FlippableFlashCard"
@@ -38,7 +38,7 @@ export const LearnPage = () => {
                         </Flex>
                         <Text>Italiano</Text>
                     </Flex>
-                    <IconAdjustmentsHorizontal />
+                    <IconDotsVertical />
                 </Flex>
 
                 <Flex direction='column' justify='space-between' align='center'>
