@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { Box, Button, Card, Center, Flex, Icon } from '@chakra-ui/react';
+import { Box, Card, Center, Flex } from '@chakra-ui/react';
 import { FlashCard } from '../../model/FlashCard'
 import { FittedText } from '../FittedText';
 import './FlippableFlashCard.css'
-import { IconVolume } from '@tabler/icons-react';
 import { ReadAloudButton } from '../ReadAloudButton';
 
 interface FlippableFlashCardProps {
