@@ -1,44 +1,68 @@
-import { useEffect, useRef } from 'react';
-import { Box, Card, Center } from '@chakra-ui/react';
+import { useEffect, useRef, useState } from 'react';
+import { Box, Button, Card, Center, Flex, Icon } from '@chakra-ui/react';
 import { FlashCard } from '../../model/FlashCard'
 import { FittedText } from '../FittedText';
 import './FlippableFlashCard.css'
+import { IconVolume } from '@tabler/icons-react';
+import { ReadAloudButton } from '../ReadAloudButton';
 
 interface FlippableFlashCardProps {
     flashCard: FlashCard;
 }
 
 export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCard })  => {
+    const flipCardRef = useRef<HTMLDivElement>(null);
     const foreignSideRef = useRef<HTMLDivElement>(null);
     const translatedSideRef = useRef<HTMLDivElement>(null);
+    const [currentSide, setCurrentSide] = useState<string>(flashCard.foreignWord);
 
     useEffect(() => {
-        document.querySelector('.flip-card')!.classList.remove("flipped");
+        setCurrentSide(flashCard.foreignWord);
+        flipCardRef.current!.style.transition = 'transform 0s';
+        flipCardRef.current!.style.transform = 'rotateY(0deg)';
     }, [flashCard]);
 
     const handleFlip = () => {
-        document.querySelector('.flip-card')!.classList.add("flipped")
+        if(currentSide === flashCard.foreignWord)
+        {
+            flipCardRef.current!.style.transition = 'transform 0.6s';
+            flipCardRef.current!.style.transform = 'rotateY(180deg)';
+            setCurrentSide(flashCard.translatedWord);
+        }else
+        {
+            flipCardRef.current!.style.transition = 'transform 0.6s';
+            flipCardRef.current!.style.transform = 'rotateY(0deg)';
+            setCurrentSide(flashCard.foreignWord);
+        }
     };
 
     return (
-    <Box w='100%' h='100%' className="flip-card" onClick={() => handleFlip()}>
-        <Box className="flip-card-inner">
-            <Box className="flip-card-front">
-                <Card w='100%' h='100%' ref={foreignSideRef} p={4}>
+    <Box w='100%' h='100%' className="flip-card">
+        <Card ref={flipCardRef} className="flip-card-inner" onClick={() => handleFlip()}>
+            <Flex className="flip-card-front" direction='column'>
+                <Box alignSelf='end' h='10%' p='5%'>
+                    <ReadAloudButton word={currentSide} language='it' />
+                </Box>
+
+                <Box w='100%' h='90%' ref={foreignSideRef} p={4}>
                     <Center h='100%'>
                         <FittedText padding={4} content={flashCard.foreignWord} containerRef={foreignSideRef}/>
                     </Center>
-                </Card>
+                </Box>
+            </Flex>
 
-            </Box>
-            <Box className="flip-card-back">
-                <Card w='100%' h='100%' ref={translatedSideRef} p={4}>
+            <Flex className="flip-card-back" direction='column'>
+                <Box alignSelf='end' h='10%' p='5%'>
+                    <ReadAloudButton word={currentSide} language='pl' />
+                </Box>
+
+                <Box w='100%' h='90%' ref={translatedSideRef} p={4}>
                     <Center h='100%'>
                         <FittedText padding={4} content={flashCard.translatedWord} containerRef={translatedSideRef}/>
                     </Center>
-                </Card>
-            </Box>
-        </Box>
+                </Box>
+            </Flex>
+        </Card>
     </Box>
     )
 }
