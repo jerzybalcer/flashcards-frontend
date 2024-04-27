@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Box, Card, Center, Flex } from '@chakra-ui/react';
 import { FlashCard } from '../../model/FlashCard'
 import { FittedText } from '../FittedText';
-import './FlippableFlashCard.css'
 import { ReadAloudButton } from '../ReadAloudButton';
+import './FlippableFlashCard.css'
 
 interface FlippableFlashCardProps {
     flashCard: FlashCard;
@@ -14,6 +14,8 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
     const foreignSideRef = useRef<HTMLDivElement>(null);
     const translatedSideRef = useRef<HTMLDivElement>(null);
     const [currentSide, setCurrentSide] = useState<string>(flashCard.foreignWord);
+
+
 
     useEffect(() => {
         setCurrentSide(flashCard.foreignWord);
@@ -45,7 +47,7 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
 
                 <Box w='100%' h='90%' ref={foreignSideRef} p={4}>
                     <Center h='100%'>
-                        <FittedText padding={4} content={flashCard.foreignWord} containerRef={foreignSideRef}/>
+                        <FittedText padding={8} content={flashCard.foreignWord} containerRef={foreignSideRef}/>
                     </Center>
                 </Box>
             </Flex>
@@ -57,7 +59,7 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
 
                 <Box w='100%' h='90%' ref={translatedSideRef} p={4}>
                     <Center h='100%'>
-                        <FittedText padding={4} content={flashCard.translatedWord} containerRef={translatedSideRef}/>
+                        <FittedText padding={8} content={flashCard.translatedWord} containerRef={translatedSideRef}/>
                     </Center>
                 </Box>
             </Flex>

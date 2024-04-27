@@ -16,6 +16,6 @@ export const ReadAloudButton: React.FC<ReadAloudButtonProps> = ({ word, language
     };
 
     return <Button variant='ghost' h='100%' w='100%' p={0} onClick={(event) => handleReadAloud(event)}>
-        <IconVolume size={32} />
+        <IconVolume size={32} opacity={0.8} />
     </Button>
 };
