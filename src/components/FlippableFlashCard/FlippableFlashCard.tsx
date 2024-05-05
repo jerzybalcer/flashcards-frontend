@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Box, Card, Center, Flex, Text } from '@chakra-ui/react';
+import { Box, Card, Center, Flex } from '@chakra-ui/react';
 import { FlashCard } from '../../model/FlashCard'
 import { FittedText } from '../FittedText';
 import { ReadAloudButton } from '../ReadAloudButton';
