@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { Box, Card, Flex, Progress, Text } from "@chakra-ui/react"
-import { IconChevronLeft, IconDotsVertical } from "@tabler/icons-react"
+import { Box, Card, Flex, Heading, Progress, Text } from "@chakra-ui/react"
+import { IconDotsVertical } from "@tabler/icons-react"
 import { useSwipeable } from "react-swipeable"
 import { PageHeading } from "../components/PageHeading"
 import { FlippableFlashCard } from "../components/FlippableFlashCard/FlippableFlashCard"
@@ -27,11 +27,9 @@ export const LearnPage = () => {
 
             <Flex h='100%' direction='column' justify='space-between' px={4} pb={8} {...swipeHandlers}>
                 <Flex justify='space-between' align='center'>
-                    <Flex align='center' gap={2}>
-                        <Flex h='100%'>
-                            <IconChevronLeft />
-                        </Flex>
-                        <Text>Italiano</Text>
+                    <Flex direction='column' justify='center' gap={2}>
+                        <Heading>Learning</Heading>
+                        <Text opacity={0.8}>{state.deck.name}</Text>
                     </Flex>
                     <IconDotsVertical />
                 </Flex>

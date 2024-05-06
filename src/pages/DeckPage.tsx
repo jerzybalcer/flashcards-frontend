@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Flex, Heading, Text } from "@chakra-ui/react"
+import { Button, Flex, Heading, Image, Text } from "@chakra-ui/react"
 import { useQuery } from "react-query"
 import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
@@ -41,7 +41,11 @@ export const DeckPage = () => {
         <Flex direction='column' h='100%'>
             <PageHeading canGoBack />
             <Flex direction='column' px={4} gap={4} h='90%' overflowY='auto'>
-                <Heading>{deck.name}</Heading>
+                <Flex align='center' gap={2}>
+                    <Image w={8} h={8} src="https://catamphetamine.gitlab.io/country-flag-icons/3x2/IT.svg" />
+                    <Heading>{deck.name}</Heading>
+                </Flex>
+
                 <Flex gap={2} mb={4}>
                     <Button variant='outline' flexGrow={1} py={12} onClick={() => navigate('/learn', { state: { deck: deck, cards: cards }})}>
                         <Flex direction='column' justify='center' align='center' gap={4}>
