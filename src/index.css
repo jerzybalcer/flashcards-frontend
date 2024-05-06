@@ -6,8 +6,8 @@ body {
 }
 
 html, body, #root, #root {
-  width: 100dvw;
-  height: 100dvh;
+  width: 100svw;
+  height: 100svh;
   position: fixed;
   user-select: none;
   -webkit-user-select: none;
