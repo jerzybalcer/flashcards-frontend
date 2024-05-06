@@ -1,22 +1,19 @@
-import { Flex, Heading } from "@chakra-ui/react"
+import { Flex } from "@chakra-ui/react"
 import { SideMenu } from "./SideMenu"
-import { IconChevronLeft } from "@tabler/icons-react";
+import { IconChevronLeft, IconHome } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
 interface PageHeadingProps {
-    title: string;
-    withBackButton?: boolean;
+    canGoBack?: boolean;
 }
 
-export const PageHeading: React.FC<PageHeadingProps> = ({ title, withBackButton = false }) => {
+export const PageHeading: React.FC<PageHeadingProps> = ({ canGoBack = false }) => {
     const navigate = useNavigate();
 
     return (
         <Flex justify='space-between' align='center' mb={8}>
-            <Flex align='center'>
-                {withBackButton && <IconChevronLeft cursor='pointer' size={32} onClick={() => navigate(-1)}/>}
-                <Heading>{title}</Heading>
-            </Flex>
+            {canGoBack && <IconChevronLeft cursor='pointer' size={32} onClick={() => navigate(-1)}/>}
+            {!canGoBack && <IconHome cursor='pointer' size={32} onClick={() => navigate('/home')}/>}
             <SideMenu />
         </Flex>
     )

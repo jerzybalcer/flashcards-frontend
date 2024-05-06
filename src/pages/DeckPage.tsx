@@ -39,11 +39,11 @@ export const DeckPage = () => {
 
     return (
         <Flex direction='column' h='100%'>
-            <PageHeading title="Deck" withBackButton />
+            <PageHeading canGoBack />
             <Flex direction='column' px={4} gap={4} h='90%' overflowY='auto'>
-                <Heading size='lg'>{deck.name}</Heading>
+                <Heading>{deck.name}</Heading>
                 <Flex gap={2} mb={4}>
-                    <Button variant='outline' flexGrow={1} py={12} onClick={() => navigate('/learn')}>
+                    <Button variant='outline' flexGrow={1} py={12} onClick={() => navigate('/learn', { state: { deck: deck, cards: cards }})}>
                         <Flex direction='column' justify='center' align='center' gap={4}>
                             <IconSchool size={32}/>
                             <Text>Learn</Text>
@@ -58,7 +58,7 @@ export const DeckPage = () => {
                     </Button>
                 </Flex>
 
-                <Heading size='md'>Flashcards</Heading>
+                <Heading size='lg'>Flashcards</Heading>
                 <ListNavigation onAddClick={() => onAddCardModalOpen()} onSearch={(phrase) => setCardsSearchPhrase(phrase)}/>
                 <FlashCardList cards={displayedCards} cardsLoading={cardsLoading} onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) }/>
             </Flex>

@@ -4,7 +4,7 @@ import { PageHeading } from "../components/PageHeading"
 export const QuizPage = () => {
         return (
         <Flex direction='column'>
-            <PageHeading title="Quiz" />
+            <PageHeading canGoBack />
         </Flex>
     )
 }

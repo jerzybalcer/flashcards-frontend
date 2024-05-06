@@ -21,7 +21,7 @@ export const DeckList: React.FC<DeckListProps> = ({ decks }) => {
         {Object.keys(decksGroupedByLanguage).map(language => 
             <Flex direction='column' key={language}>
                 <Text mb={2}>{decksGroupedByLanguage[language][0].languageName}</Text>
-                <Flex direction='column' px={2} gap={4}>
+                <Flex direction='column' gap={4}>
                     {decksGroupedByLanguage[language].map(deck => 
                     <Card key={deck.id} onClick={() => handleDeckClick(deck)}>
                         <CardBody gap={2} display='flex' flexDirection='column'>
