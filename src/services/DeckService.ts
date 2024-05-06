@@ -2,8 +2,7 @@ import { AxiosError } from "axios";
 import { Deck } from "../model/Deck";
 import { apiClient } from "./AxiosInstance";
 import { FlashCard } from "../model/FlashCard";
-import { QuizStat } from "../model/QuizStat";
-import humps from "humps";
+// import humps from "humps";
 
 export const getDecks = async () =>
     apiClient
@@ -14,7 +13,7 @@ export const getDecks = async () =>
 export const addDeck = async (deck: Deck) =>
     apiClient
         .post(`/decks`, 
-            { name: deck.name, language: deck.language.id }, 
+            { name: deck.name, language: deck.languageId }, 
             { headers: {'Content-Type': 'application/json'} })
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
@@ -54,8 +53,8 @@ export const getQuizCards = async (deckId: number) =>
         .then(res => res.data as FlashCard[])
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const updateQuizCards = async (deckId: number, resultCards: QuizStat[]) =>
-    apiClient
-        .put(`/decks/${deckId}/quiz/results`, humps.decamelizeKeys(resultCards), { headers: {'Content-Type': 'application/json'} })
-        .then(res => res.data as number)
-        .catch((err: AxiosError) => Promise.reject(err));
+// export const updateQuizCards = async (deckId: number, resultCards: QuizStat[]) =>
+//     apiClient
+//         .put(`/decks/${deckId}/quiz/results`, humps.decamelizeKeys(resultCards), { headers: {'Content-Type': 'application/json'} })
+//         .then(res => res.data as number)
+//         .catch((err: AxiosError) => Promise.reject(err));

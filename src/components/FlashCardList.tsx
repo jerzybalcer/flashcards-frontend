@@ -4,6 +4,7 @@ import { FlashCard } from './../model/FlashCard';
 import { FlashCardListElement } from "./FlashCardListElement/FlashCardListElement";
 import { Pagination } from "./Pagination";
 import { Loading } from "./Loading";
+import { Scrollable } from "./Scrollable";
 
 interface FlashCardListProps {
     cards: FlashCard[] | undefined;
@@ -26,11 +27,11 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ cards, cardsLoadin
             {cardsLoading && <Loading />}
             {!cardsLoading && 
             <Flex flexDirection='column' h='100%' gap={4}>
-                <Flex ref={listRef} overflowY='scroll' overflowX='hidden' direction='column' flexGrow={1} position='relative' >
-                    <Flex position='absolute' direction='column' w='100%' pr={2}>
+                <Box w='100%' flexGrow={1}>
+                    <Scrollable scrollableRef={listRef}>
                         {currentCards.map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} onEdit={(currentFlashCard) => onAddCardModalOpen(currentFlashCard)}/>)}
-                    </Flex>
-                </Flex>
+                    </Scrollable>
+                </Box>
                 <Box flexGrow={0}>
                     <Pagination items={cards!} itemsPerPage={20} onPageChange={(currentPage) => handlePageChange(currentPage as FlashCard[])} />
                 </Box>

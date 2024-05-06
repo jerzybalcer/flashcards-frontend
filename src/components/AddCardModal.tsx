@@ -73,7 +73,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
 
     const isSaveEnabled = () => {
         if(currentTab === 0 && foreignWord && translatedWord) return true;
-        console.log(file)
+
         if(currentTab === 1 && file) return true;
 
         return false;

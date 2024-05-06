@@ -1,5 +1,4 @@
-import { Box, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Heading, useDisclosure } from "@chakra-ui/react"
-import { IconMenu2 } from "@tabler/icons-react";
+import { Avatar, Box, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Heading, Text, useDisclosure } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 
 export const SideMenu: React.FC = () => {
@@ -8,28 +7,46 @@ export const SideMenu: React.FC = () => {
 
     return (
         <>
-            <Box>
-                <IconMenu2 size={32} onClick={onOpen} />
+            <Box onClick={onOpen}>
+                <Avatar src='https://s3.envato.com/files/303471944/200607-Ph1-0662.jpg'/>
             </Box>
-            <Drawer isOpen={isOpen} onClose={onClose} placement="left">
+            <Drawer isOpen={isOpen} onClose={onClose} placement="right">
                 <DrawerOverlay />
-                    <DrawerContent>
+                    <DrawerContent m={4} borderRadius='md'>
+                        <DrawerCloseButton />
                         <DrawerHeader borderBottomWidth='1px'>
-                            <Heading size='2xl'>Menu</Heading>
+                            <Flex align='center' gap={4}>
+                                <Avatar src='https://s3.envato.com/files/303471944/200607-Ph1-0662.jpg'/>
+                                <Box minW={0} pr={4}>
+                                    <Heading size='md' textOverflow='ellipsis' whiteSpace='nowrap' overflow='hidden'>Rafał Smykała</Heading>
+                                    <Text opacity={0.8} fontSize='md'>@r_smykalka</Text>
+                                </Box>
+                            </Flex>
+  
                         </DrawerHeader>
                         <DrawerBody>
-                            <Heading as='h2' size='lg' mb={4}
-                                onClick={() => navigate('/cards')}>
-                                My Flashcards
-                            </Heading>
-                            <Heading as='h2' size='lg' mb={4} 
-                                onClick={() => navigate('/learn')}>
-                                Learn
-                            </Heading>
-                            <Heading as='h2' size='lg' mb={4} 
-                                onClick={() => navigate('/quiz')}>
-                                Quiz
-                            </Heading>
+                            <Flex direction='column' gap={4}>
+                                <Heading as='h2' size='lg'
+                                    onClick={() => navigate('/home')}>
+                                    Home
+                                </Heading>
+                                <Heading as='h2' size='lg'
+                                    onClick={() => navigate('/decks')}>
+                                    Decks
+                                </Heading>
+                                <Heading as='h2' size='lg'
+                                    onClick={() => navigate('/stats')}>
+                                    Stats
+                                </Heading>
+                                <Heading as='h2' size='lg' mt={8}
+                                    onClick={() => {}}>
+                                    Settings
+                                </Heading>
+                                <Heading as='h2' size='lg'
+                                    onClick={() => {}}>
+                                    Logout
+                                </Heading>
+                            </Flex>
                         </DrawerBody>
                     </DrawerContent>
             </Drawer>
