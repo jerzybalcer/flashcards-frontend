@@ -19,7 +19,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         <InputLeftElement pointerEvents='none'>
             <IconSearch color='gray' />
         </InputLeftElement>
-        <Input placeholder='Search for a word' value={text}
+        <Input placeholder='Search' value={text}
             onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChange(ev.currentTarget.value)}
         />
         {text.length > 0 &&         
