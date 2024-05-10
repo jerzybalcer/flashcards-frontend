@@ -15,8 +15,6 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
     const translatedSideRef = useRef<HTMLDivElement>(null);
     const [currentSide, setCurrentSide] = useState<string>(flashCard.foreignWord);
 
-
-
     useEffect(() => {
         setCurrentSide(flashCard.foreignWord);
         flipCardRef.current!.style.transition = 'transform 0s';

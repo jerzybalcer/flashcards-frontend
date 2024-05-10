@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { Box, Card, Flex, Heading, Progress, Text } from "@chakra-ui/react"
-import { IconDotsVertical } from "@tabler/icons-react"
 import { useSwipeable } from "react-swipeable"
 import { PageHeading } from "../components/PageHeading"
 import { FlippableFlashCard } from "../components/FlippableFlashCard/FlippableFlashCard"
 import { useLocation } from "react-router-dom"
+import { LearnSettings } from "../components/LearnSettings"
 
 export const LearnPage = () => {
     const [currentWord, setCurrentWord] = useState<number>(1);
@@ -31,7 +31,7 @@ export const LearnPage = () => {
                         <Heading>Learning</Heading>
                         <Text opacity={0.8}>{state.deck.name}</Text>
                     </Flex>
-                    <IconDotsVertical />
+                    <LearnSettings onAutoReadChange={() => {}} onDefaultSideChange={() => {}}/>
                 </Flex>
 
                 <Flex direction='column' justify='space-between' align='center'>

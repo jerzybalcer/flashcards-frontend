@@ -6,7 +6,7 @@ interface AddButtonProps {
 }
 
 export const AddButton: React.FC<AddButtonProps> = ({ onClick }) => {
-    return <Button colorScheme="blue" onClick={() => onClick()}>
+    return <Button onClick={() => onClick()}>
         <IconPlus />
     </Button>
 }
