@@ -11,7 +11,7 @@ interface ListNavigationProps {
 export const ListNavigation: React.FC<ListNavigationProps> = ({ onSearch, onAddClick }) => {
     return (
         <Flex gap={2}>
-            <Box flexGrow={1}>
+            <Box flexGrow={1} h='100%'>
                 <SearchBar onSearch={onSearch}/>
             </Box>
             <SortButton />

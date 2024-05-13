@@ -104,7 +104,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
             <ModalHeader>{flashCard ? 'Edit card' : 'Add new card'}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                {!flashCard && (<Tabs colorScheme='teal' isFitted onChange={(index) => setCurrentTab(index)}>
+                {!flashCard && (<Tabs isFitted onChange={(index) => setCurrentTab(index)}>
                     <TabList>
                         <Tab>Manually</Tab>
                         <Tab>From CSV</Tab>
@@ -130,7 +130,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
                 )}
             </ModalBody>
             <ModalFooter>
-                <Button colorScheme='teal' mr={3} onClick={() => handleSave()} isLoading={isMutationLoading} isDisabled={!isSaveEnabled()}> Save </Button>
+                <Button colorScheme="blue" mr={3} onClick={() => handleSave()} isLoading={isMutationLoading} isDisabled={!isSaveEnabled()}> Save </Button>
                 <Button variant='ghost' onClick={handleClose}> Close </Button>
             </ModalFooter>
             </ModalContent>

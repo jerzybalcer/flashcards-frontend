@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import { PageHeading } from "../components/PageHeading";
 import { getDecks } from "../services/DeckService";
@@ -27,13 +27,12 @@ export const AllDecksPage = () => {
 
     return (
         <Flex direction='column' h='100%'>
-            <PageHeading />
+            <PageHeading title="Decks"/>
 
             {decksLoading && <Loading />}
 
             {!decksLoading && decks && (
-            <Flex direction='column' h='100%' px={2} gap={6}>
-                <Heading>My Decks</Heading>
+            <Flex direction='column' h='100%' px={2} gap={8}>
                 <ListNavigation onSearch={(phrase) => setDisplayedDecks(decksAfterSearch(phrase))} onAddClick={() => {}}/>
                 <Scrollable>
                     <DeckList decks={displayedDecks}/>

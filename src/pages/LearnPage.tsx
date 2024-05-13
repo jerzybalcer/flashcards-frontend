@@ -23,13 +23,13 @@ export const LearnPage = () => {
 
     return (
         <Flex direction='column' h='100%'>
-            <PageHeading canGoBack />
+            <PageHeading title="Learn" canGoBack />
 
             <Flex h='100%' direction='column' justify='space-between' px={4} pb={8} {...swipeHandlers}>
                 <Flex justify='space-between' align='center'>
                     <Flex direction='column' justify='center' gap={2}>
-                        <Heading>Learning</Heading>
-                        <Text opacity={0.8}>{state.deck.name}</Text>
+                        <Heading>{state.deck.name}</Heading>
+                        <Text opacity={0.8}>{state.deck.cardsCount} cards</Text>
                     </Flex>
                     <LearnSettings onAutoReadChange={() => {}} onDefaultSideChange={() => {}}/>
                 </Flex>

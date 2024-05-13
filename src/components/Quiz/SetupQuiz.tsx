@@ -6,7 +6,7 @@ interface SetupQuizProps {
 
 export const SetupQuiz: React.FC<SetupQuizProps> = ({ onStartQuiz }) => {
     return  <Flex direction='column' justifyContent='space-between' h='100%'>
-        <Heading>Quiz settings</Heading>
+        <Heading>Setup</Heading>
         <Flex direction="column" w='100%' justify='center' alignSelf='center' flexGrow={1}>
             <FormControl isRequired display='flex' justifyContent='center' flexDir='column' gap={8} px={4}>
                 <Box>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Flex, Heading, Image, Text } from "@chakra-ui/react"
+import { Button, Flex, Heading, Tag, Text } from "@chakra-ui/react"
 import { useQuery } from "react-query"
 import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
@@ -39,10 +39,10 @@ export const DeckPage = () => {
 
     return (
         <Flex direction='column' h='100%'>
-            <PageHeading canGoBack />
+            <PageHeading title="Deck" canGoBack />
             <Flex direction='column' px={4} gap={4} h='90%' overflowY='auto'>
                 <Flex align='center' gap={2}>
-                    <Image w={8} h={8} src="https://catamphetamine.gitlab.io/country-flag-icons/3x2/IT.svg" />
+                    <Tag size='lg' colorScheme="blue" variant='subtle'>{deck.languageId.toUpperCase()}</Tag>
                     <Heading>{deck.name}</Heading>
                 </Flex>
 

@@ -15,11 +15,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     };
 
     return (
-    <InputGroup margin='auto'>
+    <InputGroup margin='auto' size='lg'>
         <InputLeftElement pointerEvents='none'>
             <IconSearch color='gray' />
         </InputLeftElement>
-        <Input placeholder='Search' value={text}
+        <Input placeholder='Search' value={text} borderRadius='xl'
             onChange={(ev: React.ChangeEvent<HTMLInputElement>) => handleChange(ev.currentTarget.value)}
         />
         {text.length > 0 &&         

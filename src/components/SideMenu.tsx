@@ -1,4 +1,5 @@
 import { Avatar, Box, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Heading, Text, useDisclosure } from "@chakra-ui/react"
+import { IconMenu2 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
 export const SideMenu: React.FC = () => {
@@ -8,7 +9,7 @@ export const SideMenu: React.FC = () => {
     return (
         <>
             <Box onClick={onOpen}>
-                <Avatar src='https://s3.envato.com/files/303471944/200607-Ph1-0662.jpg'/>
+                <IconMenu2 strokeWidth={1.25} size={36} opacity={0.8}/>
             </Box>
             <Drawer isOpen={isOpen} onClose={onClose} placement="right">
                 <DrawerOverlay />

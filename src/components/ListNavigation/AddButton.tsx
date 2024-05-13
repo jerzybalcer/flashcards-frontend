@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react"
+import { IconButton } from "@chakra-ui/react"
 import { IconPlus } from "@tabler/icons-react"
 
 interface AddButtonProps {
@@ -6,7 +6,5 @@ interface AddButtonProps {
 }
 
 export const AddButton: React.FC<AddButtonProps> = ({ onClick }) => {
-    return <Button onClick={() => onClick()}>
-        <IconPlus />
-    </Button>
+    return <IconButton colorScheme="blue" borderRadius='xl' size='lg' aria-label="add" onClick={() => onClick()} icon={<IconPlus />} />
 }
