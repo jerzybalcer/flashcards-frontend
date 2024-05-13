@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Flex, Heading, Image, Text } from "@chakra-ui/react"
+import { Box, Button, Flex, HStack, Heading, Image, Text, VStack } from "@chakra-ui/react"
 import { useQuery } from "react-query"
 import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
@@ -62,8 +62,10 @@ export const DeckPage = () => {
                     </Button>
                 </Flex>
 
-                <Heading size='lg'>Flashcards</Heading>
-                <ListNavigation onAddClick={() => onAddCardModalOpen()} onSearch={(phrase) => setCardsSearchPhrase(phrase)}/>
+                <VStack align='start' position='sticky' top={0} zIndex='docked' bgColor='gray.800'>
+                    <Heading size='lg'>Flashcards</Heading>
+                    <ListNavigation onAddClick={() => onAddCardModalOpen()} onSearch={(phrase) => setCardsSearchPhrase(phrase)}/>
+                </VStack>
                 <FlashCardList cards={displayedCards} cardsLoading={cardsLoading} onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) }/>
             </Flex>
             <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit}/>
