@@ -46,7 +46,7 @@ export const LearnPage = () => {
 
                 <Flex w='100%' direction='column' gap={2}>
                     <Text opacity={0.7} fontSize='sm' alignSelf='end'>{currentWord} / {state.cards.length}</Text>
-                    <Progress value={currentWord} max={state.cards.length} colorScheme="teal" w='100%' borderRadius='md' />
+                    <Progress value={currentWord} max={state.cards.length} w='100%' borderRadius='md' />
                 </Flex>
             </Flex>
         </Flex>

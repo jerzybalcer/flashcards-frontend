@@ -20,10 +20,10 @@ export const DeckList: React.FC<DeckListProps> = ({ decks }) => {
     console.log(decks, getExpandedLanguages());
 
     return (
-    <Accordion display='flex' flexDirection='column' gap={6} allowToggle allowMultiple border='transparent'>
+    <Accordion display='flex' flexDirection='column' gap={6} allowToggle allowMultiple>
         {Object.keys(decksGroupedByLanguage).map(language => 
-            <AccordionItem display='flex' flexDirection='column' key={language}>
-                <AccordionButton display='flex' justifyContent='space-between' alignItems='center' mb={2} gap={1} p={0} w='100%'>
+            <AccordionItem display='flex' flexDirection='column' key={language} border='none'>
+                <AccordionButton display='flex' justifyContent='space-between' alignItems='center' gap={1} p={0} py={2} w='100%' position='sticky' top={0} zIndex='docked' bgColor='gray.800' _expanded={{bgColor: 'gray.800'}}>
                     <HStack>
                         <Text>{decksGroupedByLanguage[language][0].languageName}</Text>
                         <Tag colorScheme="blue" variant='subtle'>{language.toUpperCase()}</Tag>
