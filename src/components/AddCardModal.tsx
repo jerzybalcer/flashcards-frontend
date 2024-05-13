@@ -98,7 +98,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
     }, [flashCard]);
 
     return (
-        <Modal isOpen={isOpen} onClose={handleClose} autoFocus={false} returnFocusOnClose={false}>
+        <Modal isOpen={isOpen} onClose={handleClose} autoFocus={false} returnFocusOnClose={false} isCentered>
             <ModalOverlay />
             <ModalContent>
             <ModalHeader>{flashCard ? 'Edit card' : 'Add new card'}</ModalHeader>

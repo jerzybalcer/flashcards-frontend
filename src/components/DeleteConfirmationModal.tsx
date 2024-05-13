@@ -33,7 +33,7 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
     };
 
     return (
-            <Modal isOpen={isOpen} onClose={() => onClose()} autoFocus={false} returnFocusOnClose={false}>
+            <Modal isOpen={isOpen} onClose={() => onClose()} autoFocus={false} returnFocusOnClose={false} isCentered>
                     <ModalOverlay />
                     <ModalContent>
                     <ModalHeader>Are you sure?</ModalHeader>
