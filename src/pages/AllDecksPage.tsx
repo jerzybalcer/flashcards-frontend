@@ -20,7 +20,11 @@ export const AllDecksPage = () => {
 
         if(!searchPhrase) return decks;
 
-        return decks.filter(deck => deck.name.toLowerCase().includes(searchPhrase.toLowerCase()));
+        return decks.filter(deck => 
+            deck.name.toLowerCase().includes(searchPhrase.toLowerCase())
+            ||
+            deck.languageName.toLowerCase().includes(searchPhrase.toLowerCase())
+        );
     }
 
     useEffect(() => setDisplayedDecks(decks ?? []), [decks]);
