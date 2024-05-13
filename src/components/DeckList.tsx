@@ -16,11 +16,8 @@ export const DeckList: React.FC<DeckListProps> = ({ decks }) => {
         navigate(`/decks/${deck.id}`, { state: deck });
     }
 
-    const getExpandedLanguages = () => Object.keys(decksGroupedByLanguage).map((_, index) => index);
-    console.log(decks, getExpandedLanguages());
-
     return (
-    <Accordion display='flex' flexDirection='column' gap={6} allowToggle allowMultiple>
+    <Accordion display='flex' flexDirection='column' gap={6} allowMultiple defaultIndex={[0,1,2,3,4,5,6,7,8,9]}>
         {Object.keys(decksGroupedByLanguage).map(language => 
             <AccordionItem display='flex' flexDirection='column' key={language} border='none'>
                 <AccordionButton display='flex' justifyContent='space-between' alignItems='center' gap={1} p={0} py={2} w='100%' position='sticky' top={0} zIndex='docked' bgColor='gray.800' _expanded={{bgColor: 'gray.800'}}>
