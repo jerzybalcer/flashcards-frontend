@@ -8,7 +8,7 @@ body {
 html, body, #root, #root {
   width: 100svw;
   height: 100svh;
-  position: fixed;
+  /* position: fixed; */
   user-select: none;
   -webkit-user-select: none;
 }
