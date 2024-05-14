@@ -7,7 +7,11 @@ import { AllDecksPage } from './pages/AllDecksPage';
 import { Box } from '@chakra-ui/react';
 
 export const App = () => {
-  window.scrollTo(0, 1);
+  window.addEventListener("load",function() {
+    setTimeout(function(){
+        document.querySelector('html')?.requestFullscreen();
+    }, 0);
+  })
 
   return (
     <Box p={4} h='100%' w='100%'>
