@@ -101,7 +101,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
         <Modal isOpen={isOpen} onClose={handleClose} autoFocus={false} returnFocusOnClose={false} isCentered>
             <ModalOverlay />
             <ModalContent>
-            <ModalHeader>{flashCard ? 'Edit card' : 'Add new card'}</ModalHeader>
+            <ModalHeader>{flashCard ? 'Edit card' : 'New card'}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
                 {!flashCard && (<Tabs isFitted onChange={(index) => setCurrentTab(index)}>

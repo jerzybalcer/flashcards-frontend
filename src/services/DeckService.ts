@@ -2,6 +2,7 @@ import { AxiosError } from "axios";
 import { Deck } from "../model/Deck";
 import { apiClient } from "./AxiosInstance";
 import { FlashCard } from "../model/FlashCard";
+import { NewDeck } from "../model/NewDeck";
 // import humps from "humps";
 
 export const getDecks = async () =>
@@ -10,10 +11,10 @@ export const getDecks = async () =>
         .then(res => res.data as Deck[])
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const addDeck = async (deck: Deck) =>
+export const addDeck = async (deck: NewDeck) =>
     apiClient
         .post(`/decks`, 
-            { name: deck.name, language: deck.languageId }, 
+            { name: deck.name, language_id: deck.languageId }, 
             { headers: {'Content-Type': 'application/json'} })
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
