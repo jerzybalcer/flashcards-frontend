@@ -5,10 +5,9 @@ import { LearnPage } from './pages/LearnPage';
 import { QuizPage } from './pages/QuizPage';
 import { AllDecksPage } from './pages/AllDecksPage';
 import { Box } from '@chakra-ui/react';
-import { useEffect } from 'react';
 
 export const App = () => {
-  useEffect(() => window.scrollTo(0, 1), []);
+  window.scrollTo(0, 1);
 
   return (
     <Box p={4} h='100%' w='100%'>
