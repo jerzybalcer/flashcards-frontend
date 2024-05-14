@@ -9,7 +9,7 @@ import { Box } from '@chakra-ui/react';
 export const App = () => {
   window.addEventListener("load",function() {
     setTimeout(function(){
-        document.querySelector('html')?.requestFullscreen();
+        window.scrollTo(0, 1);
     }, 0);
   })
 
