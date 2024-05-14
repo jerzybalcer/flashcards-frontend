@@ -5,13 +5,14 @@ import { LearnPage } from './pages/LearnPage';
 import { QuizPage } from './pages/QuizPage';
 import { AllDecksPage } from './pages/AllDecksPage';
 import { Box } from '@chakra-ui/react';
+import { useEffect } from 'react';
 
 export const App = () => {
-  window.addEventListener("load",function() {
-    setTimeout(function(){
-        window.scrollTo(0, 1);
-    }, 0);
-  })
+  // window.addEventListener("load",function() {
+  //       document.querySelector('#root')?.requestFullscreen();
+  // })
+
+  useEffect(() => { document.querySelector('#root')!.requestFullscreen() }, []);
 
   return (
     <Box p={4} h='100%' w='100%'>
