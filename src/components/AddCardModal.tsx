@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
+import { Box, Flex, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import { Button } from "@chakra-ui/react"
 import { AxiosError } from 'axios';
 import { useMutation, useQueryClient } from "react-query";
@@ -116,8 +116,12 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
                             foreignDefaultValue={''}
                             translatednWordDefaultValue={''} />                    
                         </TabPanel>
-                        <TabPanel>
+                        <TabPanel gap={4} display='flex' flexDirection='column'>
                             <FileInput onChange={(currentFile) => setFile(currentFile)}/>
+                            <FormControl isRequired> 
+                                <FormLabel>Delimiter</FormLabel>
+                                <Input defaultValue='-' />
+                            </FormControl>
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
