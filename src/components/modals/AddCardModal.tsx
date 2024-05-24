@@ -30,7 +30,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
     const handleSuccess = (toastTitle: string, toastDescription: string) => {
         successToast(toastTitle, toastDescription);
         handleClose();
-        queryClient.invalidateQueries('cards');
+        queryClient.invalidateQueries(`deck-${deckId}-cards`);
     };
 
     const handleError = (error: AxiosError) => {

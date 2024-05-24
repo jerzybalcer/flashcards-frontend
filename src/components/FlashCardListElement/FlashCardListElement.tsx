@@ -12,7 +12,7 @@ interface FlasCardListElementProps {
 
 export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flashCard, onEdit }) => {
     const elementRef = useRef<HTMLDivElement>(null);
-
+    
     const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState<boolean>(false);
 
     useEffect(() => {
