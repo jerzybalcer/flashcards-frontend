@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Flex, Heading, Tag, Text } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, IconButton, Tag, Text, VStack } from "@chakra-ui/react"
 import { useQuery } from "react-query"
 import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
@@ -8,7 +8,7 @@ import { FlashCard } from "../model/FlashCard"
 import { getCards } from "../services/DeckService"
 import { useLocation, useNavigate } from "react-router-dom"
 import { ListNavigation } from "../components/ListNavigation/ListNavigation"
-import { IconCheckbox, IconSchool } from "@tabler/icons-react"
+import { IconCheckbox, IconDotsVertical, IconSchool } from "@tabler/icons-react"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
@@ -41,20 +41,25 @@ export const DeckPage = () => {
         <Flex direction='column' h='100%'>
             <PageHeading title="Deck" canGoBack />
             <Flex direction='column' px={4} gap={4} h='90%' overflowY='auto'>
-                <Flex align='center' gap={2}>
-                    <Tag size='lg' colorScheme="blue" variant='subtle'>{deck.languageId.toUpperCase()}</Tag>
-                    <Heading>{deck.name}</Heading>
+                <Flex direction='column' gap={2}>
+                    <Box>
+                        <Tag size='md' colorScheme="blue" variant='subtle'>{deck.languageName.toUpperCase()}</Tag>
+                    </Box>
+                    <Flex justify='space-between' align='center'>
+                        <Heading size='lg'>{deck.name}</Heading>
+                        <IconButton justifySelf='end' variant='ghost' aria-label='Settings' icon={<IconDotsVertical />} onClick={() => {}}/>
+                    </Flex>
                 </Flex>
 
-                <Flex gap={2} mb={4}>
-                    <Button variant='outline' flexGrow={1} py={12} onClick={() => navigate('/learn', { state: { deck: deck, cards: cards }})}>
+                <Flex gap={2} mb={6}>
+                    <Button flexGrow={1} py={12} onClick={() => navigate('/learn', { state: { deck: deck, cards: cards }})}>
                         <Flex direction='column' justify='center' align='center' gap={4}>
                             <IconSchool size={32}/>
                             <Text>Learn</Text>
                         </Flex>
                     </Button>
    
-                    <Button variant='outline' flexGrow={1} py={12} onClick={() => navigate('/quiz')}>
+                    <Button flexGrow={1} py={12} onClick={() => navigate('/quiz')}>
                         <Flex direction='column' justify='center' align='center' gap={4}>
                             <IconCheckbox size={32}/>
                             <Text>Quiz</Text>
@@ -62,11 +67,11 @@ export const DeckPage = () => {
                     </Button>
                 </Flex>
 
-                <Heading size='lg'>Flashcards</Heading>
+                <Heading size='md'>Flashcards</Heading>
                 <ListNavigation onAddClick={() => onAddCardModalOpen()} onSearch={(phrase) => setCardsSearchPhrase(phrase)}/>
                 <FlashCardList cards={displayedCards} cardsLoading={cardsLoading} onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) }/>
             </Flex>
-            <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit}/>
+            <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit} deckId={deck.id}/>
         </Flex>
     )
 }
