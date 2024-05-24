@@ -8,7 +8,7 @@ import { Deck } from "../model/Deck";
 import { ListNavigation } from "../components/ListNavigation/ListNavigation";
 import { DeckList } from "../components/DeckList";
 import { Scrollable } from "../components/Scrollable";
-import { AddDeckModal } from "../components/AddDeckModal";
+import { AddDeckModal } from "../components/modals/AddDeckModal";
 
 
 export const AllDecksPage = () => {

@@ -38,6 +38,6 @@ export const SetupQuiz: React.FC<SetupQuizProps> = ({ onStartQuiz }) => {
                 </Box>
             </FormControl>
         </Flex>
-        <Button size='lg' alignSelf='center' colorScheme="teal" onClick={() => onStartQuiz()}>Start Quiz</Button>
+        <Button size='lg' alignSelf='center' colorScheme="blue" onClick={() => onStartQuiz()}>Start Quiz</Button>
     </Flex>
 }

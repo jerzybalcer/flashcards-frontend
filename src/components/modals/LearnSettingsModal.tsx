@@ -2,12 +2,12 @@ import { IconButton, Switch, FormControl, FormLabel, RadioGroup, Radio, HStack, 
 import { IconDotsVertical } from "@tabler/icons-react";
 import { useState } from "react";
 
-interface LearnSettingsProps {
+interface LearnSettingsModalProps {
     onAutoReadChange: (value: boolean) => void;
     onDefaultSideChange: (value: string) => void;
 }
 
-export const LearnSettings: React.FC<LearnSettingsProps> = ({ onAutoReadChange, onDefaultSideChange }) => {
+export const LearnSettingsModal: React.FC<LearnSettingsModalProps> = ({ onAutoReadChange, onDefaultSideChange }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     return (
@@ -37,7 +37,7 @@ export const LearnSettings: React.FC<LearnSettingsProps> = ({ onAutoReadChange, 
                 </ModalBody>
 
                 <ModalFooter>
-                    <Button onClick={() => setIsOpen(false)}>
+                    <Button colorScheme="blue" onClick={() => setIsOpen(false)}>
                         Save
                     </Button>
                 </ModalFooter>

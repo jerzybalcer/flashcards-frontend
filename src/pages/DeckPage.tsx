@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react"
-import { Box, Button, Flex, Heading, IconButton, Tag, Text } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, Tag, Text } from "@chakra-ui/react"
 import { useQuery } from "react-query"
 import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
-import { AddCardModal } from "../components/AddCardModal"
+import { AddCardModal } from "../components/modals/AddCardModal"
 import { FlashCard } from "../model/FlashCard"
 import { getCards } from "../services/DeckService"
 import { useLocation, useNavigate } from "react-router-dom"
 import { ListNavigation } from "../components/ListNavigation/ListNavigation"
-import { IconCheckbox, IconDotsVertical, IconSchool } from "@tabler/icons-react"
+import { IconCheckbox, IconSchool } from "@tabler/icons-react"
+import { DeckSettingsModal } from "../components/modals/DeckSettingsModal"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
@@ -47,7 +48,7 @@ export const DeckPage = () => {
                     </Box>
                     <Flex justify='space-between' align='center'>
                         <Heading size='lg'>{deck.name}</Heading>
-                        <IconButton justifySelf='end' variant='ghost' aria-label='Settings' icon={<IconDotsVertical />} onClick={() => {}}/>
+                        <DeckSettingsModal deck={deck} />
                     </Flex>
                 </Flex>
 

@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Flex, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
+import { FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import { Button } from "@chakra-ui/react"
 import { AxiosError } from 'axios';
 import { useMutation, useQueryClient } from "react-query";
-import { editCard } from "../services/CardService"
-import { FlashCard } from "../model/FlashCard";
-import { errorToast, successToast } from "../utils/toasts";
-import { FlashCardInputForm } from "./FlashCardInputForm";
-import { FileInput } from "./FileInput";
-import { addCard, addCardsFromFile } from "../services/DeckService";
+import { editCard } from "../../services/CardService"
+import { FlashCard } from "../../model/FlashCard";
+import { errorToast, successToast } from "../../utils/toasts";
+import { FlashCardInputForm } from "../FlashCardInputForm";
+import { FileInput } from "../FileInput";
+import { addCard, addCardsFromFile } from "../../services/DeckService";
 
 interface AddCardModalProps {
     isOpen: boolean;
@@ -137,7 +137,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
                 )}
             </ModalBody>
             <ModalFooter>
-                <Button colorScheme="blue" mr={3} onClick={() => handleSave()} isLoading={isMutationLoading} isDisabled={!isSaveEnabled()}> Save </Button>
+                <Button colorScheme="blue" mr={4} onClick={() => handleSave()} isLoading={isMutationLoading} isDisabled={!isSaveEnabled()}> Save </Button>
                 <Button variant='ghost' onClick={handleClose}> Close </Button>
             </ModalFooter>
             </ModalContent>

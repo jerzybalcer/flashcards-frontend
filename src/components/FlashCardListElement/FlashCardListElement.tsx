@@ -3,7 +3,7 @@ import { Button, Card, CardBody, Flex, Text } from "@chakra-ui/react"
 import { FlashCard } from "../../model/FlashCard"
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import './FlashCardListElement.css';
-import { DeleteConfirmationModal } from "../DeleteConfirmationModal";
+import { DeleteCardConfirmationModal } from "../modals/DeleteCardConfirmationModal";
 
 interface FlasCardListElementProps {
     flashCard: FlashCard;
@@ -54,7 +54,7 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
                 </Button>
             </Flex>
         </Flex>
-        <DeleteConfirmationModal isOpen={isDeleteConfirmationOpen} onClose={() => setDeleteConfirmationOpen(false)} flashCard={flashCard}/>
+        <DeleteCardConfirmationModal isOpen={isDeleteConfirmationOpen} onClose={() => setDeleteConfirmationOpen(false)} flashCard={flashCard}/>
         </>
     )
 }

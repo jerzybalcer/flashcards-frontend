@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, FormControl, FormLabel, Input, Select } from "@chakra-ui/react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { AxiosError } from "axios";
-import { getLanguages } from "../services/LanguageService";
-import { errorToast, successToast } from "../utils/toasts";
-import { NewDeck } from "../model/NewDeck";
-import { addDeck } from "../services/DeckService";
+import { getLanguages } from "../../services/LanguageService";
+import { errorToast, successToast } from "../../utils/toasts";
+import { NewDeck } from "../../model/NewDeck";
+import { addDeck } from "../../services/DeckService";
 
 interface AddDeckModalProps {
     isOpen: boolean;
@@ -75,7 +75,7 @@ export const AddDeckModal: React.FC<AddDeckModalProps> = ({ isOpen, onClose }) =
                 </FormControl>
             </ModalBody>
             <ModalFooter>
-            <Button colorScheme="blue" mr={3} isDisabled={languagesLoading} onClick={() => handleSave()}>Save</Button>
+            <Button colorScheme="blue" mr={4} isDisabled={languagesLoading} onClick={() => handleSave()}>Save</Button>
             <Button variant='ghost' onClick={() => handleClose()}>Close</Button>
             </ModalFooter>
         </ModalContent>

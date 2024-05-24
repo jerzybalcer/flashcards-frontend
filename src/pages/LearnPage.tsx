@@ -4,7 +4,7 @@ import { useSwipeable } from "react-swipeable"
 import { PageHeading } from "../components/PageHeading"
 import { FlippableFlashCard } from "../components/FlippableFlashCard/FlippableFlashCard"
 import { useLocation } from "react-router-dom"
-import { LearnSettings } from "../components/LearnSettings"
+import { LearnSettingsModal } from "../components/modals/LearnSettingsModal"
 
 export const LearnPage = () => {
     const [currentWord, setCurrentWord] = useState<number>(1);
@@ -31,7 +31,7 @@ export const LearnPage = () => {
                         <Heading>{state.deck.name}</Heading>
                         <Text opacity={0.8}>{state.deck.cardsCount} cards</Text>
                     </Flex>
-                    <LearnSettings onAutoReadChange={() => {}} onDefaultSideChange={() => {}}/>
+                    <LearnSettingsModal onAutoReadChange={() => {}} onDefaultSideChange={() => {}}/>
                 </Flex>
 
                 <Flex direction='column' justify='space-between' align='center'>

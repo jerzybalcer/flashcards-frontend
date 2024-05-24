@@ -1,17 +1,17 @@
 import { Button, Card, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
 import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { FlashCard } from "../model/FlashCard";
-import { deleteCard } from "../services/CardService";
-import { errorToast, infoToast } from "../utils/toasts";
+import { FlashCard } from "../../model/FlashCard";
+import { deleteCard } from "../../services/CardService";
+import { errorToast, infoToast } from "../../utils/toasts";
 
-interface DeleteConfirmationModalProps{
+interface DeleteCardConfirmationModalProps{
     isOpen: boolean;
     flashCard: FlashCard;
     onClose: () => void;
 }
 
-export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({ isOpen, flashCard, onClose }) => {
+export const DeleteCardConfirmationModal: React.FC<DeleteCardConfirmationModalProps> = ({ isOpen, flashCard, onClose }) => {
     const queryClient = useQueryClient();
 
     const handleDeleteSuccess = () => {
@@ -49,7 +49,7 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme="red" mr={3} onClick={() => handleDeleteCard()} isLoading={deleteMutation.isLoading}>Delete</Button>
+                        <Button colorScheme="red" mr={4} onClick={() => handleDeleteCard()} isLoading={deleteMutation.isLoading}>Delete</Button>
                         <Button variant='ghost' onClick={() => onClose()}>Cancel</Button>
                     </ModalFooter>
                     </ModalContent>
