@@ -6,7 +6,7 @@ import { SetupQuiz } from "../components/Quiz/SetupQuiz";
 import { SolveQuiz } from "../components/Quiz/SolveQuiz";
 import { QuizResult } from "../components/Quiz/QuizResult";
 import { QuizFlashCard } from "../model/QuizFlashCard";
-import { updateQuizCards } from "../services/CardService";
+import { updateQuizCards } from "../services/DeckService";
 import { QuizStat } from "../model/QuizStat";
 
 enum QuizSteps {
@@ -19,8 +19,7 @@ export const QuizPage = () => {
         const [currentStep, setCurrentStep] = useState<QuizSteps>(QuizSteps.Setup);
         const [resultCards, setResultCards] = useState<QuizFlashCard[]>([]);
         
-        const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(resultCards)
-        );
+        const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(1, resultCards));
         
         const handleQuizSolved = () => {
             const quizStats = resultCards.map(c => ({id: c.id, answerTimeMs: c.answerTimeMs, lastAnswerCorrect: c.lastAnswerCorrect }));

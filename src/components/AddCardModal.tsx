@@ -3,25 +3,28 @@ import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHea
 import { Button } from "@chakra-ui/react"
 import { AxiosError } from 'axios';
 import { useMutation, useQueryClient } from "react-query";
-import { addCard, addCardsFromFile, editCard} from "../services/CardService"
+import { editCard } from "../services/CardService"
 import { FlashCard } from "../model/FlashCard";
 import { errorToast, successToast } from "../utils/toasts";
 import { FlashCardInputForm } from "./FlashCardInputForm";
 import { FileInput } from "./FileInput";
+import { addCard, addCardsFromFile } from "../services/DeckService";
 
 interface AddCardModalProps {
     isOpen: boolean;
     flashCard?: FlashCard;
+    deckId: number;
     onClose: () => void;
 }
 
-export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, onClose }) => {
+export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, deckId, onClose }) => {
     const [foreignWord, setForeignWord] = useState<string>("");
     const [translatedWord, setTranslatedWord] = useState<string>("");
     const [currentTab, setCurrentTab] = useState<number>(0);
     const [file, setFile] = useState<File>()
 
-    const cardMutationFunction = useRef<(card: FlashCard) => Promise<unknown>>();
+    const cardAddMutationFunction = useRef<(deckId: number, card: FlashCard) => Promise<unknown>>();
+    const cardEditMutationFunction = useRef<(card: FlashCard) => Promise<unknown>>();
     const queryClient = useQueryClient();
 
     const handleSuccess = (toastTitle: string, toastDescription: string) => {
@@ -34,13 +37,13 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
         errorToast(error.response?.data as string);
     };
 
-    const cardMutation = useMutation((card: FlashCard) => cardMutationFunction.current!(card), 
+    const cardMutation = useMutation((card: FlashCard) => flashCard ? cardEditMutationFunction.current!(card) : cardAddMutationFunction.current!(deckId, card), 
     {
         onSuccess: () => handleSuccess('Succesfully saved card',`${foreignWord} - ${translatedWord}`),
         onError: handleError,
     });
 
-    const fileMutation = useMutation((file: File) => addCardsFromFile(file), 
+    const fileMutation = useMutation((file: File) => addCardsFromFile(deckId, file), 
     {
         onSuccess: () => handleSuccess('Succesfully saved cards', `Unique cards from file imported`),
         onError: handleError,
@@ -88,10 +91,10 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, o
 
     useEffect(() => {
         if(!flashCard){
-            cardMutationFunction.current = addCard;
+            cardAddMutationFunction.current = addCard;
         }
         else{
-            cardMutationFunction.current = editCard;
+            cardEditMutationFunction.current = editCard;
             setForeignWord(flashCard.foreignWord);
             setTranslatedWord(flashCard.translatedWord);
         }

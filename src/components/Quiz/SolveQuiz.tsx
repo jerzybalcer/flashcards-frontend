@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, Card, Center, Flex, Text } from "@chakra-ui/react";
 import { useQuery } from "react-query";
-import {  getQuizCards } from "../../services/CardService";
+import { getQuizCards } from "../../services/DeckService";
 import { Loading } from "../Loading";
 import { AnswerGroup } from "./AnswerGroup";
 import { QuizFlashCard } from "../../model/QuizFlashCard";
@@ -18,7 +18,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ onAnswered, onSolvedQuiz }
     const [startTimeMs, setStartTimeMs] = useState<number>(0);
     const wordContainerRef = useRef<HTMLDivElement>(null);
 
-    const { data: cards, isLoading: cardsLoading } = useQuery('quizCards', getQuizCards, {staleTime: Infinity});
+    const { data: cards, isLoading: cardsLoading } = useQuery('quizCards', () => getQuizCards(1), {staleTime: Infinity});
 
     const currentCard = () => cards![currentIndex - 1];
 

@@ -3,7 +3,7 @@ import { Deck } from "../model/Deck";
 import { apiClient } from "./AxiosInstance";
 import { FlashCard } from "../model/FlashCard";
 import { NewDeck } from "../model/NewDeck";
-// import humps from "humps";
+import { QuizStat } from "../model/QuizStat";
 
 export const getDecks = async () =>
     apiClient
@@ -54,8 +54,9 @@ export const getQuizCards = async (deckId: number) =>
         .then(res => res.data as FlashCard[])
         .catch((err: AxiosError) => Promise.reject(err));
 
-// export const updateQuizCards = async (deckId: number, resultCards: QuizStat[]) =>
-//     apiClient
-//         .put(`/decks/${deckId}/quiz/results`, humps.decamelizeKeys(resultCards), { headers: {'Content-Type': 'application/json'} })
-//         .then(res => res.data as number)
-//         .catch((err: AxiosError) => Promise.reject(err));
+// TODO: fix
+export const updateQuizCards = async (deckId: number, resultCards: QuizStat[]) =>
+    apiClient
+        .put(`/decks/${deckId}/quiz/results`, resultCards, { headers: {'Content-Type': 'application/json'} })
+        .then(res => res.data as number)
+        .catch((err: AxiosError) => Promise.reject(err));
