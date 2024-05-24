@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import { Button } from "@chakra-ui/react"
 import { AxiosError } from 'axios';
 import { useMutation, useQueryClient } from "react-query";
@@ -7,8 +7,8 @@ import { editCard } from "../../services/CardService"
 import { FlashCard } from "../../model/FlashCard";
 import { errorToast, successToast } from "../../utils/toasts";
 import { FlashCardInputForm } from "../FlashCardInputForm";
-import { FileInput } from "../FileInput";
 import { addCard, addCardsFromFile } from "../../services/DeckService";
+import { FileInputForm } from "../FileInputForm";
 
 interface AddCardModalProps {
     isOpen: boolean;
@@ -110,7 +110,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
                 {!flashCard && (<Tabs isFitted onChange={(index) => setCurrentTab(index)}>
                     <TabList>
                         <Tab>Manually</Tab>
-                        <Tab>From CSV</Tab>
+                        <Tab>From file</Tab>
                     </TabList>
                     <TabPanels pt={4}>
                         <TabPanel>
@@ -119,12 +119,8 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
                             foreignDefaultValue={''}
                             translatednWordDefaultValue={''} />                    
                         </TabPanel>
-                        <TabPanel gap={4} display='flex' flexDirection='column'>
-                            <FileInput onChange={(currentFile) => setFile(currentFile)}/>
-                            <FormControl isRequired> 
-                                <FormLabel>Delimiter</FormLabel>
-                                <Input defaultValue='-' />
-                            </FormControl>
+                        <TabPanel>
+                            <FileInputForm onFileChange={(file) => setFile(file)}/>
                         </TabPanel>
                     </TabPanels>
                 </Tabs>

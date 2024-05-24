@@ -15,6 +15,8 @@ export const FileInput: React.FC<FileInputProps> = ({ onChange }) => {
 
         const newFile = event.target.files![0] as File;
 
+        if(newFile.type !== 'csv' && newFile.type !== 'txt') return;
+
         onChange(newFile);
         setFile(newFile);
     }
@@ -34,7 +36,7 @@ export const FileInput: React.FC<FileInputProps> = ({ onChange }) => {
                 (<>
                     <IconUpload></IconUpload>
                     <Text>Choose file to upload</Text>
-                    <Text color='gray' fontSize='sm'>Supported formats: CSV</Text>
+                    <Text color='gray' fontSize='sm'>Supported formats: .csv, .txt</Text>
                 </>)}
                 {file && (
                     <>
