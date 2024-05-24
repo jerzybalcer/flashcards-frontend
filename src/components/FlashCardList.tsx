@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Center, Flex, Text } from "@chakra-ui/react";
+import { Box, Center, Flex } from "@chakra-ui/react";
 import { FlashCard } from './../model/FlashCard';
 import { FlashCardListElement } from "./FlashCardListElement/FlashCardListElement";
 // import { Pagination } from "./Pagination";

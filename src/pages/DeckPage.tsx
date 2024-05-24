@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Box, Button, Flex, Heading, IconButton, Tag, Text, VStack } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, IconButton, Tag, Text } from "@chakra-ui/react"
 import { useQuery } from "react-query"
 import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
