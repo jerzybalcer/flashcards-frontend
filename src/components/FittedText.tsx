@@ -50,5 +50,5 @@ export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, si
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <Text p={padding} whiteSpace={singleLine ? 'nowrap' : 'initial'} ref={textRef}>{content}</Text>
+    return <Text p={padding} whiteSpace={singleLine ? 'nowrap' : 'initial'} ref={textRef} color='blue.200'>{content}</Text>
 }

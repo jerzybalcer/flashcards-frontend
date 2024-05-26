@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Box, Button, Card, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import { getQuizCards } from "../../services/DeckService";
 import { Loading } from "../Loading";
@@ -62,9 +62,10 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onAnswered, onSolved
                 <Flex direction='column' gap={4} h='30%'>
                     <ProgressBar currentValue={currentIndex} maxValue={cards.length} />
 
-                    <Card flexGrow={1} ref={wordContainerRef} borderRadius='md'>
-                        <FittedText padding={4} maxFontSize={48} content={currentCard().foreignWord} containerRef={wordContainerRef} />
-                    </Card>
+                    <Heading size='lg'>Choose translation for:</Heading>
+                    <Box flexGrow={1} ref={wordContainerRef} borderRadius='md'>
+                        <FittedText maxFontSize={32} content={currentCard().foreignWord} containerRef={wordContainerRef} />
+                    </Box>
                 </Flex>
                 
                 <Box w='100%'>
