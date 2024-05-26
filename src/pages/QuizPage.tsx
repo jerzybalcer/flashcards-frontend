@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Box, Flex } from "@chakra-ui/react"
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { PageHeading } from "../components/PageHeading"
 import { SetupQuiz } from "../components/Quiz/SetupQuiz";
 import { SolveQuiz } from "../components/Quiz/SolveQuiz";
@@ -21,6 +21,8 @@ export const QuizPage = () => {
         const [resultCards, setResultCards] = useState<QuizFlashCard[]>([]);
 
         const { state: deck } = useLocation();
+        
+        const queryClient = useQueryClient();
         
         const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(1, resultCards));
         
@@ -50,6 +52,11 @@ export const QuizPage = () => {
             if(currentStep !== QuizSteps.Result)
                 setResultCards([]);
         }, [currentStep]);
+
+        useEffect(() => { 
+            queryClient.invalidateQueries(`quizCards-deck=${deck.id}`)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, []);
 
         return (
         <Flex direction='column' h='100%'>
