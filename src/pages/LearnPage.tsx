@@ -28,7 +28,7 @@ export const LearnPage = () => {
         <Flex direction='column' h='100%'>
             <PageHeading title="Learn" canGoBack />
 
-            <Flex h='100%' direction='column' justify='space-between' px={4} pb={2} {...swipeHandlers}>
+            <Flex flexGrow={1} direction='column' justify='space-between' px={4} pb={2} {...swipeHandlers}>
                 <ProgressBar currentValue={currentWord} maxValue={state.cards.length} />
 
                 <Flex direction='column' justify='space-between' align='center'>
