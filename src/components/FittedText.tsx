@@ -10,7 +10,7 @@ interface FittedTextProps {
     color?: string;
 }
 
-export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, singleLine = false, padding = 0, maxFontSize = 100, color = 'initial' }) => {
+export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, singleLine = false, padding = 0, maxFontSize = 100, color }) => {
     const textRef = useRef<HTMLParagraphElement>(null);
 
     const adjustFontSize = () => {
