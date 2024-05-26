@@ -8,6 +8,7 @@ import { QuizResult } from "../components/Quiz/QuizResult";
 import { QuizFlashCard } from "../model/QuizFlashCard";
 import { updateQuizCards } from "../services/DeckService";
 import { QuizStat } from "../model/QuizStat";
+import { useLocation } from "react-router-dom";
 
 enum QuizSteps {
     Setup,
@@ -18,6 +19,8 @@ enum QuizSteps {
 export const QuizPage = () => {
         const [currentStep, setCurrentStep] = useState<QuizSteps>(QuizSteps.Setup);
         const [resultCards, setResultCards] = useState<QuizFlashCard[]>([]);
+
+        const { state: deck } = useLocation();
         
         const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(1, resultCards));
         
@@ -34,11 +37,11 @@ export const QuizPage = () => {
         const renderQuizStep = () => {
             switch(currentStep){
                 case QuizSteps.Setup: 
-                    return <SetupQuiz onStartQuiz={() => setCurrentStep(QuizSteps.Solve)} />;
+                    return <SetupQuiz deck={deck} onStartQuiz={() => setCurrentStep(QuizSteps.Solve)} />;
                 case QuizSteps.Solve: 
-                    return <SolveQuiz onAnswered={(resultCard) => handleAnswered(resultCard)} onSolvedQuiz={() => handleQuizSolved()} />
+                    return <SolveQuiz deck={deck} onAnswered={(resultCard) => handleAnswered(resultCard)} onSolvedQuiz={() => handleQuizSolved()} />
                 case QuizSteps.Result: 
-                    return <QuizResult resultCards={resultCards} numberOfCards={20}
+                    return <QuizResult deck={deck} resultCards={resultCards} numberOfCards={20}
                         onFinish={() => setCurrentStep(QuizSteps.Setup)} onStartAgain={() => setCurrentStep(QuizSteps.Solve)} />;
             }
         };
@@ -53,7 +56,7 @@ export const QuizPage = () => {
             <Box flexGrow={0}>
                 <PageHeading title="Quiz" canGoBack />
             </Box>
-            <Box px={4} pb={8} flexGrow={1} w='100%'>
+            <Box px={4} pb={2} flexGrow={1} w='100%'>
                 {renderQuizStep()}
             </Box>
         </Flex>

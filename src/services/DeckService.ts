@@ -4,6 +4,7 @@ import { apiClient } from "./AxiosInstance";
 import { FlashCard } from "../model/FlashCard";
 import { NewDeck } from "../model/NewDeck";
 import { QuizStat } from "../model/QuizStat";
+import { QuizMode } from "../model/QuizMode";
 
 export const getDecks = async () =>
     apiClient
@@ -48,9 +49,9 @@ export const addCard = async (deckId: number, card: FlashCard) =>
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const getQuizCards = async (deckId: number) =>
+export const getQuizCards = async (deckId: number, numberOfCards: number, quizMode: QuizMode) =>
     apiClient
-        .get(`/decks/${deckId}/quiz/cards`)
+        .get(`/decks/${deckId}/quiz/cards?numberOfCards=${numberOfCards}&quizMode=${quizMode}`)
         .then(res => res.data as FlashCard[])
         .catch((err: AxiosError) => Promise.reject(err));
 

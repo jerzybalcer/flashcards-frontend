@@ -60,7 +60,7 @@ export const DeckPage = () => {
                         </Flex>
                     </Button>
    
-                    <Button flexGrow={1} py={12} onClick={() => navigate('/quiz')}>
+                    <Button flexGrow={1} py={12} onClick={() => navigate('/quiz', { state: deck })}>
                         <Flex direction='column' justify='center' align='center' gap={4}>
                             <IconCheckbox size={32}/>
                             <Text>Quiz</Text>

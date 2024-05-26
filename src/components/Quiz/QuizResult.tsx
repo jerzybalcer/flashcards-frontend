@@ -1,15 +1,17 @@
 import { Box, Button, Center, Flex, Heading, Text } from "@chakra-ui/react";
 import { QuizResultStat } from "./QuizResultStat";
 import { QuizFlashCard } from "../../model/QuizFlashCard";
+import { Deck } from "../../model/Deck";
 
 interface QuizResultProps {
+    deck: Deck;
     resultCards: QuizFlashCard[];
     numberOfCards: number;
     onStartAgain: () => void;
     onFinish: () => void;
 }
 
-export const QuizResult: React.FC<QuizResultProps> = ({ resultCards, numberOfCards, onStartAgain, onFinish }) => {
+export const QuizResult: React.FC<QuizResultProps> = ({ deck, resultCards, numberOfCards, onStartAgain, onFinish }) => {
 
     const numberCorrectAnswers = resultCards.filter(c => c.lastAnswerCorrect).length;
     const fastestAnswer = resultCards.sort((a, b) => a.answerTimeMs - b.answerTimeMs)[0];
@@ -27,7 +29,7 @@ export const QuizResult: React.FC<QuizResultProps> = ({ resultCards, numberOfCar
     return <Flex direction='column' h='100%' gap={6}>
         <Box>
             <Heading mb={2}>Quiz result</Heading>
-            <Text>Deck: Italiano</Text>
+            <Text opacity={0.8} fontSize='lg'>{deck.name}</Text>
         </Box>
         <Flex direction='column' flexGrow={1} overflowY='auto' overflowX='hidden' position='relative'>
             <Flex position='absolute' direction='column' w='100%' pr={2} gap={4}>
@@ -41,7 +43,7 @@ export const QuizResult: React.FC<QuizResultProps> = ({ resultCards, numberOfCar
         </Flex>
         <Center gap={4}>
             <Button size='lg' variant='outline' onClick={() => onStartAgain()}>Start again</Button>
-            <Button size='lg' colorScheme="teal" onClick={() => onFinish()}>New quiz</Button>
+            <Button size='lg' colorScheme="blue" onClick={() => onFinish()}>New quiz</Button>
         </Center>
     </Flex>;
 };
