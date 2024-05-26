@@ -1,4 +1,4 @@
-import { Flex, useRadioGroup } from "@chakra-ui/react";
+import { Flex, Text, useRadioGroup } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { shuffle } from "../../utils/shuffle";
 import { Answer } from "./Answer";
@@ -50,12 +50,12 @@ export const AnswerGroup: React.FC<AnswerGroupProps> = ({ correctAnswer, allAnsw
     const radioGroup = getRootProps();
 
     return (
-        <Flex {...radioGroup} direction='column' gap={4}>
+        <Flex {...radioGroup} direction='column' gap={2} w='100%'>
         {answers.map((value) => {
             const radio = getRadioProps({ value })
             return (
             <Answer key={value} {...radio}>
-                {value}
+                <Text overflow='hidden' whiteSpace='nowrap' textOverflow='ellipsis'>{value}</Text>
             </Answer>
             )
         })}

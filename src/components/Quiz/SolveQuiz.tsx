@@ -59,7 +59,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onAnswered, onSolved
             (
             <Flex h='100%' w='100%' direction='column' justify='space-between'>
 
-                <Flex direction='column' gap={8} h='30%'>
+                <Flex direction='column' gap={6} h='30%'>
                     <ProgressBar currentValue={currentIndex} maxValue={cards.length} />
 
                     <Flex direction='column' flexGrow={1} gap={2}>

@@ -8,7 +8,7 @@ interface ProgressBarProps{
 export const ProgressBar: React.FC<ProgressBarProps> = ({ currentValue, maxValue }) => {
     return (
     <Flex w='100%' gap={4} align='center'>
-        <Progress value={currentValue} max={maxValue} flexGrow={1} borderRadius='md' />
+        <Progress value={currentValue} max={maxValue} flexGrow={1} borderRadius='md' size='sm' />
         <Text opacity={0.8} fontSize='sm'>{currentValue} / {maxValue}</Text>
     </Flex>
     );
