@@ -41,9 +41,9 @@ export const QuizResult: React.FC<QuizResultProps> = ({ deck, resultCards, numbe
                 <QuizResultStat label="Just learned" value="Foreign word" details="And 11 more new words"/> */}
             </Flex>
         </Flex>
-        <Center gap={4}>
-            <Button size='lg' variant='outline' onClick={() => onStartAgain()}>Start again</Button>
-            <Button size='lg' colorScheme="blue" onClick={() => onFinish()}>New quiz</Button>
-        </Center>
+        <Flex w='100%' gap={2} align='center'>
+            <Button w='40%' py={6} fontSize='md' colorScheme="blue" borderRadius='xl' variant='link' onClick={() => onStartAgain()}>Start again</Button>
+            <Button w='60%' py={6} fontSize='md' colorScheme="blue" borderRadius='xl' onClick={() => onFinish()}>New quiz</Button>
+        </Flex>
     </Flex>;
 };
