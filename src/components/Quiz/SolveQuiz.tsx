@@ -59,13 +59,16 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onAnswered, onSolved
             (
             <Flex h='100%' w='100%' direction='column' justify='space-between'>
 
-                <Flex direction='column' gap={4} h='30%'>
+                <Flex direction='column' gap={8} h='30%'>
                     <ProgressBar currentValue={currentIndex} maxValue={cards.length} />
 
-                    <Heading size='lg'>Choose translation for:</Heading>
-                    <Box flexGrow={1} ref={wordContainerRef} borderRadius='md'>
-                        <FittedText maxFontSize={32} content={currentCard().foreignWord} containerRef={wordContainerRef} />
-                    </Box>
+                    <Flex direction='column' flexGrow={1} gap={2}>
+                        <Heading size='lg'>Choose translation for:</Heading>
+                        <Box flexGrow={1} ref={wordContainerRef} borderRadius='md'>
+                            <FittedText maxFontSize={24} content={currentCard().foreignWord} containerRef={wordContainerRef} color='blue.200' />
+                        </Box>
+                    </Flex>
+
                 </Flex>
                 
                 <Box w='100%'>

@@ -7,9 +7,10 @@ interface FittedTextProps {
     singleLine?: boolean;
     padding?: number;
     maxFontSize?: number;
+    color?: string;
 }
 
-export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, singleLine = false, padding = 0, maxFontSize = 100}) => {
+export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, singleLine = false, padding = 0, maxFontSize = 100, color = 'initial' }) => {
     const textRef = useRef<HTMLParagraphElement>(null);
 
     const adjustFontSize = () => {
@@ -50,5 +51,5 @@ export const FittedText: React.FC<FittedTextProps> = ({content, containerRef, si
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <Text p={padding} whiteSpace={singleLine ? 'nowrap' : 'initial'} ref={textRef} color='blue.200'>{content}</Text>
+    return <Text p={padding} whiteSpace={singleLine ? 'nowrap' : 'initial'} ref={textRef} color={color}>{content}</Text>
 }
