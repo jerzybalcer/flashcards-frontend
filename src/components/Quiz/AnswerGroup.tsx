@@ -1,7 +1,6 @@
-import { Flex, Text, useRadioGroup } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { shuffle } from "../../utils/shuffle";
-import { Answer } from "./Answer";
+import { RadioCardGroup } from "../RadioCardGroup";
 
 interface AnswerGroupProps {
     correctAnswer: string;
@@ -36,29 +35,10 @@ export const AnswerGroup: React.FC<AnswerGroupProps> = ({ correctAnswer, allAnsw
     };
 
     useEffect(() => {
-        setSelectedAnswer('');
         setAnswers(getPossibleAnswers());
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [correctAnswer]);
 
-
-    const { getRootProps, getRadioProps, setValue: setSelectedAnswer } = useRadioGroup({
-        name: 'possibleAnswers',
-        onChange: handleAnswerClick,
-    })
-
-    const radioGroup = getRootProps();
-
-    return (
-        <Flex {...radioGroup} direction='column' gap={2} w='100%'>
-        {answers.map((value) => {
-            const radio = getRadioProps({ value })
-            return (
-            <Answer key={value} {...radio}>
-                <Text overflow='hidden' whiteSpace='nowrap' textOverflow='ellipsis'>{value}</Text>
-            </Answer>
-            )
-        })}
-        </Flex>
-    )
+    
+    return <RadioCardGroup options={answers} onChange={(value) => handleAnswerClick(value)} />;
 };

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Box, Button, Flex, FormControl, FormLabel, Heading, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Radio, RadioGroup, SimpleGrid } from "@chakra-ui/react"
+import { Box, Button, Flex, FormControl, FormLabel, Heading, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react"
 import { Deck } from "../../model/Deck";
 import { QuizMode } from "../../model/QuizMode";
+import { RadioCardGroup } from "../RadioCardGroup";
 
 interface SetupQuizProps {
     deck: Deck;
@@ -9,7 +10,7 @@ interface SetupQuizProps {
 }
 
 export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
-    const defaultNumberOfCards = Math.max(20, deck.cardsCount/2);
+    const defaultNumberOfCards = Math.floor(deck.cardsCount/2) % 2 === 0 ? Math.floor(deck.cardsCount/2) : Math.ceil(deck.cardsCount/2);
 
     const [numbersOfCards, setNumberOfCards] = useState<number>(defaultNumberOfCards);
     const [quizMode, setQuizMode] = useState<QuizMode>(QuizMode.SingleChoice);
@@ -20,7 +21,13 @@ export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
             <FormControl isRequired display='flex' justifyContent='center' flexDir='column' gap={8} px={4}>
                 <Box>
                     <FormLabel>Number of cards</FormLabel>
-                    <NumberInput defaultValue={defaultNumberOfCards} min={Math.max(10, deck.cardsCount/2)} max={deck.cardsCount} onChange={(_, number) => setNumberOfCards(number)} isDisabled>
+                    <NumberInput defaultValue={defaultNumberOfCards} 
+                        min={1} 
+                        max={deck.cardsCount} 
+                        onChange={(_, number) => setNumberOfCards(number)} 
+                        isDisabled
+                        size='lg'
+                        borderRadius='xl'>
                     <NumberInputField />
                     <NumberInputStepper>
                         <NumberIncrementStepper />
@@ -30,14 +37,10 @@ export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
                 </Box>
                 <Box>
                     <FormLabel>Mode</FormLabel>
-                    <RadioGroup defaultValue={QuizMode.SingleChoice} onChange={(value) => setQuizMode(value as QuizMode)}>
-                        <SimpleGrid columns={2} spacing={4}>
-                            <Radio value={QuizMode.SingleChoice}>Single-choice</Radio>
-                            <Radio value={QuizMode.OpenText} isDisabled>Open-text</Radio>
-                            <Radio value={QuizMode.TrueFalse} isDisabled>True/false</Radio>
-                            <Radio value={QuizMode.Mixed} isDisabled>Mixed</Radio>
-                        </SimpleGrid>
-                    </RadioGroup>
+                    <RadioCardGroup defaultValue={QuizMode.SingleChoice} 
+                        onChange={(value) => setQuizMode(value as QuizMode)} 
+                        options={Object.values(QuizMode)}
+                        isDisabled/>
                 </Box>
             </FormControl>
         </Flex>
