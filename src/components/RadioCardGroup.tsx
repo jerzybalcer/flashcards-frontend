@@ -19,6 +19,7 @@ export const RadioCardGroup: React.FC<RadioCardGroupProps> = ({ options, onChang
 
     useEffect(() => {
         setValue(defaultValue ?? '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [options]);
     
     return (
