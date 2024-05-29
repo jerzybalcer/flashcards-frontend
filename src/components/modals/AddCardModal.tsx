@@ -43,7 +43,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
         onError: handleError,
     });
 
-    const fileMutation = useMutation((file: File) => addCardsFromFile(deckId, file), 
+    const fileMutation = useMutation((file: File) => addCardsFromFile(deckId, file, ';'), 
     {
         onSuccess: () => handleSuccess('Succesfully saved cards', `Unique cards from file imported`),
         onError: handleError,
