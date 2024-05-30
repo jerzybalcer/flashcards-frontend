@@ -4,26 +4,26 @@ import { useQuery } from "react-query";
 import { getQuizCards } from "../../services/DeckService";
 import { Loading } from "../Loading";
 import { AnswerGroup } from "./AnswerGroup";
-import { QuizFlashCard } from "../../model/QuizFlashCard";
+import { QuizAnsweredQuestion } from "../../model/QuizAnsweredQuestion";
 import { FittedText } from "../FittedText";
 import { Deck } from "../../model/Deck";
 import { ProgressBar } from "../ProgressBar";
-import { QuizMode } from "../../model/QuizMode";
 
 interface SolveQuizProps {
     deck: Deck;
-    onAnswered: (resultCard: QuizFlashCard) => void;
+    numberOfCards: number;
+    onAnswered: (resultCard: QuizAnsweredQuestion) => void;
     onSolvedQuiz: () => void;
 }
 
-export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onAnswered, onSolvedQuiz }) => {
+export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, numberOfCards, onAnswered, onSolvedQuiz }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(1);
     const [startTimeMs, setStartTimeMs] = useState<number>(0);
     const [answer, setAnswer] = useState<string>('');
     const wordContainerRef = useRef<HTMLDivElement>(null);
     
     const { data: cards, isLoading: cardsLoading } = 
-        useQuery(`quizCards-deck=${deck.id}`, () => getQuizCards(Number(deck.id), 20, QuizMode.SingleChoice), { staleTime: Infinity });
+        useQuery(`quizCards-deck=${deck.id}`, () => getQuizCards(Number(deck.id), numberOfCards), { staleTime: Infinity });
 
     const currentCard = () => cards![currentIndex - 1];
 
@@ -35,7 +35,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onAnswered, onSolved
     };
 
     const handleOnAnswered = () => {
-        const resultFlashCard: QuizFlashCard = {
+        const resultFlashCard: QuizAnsweredQuestion = {
             id: currentCard().id!,
             foreignWord: currentCard().foreignWord,
             translatedWord: currentCard().translatedWord,

@@ -1,11 +1,11 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { QuizResultStat } from "./QuizResultStat";
-import { QuizFlashCard } from "../../model/QuizFlashCard";
+import { QuizAnsweredQuestion } from "../../model/QuizAnsweredQuestion";
 import { Deck } from "../../model/Deck";
 
 interface QuizResultProps {
     deck: Deck;
-    resultCards: QuizFlashCard[];
+    resultCards: QuizAnsweredQuestion[];
     numberOfCards: number;
     onStartAgain: () => void;
     onFinish: () => void;
@@ -34,8 +34,8 @@ export const QuizResult: React.FC<QuizResultProps> = ({ deck, resultCards, numbe
         <Flex direction='column' flexGrow={1} overflowY='auto' overflowX='hidden' position='relative'>
             <Flex position='absolute' direction='column' w='100%' pr={2} gap={4}>
                 <QuizResultStat label="Correct answers" value={numberCorrectAnswers + ' / ' + numberOfCards} details={numberCorrectAnswersText()}/>
-                <QuizResultStat label="Fastest answer" value={fastestAnswer.foreignWord} details={fastestAnswer.answerTimeMs / 1000 + ' seconds'}/>
-                <QuizResultStat label="Longest answer" value={longestAnswer.foreignWord} details={longestAnswer.answerTimeMs / 1000 + ' seconds'}/>
+                <QuizResultStat label="Fastest answer" value={fastestAnswer.flashCard.foreignWord} details={fastestAnswer.answerTimeMs / 1000 + ' seconds'}/>
+                <QuizResultStat label="Longest answer" value={longestAnswer.flashCard.foreignWord} details={longestAnswer.answerTimeMs / 1000 + ' seconds'}/>
                 {/* <QuizResultStat label="Well known" value="Foreign word" details="8 correct answers in a row"/>
                 <QuizResultStat label="Greatest challenge" value="Foreign word" details="Struggling the 6th time"/>
                 <QuizResultStat label="Just learned" value="Foreign word" details="And 11 more new words"/> */}

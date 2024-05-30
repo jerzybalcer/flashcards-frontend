@@ -4,7 +4,7 @@ import { apiClient } from "./AxiosInstance";
 import { FlashCard } from "../model/FlashCard";
 import { NewDeck } from "../model/NewDeck";
 import { QuizStat } from "../model/QuizStat";
-import { QuizMode } from "../model/QuizMode";
+import { QuizFlashCard } from "../model/QuizFlashCard";
 
 export const getDecks = async () =>
     apiClient
@@ -49,10 +49,10 @@ export const addCard = async (deckId: number, card: FlashCard) =>
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const getQuizCards = async (deckId: number, numberOfCards: number, quizMode: QuizMode) =>
+export const getQuizCards = async (deckId: number, numberOfCards: number) =>
     apiClient
-        .get(`/decks/${deckId}/quiz/cards?number_of_cards=${numberOfCards}&quiz_mode=${quizMode}`)
-        .then(res => res.data as FlashCard[])
+        .get(`/decks/${deckId}/quiz/cards?number_of_cards=${numberOfCards}`)
+        .then(res => res.data as QuizFlashCard[])
         .catch((err: AxiosError) => Promise.reject(err));
 
 // TODO: fix
