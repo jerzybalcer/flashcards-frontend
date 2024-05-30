@@ -31,12 +31,13 @@ export const getCards = async (deckId: number) =>
         .then(res => res.data as FlashCard[])
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const addCardsFromFile = async (deckId: number, file: File) => {
+export const addCardsFromFile = async (deckId: number, file: File, delimiter: string) => {
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('delimiter', delimiter)
 
     return apiClient
-        .post(`/decks/${deckId}/cards`, formData)
+        .post(`/decks/${deckId}/file`, formData)
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
 }
