@@ -23,8 +23,6 @@ export const QuizPage = () => {
 
         const { state: deck } = useLocation();
         
-        const queryClient = useQueryClient();
-        
         const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(1, resultCards));
         
         const handleQuizSolved = () => {
@@ -53,11 +51,6 @@ export const QuizPage = () => {
             if(currentStep !== QuizSteps.Result)
                 setResultCards([]);
         }, [currentStep]);
-
-        useEffect(() => { 
-            queryClient.invalidateQueries(`quizCards-deck=${deck.id}`)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, []);
 
         return (
         <Flex direction='column' h='100%'>

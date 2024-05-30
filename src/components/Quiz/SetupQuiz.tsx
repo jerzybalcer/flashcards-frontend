@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Flex, FormControl, FormLabel, Heading, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react"
 import { Deck } from "../../model/Deck";
 import { QuizMode } from "../../model/QuizMode";
 import { RadioCardGroup } from "../RadioCardGroup";
+import { useQueryClient } from "react-query";
 
 interface SetupQuizProps {
     deck: Deck;
@@ -10,10 +11,17 @@ interface SetupQuizProps {
 }
 
 export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
-    const defaultNumberOfCards = Math.floor(deck.cardsCount/2) % 2 === 0 ? Math.floor(deck.cardsCount/2) : Math.ceil(deck.cardsCount/2);
+    const defaultNumberOfCards = Math.round(deck.cardsCount/2);
 
     const [numbersOfCards, setNumberOfCards] = useState<number>(defaultNumberOfCards);
     const [quizMode, setQuizMode] = useState<QuizMode>(QuizMode.SingleChoice);
+
+    const queryClient = useQueryClient();
+
+    useEffect(() => { 
+        queryClient.invalidateQueries(`quizCards-deck=${deck.id}`)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return  <Flex direction='column' justifyContent='space-between' h='100%'>
         <Heading>Setup</Heading>
@@ -25,7 +33,6 @@ export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
                         min={1} 
                         max={deck.cardsCount} 
                         onChange={(_, number) => setNumberOfCards(number)} 
-                        isDisabled
                         size='lg'
                         borderRadius='xl'>
                     <NumberInputField />

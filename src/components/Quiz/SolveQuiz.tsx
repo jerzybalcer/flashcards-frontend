@@ -20,6 +20,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, numberOfCards, onAns
     const [currentIndex, setCurrentIndex] = useState<number>(1);
     const [startTimeMs, setStartTimeMs] = useState<number>(0);
     const [answer, setAnswer] = useState<string>('');
+    const [possibleAnswers, setPossibleAnswers] = useState<string[]>([]);
     const wordContainerRef = useRef<HTMLDivElement>(null);
     
     const { data: cards, isLoading: cardsLoading } = 
@@ -36,9 +37,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, numberOfCards, onAns
 
     const handleOnAnswered = () => {
         const resultFlashCard: QuizAnsweredQuestion = {
-            id: currentCard().id!,
-            foreignWord: currentCard().foreignWord,
-            translatedWord: currentCard().translatedWord,
+            flashCard: currentCard(),
             lastAnswerCorrect: answer === currentCard().translatedWord,
             answerTimeMs: new Date().getTime() - startTimeMs
         }
@@ -50,6 +49,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, numberOfCards, onAns
     useEffect(() => {
         setAnswer('');
         setStartTimeMs(new Date().getTime());
+        setPossibleAnswers(cards ? [...currentCard().wrongAnswers, currentCard().foreignWord] : []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentIndex, cards]);
 
@@ -65,14 +65,14 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, numberOfCards, onAns
                     <Flex direction='column' flexGrow={1} gap={2}>
                         <Heading size='lg'>Choose translation for:</Heading>
                         <Box flexGrow={1} ref={wordContainerRef} borderRadius='md'>
-                            <FittedText maxFontSize={24} content={currentCard().foreignWord} containerRef={wordContainerRef} color='blue.200' />
+                            <FittedText maxFontSize={24} content={currentCard().translatedWord} containerRef={wordContainerRef} color='blue.200' />
                         </Box>
                     </Flex>
 
                 </Flex>
                 
                 <Box w='100%'>
-                    <AnswerGroup correctAnswer={currentCard().translatedWord} allAnswers={cards.map(c => c.translatedWord)} 
+                    <AnswerGroup answers={possibleAnswers} 
                         onAnswerChosen={(answer) => setAnswer(answer)}/>
                 </Box>
 
