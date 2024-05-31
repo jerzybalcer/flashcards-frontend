@@ -20,7 +20,7 @@ export const DeckPage = () => {
     const { state: deck } = useLocation();
     const navigate = useNavigate();
 
-    const { isLoading: cardsLoading, data: cards } = useQuery(`deck-${deck.id}-cards`, () => getCards(deck.id));
+    const { isFetching: cardsLoading, data: cards } = useQuery(`deck-${deck.id}-cards`, () => getCards(deck.id));
 
     const onAddCardModalOpen = (flashCard?: FlashCard) => {
         setFlashCardInEdit(flashCard);

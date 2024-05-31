@@ -23,7 +23,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, numberOfCards, onAns
     const [possibleAnswers, setPossibleAnswers] = useState<string[]>([]);
     const wordContainerRef = useRef<HTMLDivElement>(null);
     
-    const { data: cards, isLoading: cardsLoading } = 
+    const { data: cards, isFetching: cardsLoading } = 
         useQuery(`quizCards-deck=${deck.id}`, () => getQuizCards(Number(deck.id), numberOfCards), { staleTime: Infinity });
 
     const currentCard = () => cards![currentIndex - 1];

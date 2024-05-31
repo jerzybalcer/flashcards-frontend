@@ -13,7 +13,7 @@ interface AddDeckModalProps {
 }
 
 export const AddDeckModal: React.FC<AddDeckModalProps> = ({ isOpen, onClose }) => {
-    const { isLoading: languagesLoading, data: languages } = useQuery('languages', getLanguages);
+    const { isFetching: languagesLoading, data: languages } = useQuery('languages', getLanguages);
 
     const [name, setName] = useState<string>('');
     const [languageId, setLanguageId] = useState<string>('');

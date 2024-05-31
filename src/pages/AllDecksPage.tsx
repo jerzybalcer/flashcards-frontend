@@ -12,7 +12,7 @@ import { AddDeckModal } from "../components/modals/AddDeckModal";
 
 
 export const AllDecksPage = () => {
-    const { isLoading: decksLoading, data: decks } = useQuery('decks', getDecks);
+    const { isFetching: decksLoading, data: decks } = useQuery('decks', getDecks);
 
     const [displayedDecks, setDisplayedDecks] = useState<Deck[]>([]);
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
