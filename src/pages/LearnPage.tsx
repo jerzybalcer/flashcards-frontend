@@ -5,6 +5,7 @@ import { PageHeading } from "../components/PageHeading"
 import { FlippableFlashCard } from "../components/FlippableFlashCard/FlippableFlashCard"
 import { useLocation } from "react-router-dom"
 import { ProgressBar } from "../components/ProgressBar"
+import { LearnSettingsModal } from "../components/modals/LearnSettingsModal"
 
 export const LearnPage = () => {
     const [currentWord, setCurrentWord] = useState<number>(1);
@@ -29,7 +30,10 @@ export const LearnPage = () => {
             <PageHeading title="Learn" canGoBack />
 
             <Flex flexGrow={1} direction='column' justify='space-between' px={4} pb={2} {...swipeHandlers}>
-                <ProgressBar currentValue={currentWord} maxValue={state.cards.length} />
+                <Flex gap={2}>
+                    <LearnSettingsModal onAutoReadChange={() => {}} onDefaultSideChange={() => {}} />
+                    <ProgressBar currentValue={currentWord} maxValue={state.cards.length} />
+                </Flex>
 
                 <Flex direction='column' justify='space-between' align='center'>
                     <Flex w='80dvw' h='45dvh' position='relative' justify='center'>
