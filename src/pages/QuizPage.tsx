@@ -34,6 +34,11 @@ export const QuizPage = () => {
             setCurrentStep(QuizSteps.Result);
         };
 
+        const handleStartAgain = () => {
+            context.setAnsweredQuestions([]);
+            setCurrentStep(QuizSteps.Solve);
+        }
+
         const renderQuizStep = () => {
             if(deckLoading || !deck) return <Loading />;
 
@@ -44,7 +49,7 @@ export const QuizPage = () => {
                     return <SolveQuiz deck={deck} onSolvedQuiz={() => handleQuizSolved()} />
                 case QuizSteps.Result: 
                     return <QuizResult deck={deck}
-                        onFinish={() => setCurrentStep(QuizSteps.Setup)} onStartAgain={() => setCurrentStep(QuizSteps.Solve)} />;
+                        onFinish={() => setCurrentStep(QuizSteps.Setup)} onStartAgain={() => handleStartAgain()} />;
             }
         };
 
