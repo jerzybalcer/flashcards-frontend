@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Box, Flex } from "@chakra-ui/react"
 import { useMutation } from "react-query";
 import { PageHeading } from "../components/PageHeading"
 import { SetupQuiz } from "../components/Quiz/SetupQuiz";
 import { SolveQuiz } from "../components/Quiz/SolveQuiz";
 import { QuizResult } from "../components/Quiz/QuizResult";
-import { QuizAnsweredQuestion } from "../model/QuizAnsweredQuestion";
 import { updateQuizCards } from "../services/DeckService";
 import { QuizStat } from "../model/QuizStat";
 import { useLocation } from "react-router-dom";
+import { QuizContext } from './../contexts/QuizContext';
 
 enum QuizSteps {
     Setup,
@@ -18,14 +18,15 @@ enum QuizSteps {
 
 export const QuizPage = () => {
         const [currentStep, setCurrentStep] = useState<QuizSteps>(QuizSteps.Setup);
-        const [numberOfCards, setNumberOfCards] = useState<number>(0);
+
+        const context = useContext(QuizContext)!;
 
         const { state: deck } = useLocation();
         
         const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(1, resultCards));
         
-        const handleQuizSolved = (resultCards: QuizAnsweredQuestion[]) => {
-            const quizStats = resultCards.map(c => ({id: c.flashCard.id!, answerTimeMs: c.answerTimeMs, lastAnswerCorrect: c.lastAnswerCorrect }));
+        const handleQuizSolved = () => {
+            const quizStats = context.answeredQuestions.map(c => ({id: c.flashCard.id!, answerTimeMs: c.answerTimeMs, lastAnswerCorrect: c.lastAnswerCorrect }));
             quizResultMutation.mutate(quizStats);
             setCurrentStep(QuizSteps.Result);
         };
@@ -33,18 +34,19 @@ export const QuizPage = () => {
         const renderQuizStep = () => {
             switch(currentStep){
                 case QuizSteps.Setup: 
-                    return <SetupQuiz deck={deck} onStartQuiz={(numberOfCards) => { setCurrentStep(QuizSteps.Solve); setNumberOfCards(numberOfCards) }} />;
+                    return <SetupQuiz deck={deck} onStartQuiz={() => setCurrentStep(QuizSteps.Solve)} />;
                 case QuizSteps.Solve: 
-                    return <SolveQuiz deck={deck} numberOfCards={numberOfCards} onSolvedQuiz={(resultCards) => handleQuizSolved(resultCards)} />
+                    return <SolveQuiz deck={deck} onSolvedQuiz={() => handleQuizSolved()} />
                 case QuizSteps.Result: 
-                    return <QuizResult deck={deck} resultCards={resultCards} numberOfCards={20}
+                    return <QuizResult deck={deck}
                         onFinish={() => setCurrentStep(QuizSteps.Setup)} onStartAgain={() => setCurrentStep(QuizSteps.Solve)} />;
             }
         };
 
         useEffect(() => {
             if(currentStep !== QuizSteps.Result)
-                setResultCards([]);
+                context.setAnsweredQuestions([]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [currentStep]);
 
         return (

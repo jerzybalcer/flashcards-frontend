@@ -5,6 +5,7 @@ import { LearnPage } from './pages/LearnPage';
 import { QuizPage } from './pages/QuizPage';
 import { AllDecksPage } from './pages/AllDecksPage';
 import { Box } from '@chakra-ui/react';
+import { QuizContextProvider } from './contexts/QuizContext';
 
 export const App = () => {
   return (
@@ -14,7 +15,7 @@ export const App = () => {
           <Route path='/decks' element={<AllDecksPage />} />
           <Route path='/decks/:deckId' element={<DeckPage />} />
           <Route path='/learn' element={<LearnPage></LearnPage>} />
-          <Route path='/quiz' element={<QuizPage></QuizPage>} />
+          <Route path='/quiz' element={<QuizContextProvider><QuizPage /></QuizContextProvider>} />
         </Routes>
     </Box>
   )

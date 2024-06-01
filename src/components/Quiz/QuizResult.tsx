@@ -1,24 +1,25 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { QuizResultStat } from "./QuizResultStat";
-import { QuizAnsweredQuestion } from "../../model/QuizAnsweredQuestion";
 import { Deck } from "../../model/Deck";
+import { useContext } from "react";
+import { QuizContext } from "../../contexts/QuizContext";
 
 interface QuizResultProps {
     deck: Deck;
-    resultCards: QuizAnsweredQuestion[];
-    numberOfCards: number;
     onStartAgain: () => void;
     onFinish: () => void;
 }
 
-export const QuizResult: React.FC<QuizResultProps> = ({ deck, resultCards, numberOfCards, onStartAgain, onFinish }) => {
+export const QuizResult: React.FC<QuizResultProps> = ({ deck, onStartAgain, onFinish }) => {
 
-    const numberCorrectAnswers = resultCards.filter(c => c.lastAnswerCorrect).length;
-    const fastestAnswer = resultCards.sort((a, b) => a.answerTimeMs - b.answerTimeMs)[0];
-    const longestAnswer = resultCards.sort((a, b) => b.answerTimeMs - a.answerTimeMs)[0];
+    const context = useContext(QuizContext)!;
+
+    const numberCorrectAnswers = context.answeredQuestions.filter(c => c.lastAnswerCorrect).length;
+    const fastestAnswer = context.answeredQuestions.sort((a, b) => a.answerTimeMs - b.answerTimeMs)[0];
+    const longestAnswer = context.answeredQuestions.sort((a, b) => b.answerTimeMs - a.answerTimeMs)[0];
 
     const numberCorrectAnswersText = () => {
-        const percent = numberCorrectAnswers/numberOfCards;
+        const percent = numberCorrectAnswers/context.numberOfCards;
 
         if(percent <= 0.25) return 'At least you know some of them!';
         else if(percent <= 0.5) return 'You already know half of them!';
@@ -33,7 +34,7 @@ export const QuizResult: React.FC<QuizResultProps> = ({ deck, resultCards, numbe
         </Box>
         <Flex direction='column' flexGrow={1} overflowY='auto' overflowX='hidden' position='relative'>
             <Flex position='absolute' direction='column' w='100%' pr={2} gap={4}>
-                <QuizResultStat label="Correct answers" value={numberCorrectAnswers + ' / ' + numberOfCards} details={numberCorrectAnswersText()}/>
+                <QuizResultStat label="Correct answers" value={numberCorrectAnswers + ' / ' + context.numberOfCards} details={numberCorrectAnswersText()}/>
                 <QuizResultStat label="Fastest answer" value={fastestAnswer.flashCard.foreignWord} details={fastestAnswer.answerTimeMs / 1000 + ' seconds'}/>
                 <QuizResultStat label="Longest answer" value={longestAnswer.flashCard.foreignWord} details={longestAnswer.answerTimeMs / 1000 + ' seconds'}/>
                 {/* <QuizResultStat label="Well known" value="Foreign word" details="8 correct answers in a row"/>

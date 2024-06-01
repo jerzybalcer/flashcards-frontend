@@ -1,25 +1,26 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Box, Button, Flex, FormControl, FormLabel, Heading, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react"
 import { Deck } from "../../model/Deck";
 import { QuizMode } from "../../model/QuizMode";
 import { RadioCardGroup } from "../RadioCardGroup";
 import { useQueryClient } from "react-query";
+import { QuizContext } from "../../contexts/QuizContext";
 
 interface SetupQuizProps {
     deck: Deck;
-    onStartQuiz: (numberOfCards: number, quizMode: QuizMode) => void;
+    onStartQuiz: () => void;
 }
 
 export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
     const defaultNumberOfCards = Math.round(deck.cardsCount/2);
 
-    const [numbersOfCards, setNumberOfCards] = useState<number>(defaultNumberOfCards);
-    const [quizMode, setQuizMode] = useState<QuizMode>(QuizMode.SingleChoice);
+    const context = useContext(QuizContext)!;
 
     const queryClient = useQueryClient();
 
     useEffect(() => { 
         queryClient.invalidateQueries(`quizCards-deck=${deck.id}`)
+        context.setNumberOfCards(defaultNumberOfCards);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -32,7 +33,7 @@ export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
                     <NumberInput defaultValue={defaultNumberOfCards} 
                         min={1} 
                         max={deck.cardsCount} 
-                        onChange={(_, number) => setNumberOfCards(number)} 
+                        onChange={(_, number) => context.setNumberOfCards(number)} 
                         size='lg'
                         borderRadius='xl'>
                     <NumberInputField />
@@ -45,12 +46,12 @@ export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
                 <Box>
                     <FormLabel>Mode</FormLabel>
                     <RadioCardGroup defaultValue={QuizMode.SingleChoice} 
-                        onChange={(value) => setQuizMode(value as QuizMode)} 
+                        onChange={() => {}} 
                         options={Object.values(QuizMode)}
                         isDisabled/>
                 </Box>
             </FormControl>
         </Flex>
-        <Button py={6} fontSize='lg' colorScheme="blue" borderRadius='xl' onClick={() => onStartQuiz(numbersOfCards, quizMode)}>Start Quiz</Button>
+        <Button py={6} fontSize='lg' colorScheme="blue" borderRadius='xl' onClick={() => onStartQuiz()}>Start Quiz</Button>
     </Flex>
 }
