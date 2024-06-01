@@ -12,14 +12,14 @@ import { ProgressBar } from "../ProgressBar";
 interface SolveQuizProps {
     deck: Deck;
     numberOfCards: number;
-    onAnswered: (resultCard: QuizAnsweredQuestion) => void;
-    onSolvedQuiz: () => void;
+    onSolvedQuiz: (resultCard: QuizAnsweredQuestion[]) => void;
 }
 
-export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, numberOfCards, onAnswered, onSolvedQuiz }) => {
+export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, numberOfCards, onSolvedQuiz }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(1);
     const [startTimeMs, setStartTimeMs] = useState<number>(0);
     const [answer, setAnswer] = useState<string>('');
+    const [resultCards, setResultCards] = useState<QuizAnsweredQuestion[]>([]);
     const [possibleAnswers, setPossibleAnswers] = useState<string[]>([]);
     const wordContainerRef = useRef<HTMLDivElement>(null);
     
@@ -32,17 +32,17 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, numberOfCards, onAns
         if(currentIndex < cards!.length)
             setCurrentIndex(currentIndex + 1)
         else
-            onSolvedQuiz();
+            onSolvedQuiz(resultCards);
     };
 
     const handleOnAnswered = () => {
         const resultFlashCard: QuizAnsweredQuestion = {
             flashCard: currentCard(),
-            lastAnswerCorrect: answer === currentCard().translatedWord,
+            lastAnswerCorrect: answer === currentCard().foreignWord,
             answerTimeMs: new Date().getTime() - startTimeMs
         }
 
-        onAnswered(resultFlashCard);
+        setResultCards([...resultCards, resultFlashCard]);
         handleNext();
     };
 

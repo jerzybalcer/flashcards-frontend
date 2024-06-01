@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Box, Flex } from "@chakra-ui/react"
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { PageHeading } from "../components/PageHeading"
 import { SetupQuiz } from "../components/Quiz/SetupQuiz";
 import { SolveQuiz } from "../components/Quiz/SolveQuiz";
@@ -18,21 +18,16 @@ enum QuizSteps {
 
 export const QuizPage = () => {
         const [currentStep, setCurrentStep] = useState<QuizSteps>(QuizSteps.Setup);
-        const [resultCards, setResultCards] = useState<QuizAnsweredQuestion[]>([]);
         const [numberOfCards, setNumberOfCards] = useState<number>(0);
 
         const { state: deck } = useLocation();
         
         const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(1, resultCards));
         
-        const handleQuizSolved = () => {
+        const handleQuizSolved = (resultCards: QuizAnsweredQuestion[]) => {
             const quizStats = resultCards.map(c => ({id: c.flashCard.id!, answerTimeMs: c.answerTimeMs, lastAnswerCorrect: c.lastAnswerCorrect }));
             quizResultMutation.mutate(quizStats);
             setCurrentStep(QuizSteps.Result);
-        };
-
-        const handleAnswered = (resultCard: QuizAnsweredQuestion) => {
-            setResultCards([...resultCards, resultCard]);
         };
 
         const renderQuizStep = () => {
@@ -40,7 +35,7 @@ export const QuizPage = () => {
                 case QuizSteps.Setup: 
                     return <SetupQuiz deck={deck} onStartQuiz={(numberOfCards) => { setCurrentStep(QuizSteps.Solve); setNumberOfCards(numberOfCards) }} />;
                 case QuizSteps.Solve: 
-                    return <SolveQuiz deck={deck} numberOfCards={numberOfCards} onAnswered={(resultCard) => handleAnswered(resultCard)} onSolvedQuiz={() => handleQuizSolved()} />
+                    return <SolveQuiz deck={deck} numberOfCards={numberOfCards} onSolvedQuiz={(resultCards) => handleQuizSolved(resultCards)} />
                 case QuizSteps.Result: 
                     return <QuizResult deck={deck} resultCards={resultCards} numberOfCards={20}
                         onFinish={() => setCurrentStep(QuizSteps.Setup)} onStartAgain={() => setCurrentStep(QuizSteps.Solve)} />;
