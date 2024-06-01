@@ -10,7 +10,7 @@ import { QuizFlashCard } from "../model/QuizFlashCard";
 export const getDeck = async (deckId: number) =>
     apiClient
         .get(`/decks/${deckId}`)
-        .then(res => humps.camelizeKeys(res.data as Deck))
+        .then(res => humps.camelizeKeys(res.data) as Deck)
         .catch((err: AxiosError) => Promise.reject(err));
 
 export const getAllDecks = async () =>
