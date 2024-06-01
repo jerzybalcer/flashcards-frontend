@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState } from "react"
 import { Box, Flex } from "@chakra-ui/react"
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { PageHeading } from "../components/PageHeading"
 import { SetupQuiz } from "../components/Quiz/SetupQuiz";
 import { SolveQuiz } from "../components/Quiz/SolveQuiz";
 import { QuizResult } from "../components/Quiz/QuizResult";
-import { updateQuizCards } from "../services/DeckService";
+import { getDeck, updateQuizCards } from "../services/DeckService";
 import { QuizStat } from "../model/QuizStat";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { QuizContext } from './../contexts/QuizContext';
+import { Loading } from "../components/Loading";
 
 enum QuizSteps {
     Setup,
@@ -21,7 +22,9 @@ export const QuizPage = () => {
 
         const context = useContext(QuizContext)!;
 
-        const { state: deck } = useLocation();
+        const { deckId } = useParams();
+
+        const { isFetching: deckLoading, data: deck } = useQuery(`deck-${deckId}`, () => getDeck(Number(deckId)));
         
         const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(1, resultCards));
         
@@ -32,6 +35,8 @@ export const QuizPage = () => {
         };
 
         const renderQuizStep = () => {
+            if(deckLoading || !deck) return <Loading />;
+
             switch(currentStep){
                 case QuizSteps.Setup: 
                     return <SetupQuiz deck={deck} onStartQuiz={() => setCurrentStep(QuizSteps.Solve)} />;

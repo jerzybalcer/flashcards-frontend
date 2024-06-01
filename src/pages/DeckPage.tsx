@@ -5,11 +5,12 @@ import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
 import { AddCardModal } from "../components/modals/AddCardModal"
 import { FlashCard } from "../model/FlashCard"
-import { getCards } from "../services/DeckService"
-import { useLocation, useNavigate } from "react-router-dom"
+import { getCards, getDeck } from "../services/DeckService"
+import { useNavigate, useParams } from "react-router-dom"
 import { ListNavigation } from "../components/ListNavigation/ListNavigation"
 import { IconCheckbox, IconSchool } from "@tabler/icons-react"
 import { DeckSettingsModal } from "../components/modals/DeckSettingsModal"
+import { Loading } from "../components/Loading"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
@@ -17,11 +18,11 @@ export const DeckPage = () => {
     const [flashCardInEdit, setFlashCardInEdit] = useState<FlashCard | undefined>();
     const [displayedCards, setDisplayedCards] = useState<FlashCard[]>([]);
 
-    const { state: deck } = useLocation();
+    const { deckId } = useParams();
     const navigate = useNavigate();
-
-    const { isFetching: cardsLoading, data: cards } = useQuery(`deck-${deck.id}-cards`, () => getCards(deck.id));
-
+    const { isFetching: deckLoading, data: deck } = useQuery(`deck-${deckId}`, () => getDeck(Number(deckId)));
+    const { isFetching: cardsLoading, data: cards } = useQuery(`deck-${deckId}-cards`, () => getCards(Number(deckId)), { enabled: !deckLoading });
+    console.log(deck)
     const onAddCardModalOpen = (flashCard?: FlashCard) => {
         setFlashCardInEdit(flashCard);
         setAddCardModalOpen(true);
@@ -41,7 +42,10 @@ export const DeckPage = () => {
     return (
         <Flex direction='column' h='100%'>
             <PageHeading title="Deck" canGoBack />
-            <Flex direction='column' px={4} gap={4} h='90%' overflowY='auto'>
+
+            {deckLoading && <Loading />}
+            {!deckLoading && deck &&
+            (<Flex direction='column' px={4} gap={4} h='90%' overflowY='auto'>
                 <Flex direction='column' gap={2}>
                     <Box>
                         <Tag size='md' colorScheme="blue" variant='subtle'>{deck.languageName.toUpperCase()}</Tag>
@@ -53,14 +57,14 @@ export const DeckPage = () => {
                 </Flex>
 
                 <Flex gap={2} mb={6}>
-                    <Button flexGrow={1} py={12} onClick={() => navigate('/learn', { state: { deck: deck, cards: cards }})}>
+                    <Button flexGrow={1} py={12} onClick={() => navigate(`/decks/${deck.id}/learn`)}>
                         <Flex direction='column' justify='center' align='center' gap={4}>
                             <IconSchool size={32}/>
                             <Text>Learn</Text>
                         </Flex>
                     </Button>
    
-                    <Button flexGrow={1} py={12} onClick={() => navigate('/quiz', { state: deck })}>
+                    <Button flexGrow={1} py={12} onClick={() => navigate(`/decks/${deck.id}/quiz`)}>
                         <Flex direction='column' justify='center' align='center' gap={4}>
                             <IconCheckbox size={32}/>
                             <Text>Quiz</Text>
@@ -71,8 +75,8 @@ export const DeckPage = () => {
                 <Heading size='md'>Flashcards</Heading>
                 <ListNavigation onAddClick={() => onAddCardModalOpen()} onSearch={(phrase) => setCardsSearchPhrase(phrase)}/>
                 <FlashCardList cards={displayedCards} cardsLoading={cardsLoading} onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) }/>
-            </Flex>
-            <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit} deckId={deck.id}/>
+            </Flex>)}
+            <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit} deckId={Number(deckId)}/>
         </Flex>
     )
 }

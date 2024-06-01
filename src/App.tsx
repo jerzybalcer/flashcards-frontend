@@ -14,8 +14,8 @@ export const App = () => {
           <Route path='/' element={<Navigate to='/decks' />} />
           <Route path='/decks' element={<AllDecksPage />} />
           <Route path='/decks/:deckId' element={<DeckPage />} />
-          <Route path='/learn' element={<LearnPage></LearnPage>} />
-          <Route path='/quiz' element={<QuizContextProvider><QuizPage /></QuizContextProvider>} />
+          <Route path='/decks/:deckId/learn' element={<LearnPage></LearnPage>} />
+          <Route path='/decks/:deckId/quiz' element={<QuizContextProvider><QuizPage /></QuizContextProvider>} />
         </Routes>
     </Box>
   )

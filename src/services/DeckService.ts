@@ -7,7 +7,13 @@ import { NewDeck } from "../model/NewDeck";
 import { QuizStat } from "../model/QuizStat";
 import { QuizFlashCard } from "../model/QuizFlashCard";
 
-export const getDecks = async () =>
+export const getDeck = async (deckId: number) =>
+    apiClient
+        .get(`/decks/${deckId}`)
+        .then(res => humps.camelizeKeys(res.data as Deck))
+        .catch((err: AxiosError) => Promise.reject(err));
+
+export const getAllDecks = async () =>
     apiClient
         .get(`/decks`)
         .then(res => res.data as Deck[])
@@ -26,7 +32,7 @@ export const deleteDeck = async (id: number) =>
         .delete(`/decks/${id}`)
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const getCards = async (deckId: number) =>
+export const getCards = async (deckId: number) => 
     apiClient
         .get(`/decks/${deckId}/cards`)
         .then(res => res.data as FlashCard[])

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import { useQuery } from "react-query";
 import { PageHeading } from "../components/PageHeading";
-import { getDecks } from "../services/DeckService";
+import { getAllDecks } from "../services/DeckService";
 import { Loading } from "../components/Loading";
 import { Deck } from "../model/Deck";
 import { ListNavigation } from "../components/ListNavigation/ListNavigation";
@@ -12,7 +12,7 @@ import { AddDeckModal } from "../components/modals/AddDeckModal";
 
 
 export const AllDecksPage = () => {
-    const { isFetching: decksLoading, data: decks } = useQuery('decks', getDecks);
+    const { isFetching: decksLoading, data: decks } = useQuery('decks', getAllDecks);
 
     const [displayedDecks, setDisplayedDecks] = useState<Deck[]>([]);
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
