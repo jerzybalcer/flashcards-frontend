@@ -1,4 +1,4 @@
-import { Card, CardBody, Text, Tag, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, HStack } from "@chakra-ui/react"
+import { Card, CardBody, Text, Tag, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, HStack, Flex, Heading } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import { Deck } from "../model/Deck"
 import { groupBy } from "../utils/arrays";
@@ -14,6 +14,13 @@ export const DeckList: React.FC<DeckListProps> = ({ decks }) => {
 
     const handleDeckClick = (deck: Deck) => {
         navigate(`/decks/${deck.id}`, { state: deck });
+    }
+
+    if(decks.length === 0){
+        return <Flex w='100%' h='100%' direction='column' justify='center' align='center' gap={4}>
+            <Heading size='md' opacity={0.8}>You have no decks</Heading>
+            <Text opacity={0.8}>Add your first deck by clicking on the plus button</Text>
+        </Flex>
     }
 
     return (
