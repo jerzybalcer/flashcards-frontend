@@ -38,7 +38,7 @@ export const LearnPage = () => {
             {!cardsLoading && cards &&
             (<Flex flexGrow={1} direction='column' justify='space-between' px={4} pb={2} {...swipeHandlers}>
                 <Flex gap={2}>
-                    <LearnSettingsModal onAutoReadChange={() => {}} onDefaultSideChange={() => {}} />
+                    <LearnSettingsModal />
                     <ProgressBar currentValue={currentWord} maxValue={cards.length} />
                 </Flex>
 
