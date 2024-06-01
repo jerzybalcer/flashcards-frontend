@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { Box, Button, Flex, FormControl, FormLabel, Heading, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react"
 import { Deck } from "../../model/Deck";
-import { QuizMode } from "../../model/QuizMode";
+import { QuizMode, QuizModes } from "../../model/QuizMode";
 import { RadioCardGroup } from "../RadioCardGroup";
 import { useQueryClient } from "react-query";
 import { QuizContext } from "../../contexts/QuizContext";
@@ -45,9 +45,9 @@ export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
                 </Box>
                 <Box>
                     <FormLabel>Mode</FormLabel>
-                    <RadioCardGroup defaultValue={QuizMode.SingleChoice} 
+                    <RadioCardGroup defaultValue={QuizModes[QuizMode.SingleChoice]} 
                         onChange={() => {}} 
-                        options={Object.values(QuizMode)}
+                        options={Object.values(QuizModes)}
                         isDisabled/>
                 </Box>
             </FormControl>

@@ -4,3 +4,10 @@ export enum QuizMode {
     TrueFalse = 'trueOrFalse',
     Mixed = 'mixed'
 }
+
+export const QuizModes: Record<QuizMode, string> = {
+    [QuizMode.SingleChoice]: 'Single choice',
+    [QuizMode.OpenText]: 'Open text',
+    [QuizMode.TrueFalse]: 'True / false',
+    [QuizMode.Mixed]: 'Mixed',
+}
