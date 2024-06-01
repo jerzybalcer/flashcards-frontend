@@ -22,7 +22,7 @@ export const DeckPage = () => {
     const navigate = useNavigate();
     const { isFetching: deckLoading, data: deck } = useQuery(`deck-${deckId}`, () => getDeck(Number(deckId)));
     const { isFetching: cardsLoading, data: cards } = useQuery(`deck-${deckId}-cards`, () => getCards(Number(deckId)), { enabled: !deckLoading });
-    console.log(deck)
+
     const onAddCardModalOpen = (flashCard?: FlashCard) => {
         setFlashCardInEdit(flashCard);
         setAddCardModalOpen(true);
