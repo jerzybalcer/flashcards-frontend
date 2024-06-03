@@ -1,12 +1,9 @@
 import { IconButton, Switch, FormControl, FormLabel, RadioGroup, Radio, HStack, Modal, ModalOverlay, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, VStack } from "@chakra-ui/react";
 import { IconDotsVertical } from "@tabler/icons-react";
 import { useState } from "react";
-import { useLearnSettings } from "../../hooks/useLearnSettings";
-import { FlashCardSide } from "../../model/FlashCardSide";
 
 export const LearnSettingsModal = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const { isAutoReadEnabled, defaultSide, setAutoReadEnabled, setDefaultSide } = useLearnSettings();
 
     return (
         <>
@@ -20,11 +17,11 @@ export const LearnSettingsModal = () => {
                     <FormControl display='flex' flexDirection='column' gap={6}>
                         <VStack gap={2} align='start'>
                             <FormLabel mb='0'>Auto read</FormLabel>
-                            <Switch size='md' isChecked={isAutoReadEnabled} onChange={(event) => setAutoReadEnabled(event.currentTarget.checked)}/>
+                            <Switch size='md' isChecked={false} onChange={() => {}}/>
                         </VStack>
                         <VStack gap={2} align='start'>
                             <FormLabel mb='0'>Default side</FormLabel>
-                            <RadioGroup value={defaultSide} onChange={(value) => setDefaultSide(value as FlashCardSide)}>
+                            <RadioGroup value='foreign' onChange={() => {}}>
                                 <HStack gap={4}>
                                     <Radio value='foreign'>Foreign</Radio>
                                     <Radio value='translated'>Translated</Radio>
