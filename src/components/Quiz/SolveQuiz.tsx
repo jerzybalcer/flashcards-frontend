@@ -10,6 +10,7 @@ import { Deck } from "../../model/Deck";
 import { ProgressBar } from "../ProgressBar";
 import { QuizContext } from "../../contexts/QuizContext";
 import { AnswerFeedback } from "./AnswerFeedback";
+import { shuffle } from "../../utils/arrays";
 
 interface SolveQuizProps {
     deck: Deck;
@@ -54,7 +55,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onSolvedQuiz }) => {
     useEffect(() => {
         setCurrentAnswer('');
         setStartTimeMs(new Date().getTime());
-        setPossibleAnswers(cards ? [...currentCard().wrongAnswers, currentCard().foreignWord] : []);
+        setPossibleAnswers(cards ? shuffle([...currentCard().wrongAnswers, currentCard().foreignWord]) : []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentIndex, cards]);
 
@@ -81,8 +82,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onSolvedQuiz }) => {
                 </Box>
 
                 <Button py={6} fontSize='lg' colorScheme="blue" borderRadius='xl' onClick={() => handleOnAnswered()} isDisabled={!currentAnswer}>Continue</Button>
-                <AnswerFeedback isOpen={isFeedbackVisible} translatedWord={currentCard().translatedWord} 
-                    answer={currentAnswer} correctAnswer={currentCard().foreignWord} 
+                <AnswerFeedback isOpen={isFeedbackVisible} answer={currentAnswer} correctAnswer={currentCard().foreignWord} 
                     onContinue={() => handleNext()}
                 />
             </Flex>

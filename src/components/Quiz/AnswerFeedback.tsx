@@ -1,25 +1,39 @@
-import { Drawer, DrawerOverlay, DrawerContent, DrawerHeader, DrawerBody, Button, Text, DrawerFooter } from "@chakra-ui/react";
+import { Drawer, DrawerOverlay, DrawerContent, DrawerHeader, DrawerBody, Button, Text, DrawerFooter, Box, Heading } from "@chakra-ui/react";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 interface AnswerFeedbackProps {
     isOpen: boolean;
-    translatedWord: string;
     answer: string;
     correctAnswer: string;
     onContinue: () => void;
 }
 
-export const AnswerFeedback: React.FC<AnswerFeedbackProps> = ({ isOpen, translatedWord, answer, correctAnswer, onContinue }) => {
+export const AnswerFeedback: React.FC<AnswerFeedbackProps> = ({ isOpen, answer, correctAnswer, onContinue }) => {
     return (
     <Drawer isOpen={isOpen} placement='bottom' onClose={() => {}}>
     <DrawerOverlay />
     <DrawerContent borderTopRadius='md'>
-        {answer === correctAnswer 
-            ? <DrawerHeader color='green.200'>Correct answer!</DrawerHeader>
-            : <DrawerHeader color='red.200'>Wrong answer...</DrawerHeader>
-        }
+        <DrawerHeader display='flex' alignItems='center' gap={2}>
+            {answer === correctAnswer
+            ? <>
+                <Box bg='green.200' borderRadius='50%' p='2px'>
+                    <IconCheck color='black' />
+                </Box>
+                <Text color='green.200'>Correct</Text>
+            </>
+            : <>
+                <Box bg='red.200' borderRadius='50%' p='2px'>
+                    <IconX color='black' />
+                </Box>
+                <Text color='red.200'>Incorrect</Text>
+            </>
+            }
+        </DrawerHeader>
 
-        <DrawerBody display='flex' flexDirection='column' gap={4}>
-            <Text>{translatedWord} - {correctAnswer}</Text>
+        <DrawerBody display='flex' flexDirection='column' gap={2}>
+            <Heading size='md'>The answer is:</Heading>
+            <Text fontSize='xl' color='blue.200'>{correctAnswer}</Text>
+
         </DrawerBody>
 
         <DrawerFooter w='100%'>
