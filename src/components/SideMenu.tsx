@@ -13,7 +13,7 @@ export const SideMenu: React.FC = () => {
             </Box>
             <Drawer isOpen={isOpen} onClose={onClose} placement="right">
                 <DrawerOverlay />
-                    <DrawerContent m={4} borderRadius='md'>
+                    <DrawerContent borderLeftRadius='md'>
                         <DrawerCloseButton />
                         <DrawerHeader borderBottomWidth='1px'>
                             <Flex align='center' gap={4}>
