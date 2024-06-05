@@ -62,7 +62,7 @@ export const QuizPage = () => {
         return (
         <Flex direction='column' h='100%'>
             <Box flexGrow={0}>
-                <PageHeading title="Quiz" canGoBack />
+                <PageHeading title="Quiz" urlToGoBack={`/decks/${deckId}`} />
             </Box>
             <Box px={4} pb={2} flexGrow={1} w='100%'>
                 {renderQuizStep()}

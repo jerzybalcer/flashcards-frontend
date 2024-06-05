@@ -32,7 +32,7 @@ export const LearnPage = () => {
 
     return (
         <Flex direction='column' h='100%'>
-            <PageHeading title="Learn" canGoBack />
+            <PageHeading title="Learn" urlToGoBack={`/decks/${deckId}`} />
 
             {cardsLoading && <Loading />}
             {!cardsLoading && cards &&

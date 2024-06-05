@@ -41,7 +41,7 @@ export const DeckPage = () => {
 
     return (
         <Flex direction='column' h='100%'>
-            <PageHeading title="Deck" canGoBack />
+            <PageHeading title="Deck" urlToGoBack='/decks' />
 
             {deckLoading && <Loading />}
             {!deckLoading && deck &&

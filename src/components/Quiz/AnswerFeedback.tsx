@@ -33,7 +33,6 @@ export const AnswerFeedback: React.FC<AnswerFeedbackProps> = ({ isOpen, answer, 
         <DrawerBody display='flex' flexDirection='column' gap={2}>
             <Heading size='md'>The answer is:</Heading>
             <Text fontSize='xl' color='blue.200'>{correctAnswer}</Text>
-
         </DrawerBody>
 
         <DrawerFooter w='100%'>
