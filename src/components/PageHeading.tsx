@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 interface PageHeadingProps {
     title: string;
-    urlToGoBack: string;
+    urlToGoBack?: string;
 }
 
 export const PageHeading: React.FC<PageHeadingProps> = ({ title, urlToGoBack = '/home' }) => {
