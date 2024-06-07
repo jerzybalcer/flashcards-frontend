@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Box, Button, Flex, Heading, Tag, Text } from "@chakra-ui/react"
+import { Box, Button, Card, Flex, Heading, Tag, Text } from "@chakra-ui/react"
 import { useQuery } from "react-query"
 import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
@@ -8,7 +8,7 @@ import { FlashCard } from "../model/FlashCard"
 import { getCards, getDeck } from "../services/DeckService"
 import { useNavigate, useParams } from "react-router-dom"
 import { ListNavigation } from "../components/ListNavigation/ListNavigation"
-import { IconCheckbox, IconSchool } from "@tabler/icons-react"
+import { IconArrowsDiagonal2, IconCheckbox, IconSchool } from "@tabler/icons-react"
 import { DeckSettingsModal } from "../components/modals/DeckSettingsModal"
 import { Loading } from "../components/Loading"
 
@@ -33,6 +33,30 @@ export const DeckPage = () => {
         || 
         c.translatedWord.toLowerCase().includes(cardsSearchPhrase.toLowerCase())
     ) ?? [];
+
+    const toggleFlashcardsExpanded = () => {
+        const flashcards = document.getElementById('flashcards');
+
+        if(!flashcards) return;
+
+        if(flashcards.style.position === 'absolute'){
+            flashcards!.style.height = '0';
+            flashcards!.style.position = 'relative'
+            flashcards.style.left = '';
+            flashcards.style.right = '';
+            flashcards.style.marginLeft = '';
+            flashcards.style.marginRight = '';
+        }else{
+            flashcards!.style.height = '100%';
+            flashcards!.style.position = 'absolute';
+            flashcards.style.left = '0';
+            flashcards.style.right = '0';
+            flashcards.style.marginLeft = 'auto';
+            flashcards.style.marginRight = 'auto';
+        }
+
+
+    }
     
     useEffect(() => {
         setDisplayedCards(searchForCards());
@@ -45,7 +69,7 @@ export const DeckPage = () => {
 
             {deckLoading && <Loading />}
             {!deckLoading && deck &&
-            (<Flex direction='column' px={4} gap={4} h='90%' overflowY='auto'>
+            (<Flex direction='column' px={4} gap={4} h='90%' overflowY='auto' position='relative'>
                 <Flex direction='column' gap={2}>
                     <Box>
                         <Tag size='md' colorScheme="blue" variant='subtle'>{deck.languageName.toUpperCase()}</Tag>
@@ -72,9 +96,14 @@ export const DeckPage = () => {
                     </Button>
                 </Flex>
 
-                <Heading size='md'>Flashcards</Heading>
+                <Card transition='all 0.3s ease' bottom={0} flexGrow={1} id='flashcards' bg='gray.800'>
+                <Flex justify='space-between'>
+                    <Heading size='md'>Flashcards</Heading>
+                    <IconArrowsDiagonal2 opacity={0.8} onClick={() => toggleFlashcardsExpanded()}/>
+                </Flex>
                 <ListNavigation onAddClick={() => onAddCardModalOpen()} onSearch={(phrase) => setCardsSearchPhrase(phrase)}/>
                 <FlashCardList cards={displayedCards} cardsLoading={cardsLoading} onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) }/>
+                </Card>
             </Flex>)}
             <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit} deckId={Number(deckId)}/>
         </Flex>
