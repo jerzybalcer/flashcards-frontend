@@ -1,7 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
-import { useQuery } from "react-query";
-import { getQuizCards } from "../../services/DeckService";
 import { Loading } from "../Loading";
 import { AnswerGroup } from "./AnswerGroup";
 import { QuizAnsweredQuestion } from "../../model/QuizAnsweredQuestion";
@@ -11,6 +9,7 @@ import { ProgressBar } from "../ProgressBar";
 import { QuizContext } from "../../contexts/QuizContext";
 import { AnswerFeedback } from "./AnswerFeedback";
 import { shuffle } from "../../utils/arrays";
+import { useQuizCards } from "../../hooks/queries/useQuizCards";
 
 interface SolveQuizProps {
     deck: Deck;
@@ -27,8 +26,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onSolvedQuiz }) => {
 
     const context = useContext(QuizContext)!;
     
-    const { data: cards, isFetching: cardsLoading } = 
-        useQuery(`quizCards-deck=${deck.id}`, () => getQuizCards(Number(deck.id), context.numberOfCards), { staleTime: Infinity });
+    const { data: cards, isFetching: cardsLoading } = useQuizCards(deck.id, context.numberOfCards)
 
     const currentCard = () => cards![currentIndex - 1];
 

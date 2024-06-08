@@ -6,16 +6,15 @@ import { FlippableFlashCard } from "../components/FlippableFlashCard/FlippableFl
 import { useParams } from "react-router-dom"
 import { ProgressBar } from "../components/ProgressBar"
 import { LearnSettingsModal } from "../components/modals/LearnSettingsModal"
-import { getCards } from "../services/DeckService"
-import { useQuery } from "react-query"
 import { Loading } from "../components/Loading"
+import { useCards } from "../hooks/queries/useCards"
 
 export const LearnPage = () => {
     const [currentWord, setCurrentWord] = useState<number>(1);
 
     const { deckId } = useParams();
 
-    const { isFetching: cardsLoading, data: cards } = useQuery(`deck-${deckId}-cards`, () => getCards(Number(deckId)));
+    const { isFetching: cardsLoading, data: cards } = useCards(Number(deckId));
 
     const canGoNext: boolean = !cardsLoading && (currentWord < cards!.length);
     const canGoPrevious: boolean = currentWord > 1;

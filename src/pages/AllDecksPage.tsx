@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
-import { useQuery } from "react-query";
 import { PageHeading } from "../components/PageHeading";
-import { getAllDecks } from "../services/DeckService";
 import { Loading } from "../components/Loading";
 import { Deck } from "../model/Deck";
 import { ListNavigation } from "../components/ListNavigation/ListNavigation";
 import { DeckList } from "../components/DeckList";
 import { Scrollable } from "../components/Scrollable";
 import { AddDeckModal } from "../components/modals/AddDeckModal";
+import { useAllDecks } from "../hooks/queries/useAllDecks";
 
 
 export const AllDecksPage = () => {
-    const { isFetching: decksLoading, data: decks } = useQuery('decks', getAllDecks);
+    const { isFetching: decksLoading, data: decks } = useAllDecks();
 
     const [displayedDecks, setDisplayedDecks] = useState<Deck[]>([]);
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);

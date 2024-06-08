@@ -5,6 +5,7 @@ import { FlashCard } from "../../model/FlashCard";
 import { deleteCard } from "../../services/CardService";
 import { errorToast, infoToast } from "../../utils/toasts";
 import { useParams } from "react-router-dom";
+import { QueryKeys } from "../../hooks/queries/queryKeys";
 
 interface DeleteCardConfirmationModalProps{
     isOpen: boolean;
@@ -18,7 +19,7 @@ export const DeleteCardConfirmationModal: React.FC<DeleteCardConfirmationModalPr
 
     const handleDeleteSuccess = () => {
         onClose(); 
-        queryClient.invalidateQueries(`deck-${deckId}-cards`); 
+        queryClient.invalidateQueries([QueryKeys.cards, deckId]); 
         infoToast('Card deleted', `${flashCard.foreignWord} - ${flashCard.translatedWord}`);
     };
 

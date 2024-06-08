@@ -9,6 +9,7 @@ import { errorToast, successToast } from "../../utils/toasts";
 import { FlashCardInputForm } from "../FlashCardInputForm";
 import { addCard, addCardsFromFile } from "../../services/DeckService";
 import { FileInputForm } from "../FileInputForm";
+import { QueryKeys } from "../../hooks/queries/queryKeys";
 
 interface AddCardModalProps {
     isOpen: boolean;
@@ -30,7 +31,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
     const handleSuccess = (toastTitle: string, toastDescription: string) => {
         successToast(toastTitle, toastDescription);
         handleClose();
-        queryClient.invalidateQueries(`deck-${deckId}-cards`);
+        queryClient.invalidateQueries([QueryKeys.cards, deckId]);
     };
 
     const handleError = (error: AxiosError) => {

@@ -5,6 +5,7 @@ import { QuizMode, QuizModes } from "../../model/QuizMode";
 import { RadioCardGroup } from "../RadioCardGroup";
 import { useQueryClient } from "react-query";
 import { QuizContext } from "../../contexts/QuizContext";
+import { QueryKeys } from "../../hooks/queries/queryKeys";
 
 interface SetupQuizProps {
     deck: Deck;
@@ -19,7 +20,7 @@ export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
     const queryClient = useQueryClient();
 
     useEffect(() => { 
-        queryClient.invalidateQueries(`quizCards-deck=${deck.id}`)
+        queryClient.invalidateQueries([QueryKeys.quizCards, deck.id])
         context.setNumberOfCards(defaultNumberOfCards);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

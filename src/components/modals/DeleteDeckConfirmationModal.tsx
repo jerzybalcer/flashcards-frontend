@@ -5,6 +5,7 @@ import { errorToast, infoToast } from "../../utils/toasts";
 import { Deck } from "../../model/Deck";
 import { deleteDeck } from "../../services/DeckService";
 import { useNavigate } from "react-router-dom";
+import { QueryKeys } from "../../hooks/queries/queryKeys";
 
 interface DeleteDeckConfirmationModalProps{
     isOpen: boolean;
@@ -18,7 +19,7 @@ export const DeleteDeckConfirmationModal: React.FC<DeleteDeckConfirmationModalPr
 
     const handleDeleteSuccess = () => {
         onClose(); 
-        queryClient.invalidateQueries('decks');
+        queryClient.invalidateQueries(QueryKeys.allDecks);
         navigate('/decks');
         infoToast('Deck deleted', `${deck.name}`);
     };

@@ -1,15 +1,16 @@
 import { useContext, useEffect, useState } from "react"
 import { Box, Flex } from "@chakra-ui/react"
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import { PageHeading } from "../components/PageHeading"
 import { SetupQuiz } from "../components/Quiz/SetupQuiz";
 import { SolveQuiz } from "../components/Quiz/SolveQuiz";
 import { QuizResult } from "../components/Quiz/QuizResult";
-import { getDeck, updateQuizCards } from "../services/DeckService";
+import { updateQuizCards } from "../services/DeckService";
 import { QuizStat } from "../model/QuizStat";
 import { useParams } from "react-router-dom";
 import { QuizContext } from './../contexts/QuizContext';
 import { Loading } from "../components/Loading";
+import { useDeck } from "../hooks/queries/useDeck";
 
 enum QuizSteps {
     Setup,
@@ -24,7 +25,7 @@ export const QuizPage = () => {
 
         const { deckId } = useParams();
 
-        const { isFetching: deckLoading, data: deck } = useQuery(`deck-${deckId}`, () => getDeck(Number(deckId)));
+        const { isFetching: deckLoading, data: deck } = useDeck(Number(deckId));
         
         const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(1, resultCards));
         

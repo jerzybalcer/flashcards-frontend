@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react"
 import { Box, Button, Flex, Heading, Tag, Text } from "@chakra-ui/react"
-import { useQuery } from "react-query"
 import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
 import { AddCardModal } from "../components/modals/AddCardModal"
 import { FlashCard } from "../model/FlashCard"
-import { getCards, getDeck } from "../services/DeckService"
 import { useNavigate, useParams } from "react-router-dom"
 import { ListNavigation } from "../components/ListNavigation/ListNavigation"
 import { IconCheckbox, IconSchool } from "@tabler/icons-react"
 import { DeckSettingsModal } from "../components/modals/DeckSettingsModal"
 import { Loading } from "../components/Loading"
+import { useDeck } from "../hooks/queries/useDeck"
+import { useCards } from "../hooks/queries/useCards"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
@@ -20,8 +20,9 @@ export const DeckPage = () => {
 
     const { deckId } = useParams();
     const navigate = useNavigate();
-    const { isFetching: deckLoading, data: deck } = useQuery(`deck-${deckId}`, () => getDeck(Number(deckId)));
-    const { isFetching: cardsLoading, data: cards } = useQuery(`deck-${deckId}-cards`, () => getCards(Number(deckId)), { enabled: !deckLoading });
+
+    const { isFetching: deckLoading, data: deck } = useDeck(Number(deckId));
+    const { isFetching: cardsLoading, data: cards } = useCards(Number(deckId), !deckLoading);
 
     const onAddCardModalOpen = (flashCard?: FlashCard) => {
         setFlashCardInEdit(flashCard);

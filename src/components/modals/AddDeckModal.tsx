@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, FormControl, FormLabel, Input, Select } from "@chakra-ui/react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { AxiosError } from "axios";
-import { getLanguages } from "../../services/LanguageService";
 import { errorToast, successToast } from "../../utils/toasts";
 import { NewDeck } from "../../model/NewDeck";
 import { addDeck } from "../../services/DeckService";
+import { useLanguages } from "../../hooks/queries/useLanguages";
+import { QueryKeys } from "../../hooks/queries/queryKeys";
 
 interface AddDeckModalProps {
     isOpen: boolean;
@@ -13,7 +14,7 @@ interface AddDeckModalProps {
 }
 
 export const AddDeckModal: React.FC<AddDeckModalProps> = ({ isOpen, onClose }) => {
-    const { isFetching: languagesLoading, data: languages } = useQuery('languages', getLanguages);
+    const { isFetching: languagesLoading, data: languages } = useLanguages();
 
     const [name, setName] = useState<string>('');
     const [languageId, setLanguageId] = useState<string>('');
@@ -23,7 +24,7 @@ export const AddDeckModal: React.FC<AddDeckModalProps> = ({ isOpen, onClose }) =
     const handleSuccess = (toastTitle: string, toastDescription: string) => {
         successToast(toastTitle, toastDescription);
         handleClose();
-        queryClient.invalidateQueries('decks');
+        queryClient.invalidateQueries(QueryKeys.allDecks);
     };
 
     const handleError = (error: AxiosError) => {
