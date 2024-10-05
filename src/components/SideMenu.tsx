@@ -1,10 +1,12 @@
 import { Avatar, Box, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Heading, Text, useDisclosure } from "@chakra-ui/react"
 import { IconMenu2 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/general/useAuth";
 
 export const SideMenu: React.FC = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate();
+    const auth = useAuth();
 
     return (
         <>
@@ -44,7 +46,7 @@ export const SideMenu: React.FC = () => {
                                     Settings
                                 </Heading>
                                 <Heading as='h2' size='lg'
-                                    onClick={() => {}}>
+                                    onClick={() => auth?.logout()}>
                                     Logout
                                 </Heading>
                             </Flex>

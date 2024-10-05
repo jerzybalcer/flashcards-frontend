@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { App } from './App.tsx'
 import theme from './theme.ts';
 import './index.css'
+import { AuthContextProvider } from './contexts/AuthContext.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,7 +21,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
+          <AuthContextProvider>
             <App />
+          </AuthContextProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </ChakraProvider>
