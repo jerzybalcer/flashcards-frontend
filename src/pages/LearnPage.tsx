@@ -30,7 +30,7 @@ export const LearnPage = () => {
     const currentFlashCard = () => cards![currentWord - 1];
 
     return (
-        <Flex direction='column' h='100%'>
+        <Flex direction='column' h='100%' w='100%'>
             <PageHeading title="Learn" urlToGoBack={`/decks/${deckId}`} />
 
             {cardsLoading && <Loading />}

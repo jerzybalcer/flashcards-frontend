@@ -41,7 +41,7 @@ export const DeckPage = () => {
     }, [cards, cardsSearchPhrase]);
 
     return (
-        <Flex direction='column' h='100%'>
+        <Flex direction='column' h='100%' w='100%'>
             <PageHeading title="Deck" urlToGoBack='/decks' />
 
             {deckLoading && <Loading />}

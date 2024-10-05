@@ -61,7 +61,7 @@ export const QuizPage = () => {
         }, [currentStep]);
 
         return (
-        <Flex direction='column' h='100%'>
+        <Flex direction='column' h='100%' w='100%'>
             <Box flexGrow={0}>
                 <PageHeading title="Quiz" urlToGoBack={`/decks/${deckId}`} />
             </Box>

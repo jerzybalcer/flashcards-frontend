@@ -31,7 +31,7 @@ export const AllDecksPage = () => {
     useEffect(() => setDisplayedDecks(decks ?? []), [decks]);
 
     return (
-        <Flex direction='column' h='100%'>
+        <Flex direction='column' h='100%' w='100%'>
             <PageHeading title="Decks"/>
 
             {decksLoading && <Loading />}

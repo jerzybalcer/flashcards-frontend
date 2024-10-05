@@ -12,10 +12,13 @@ export const PageHeading: React.FC<PageHeadingProps> = ({ title, urlToGoBack = '
     const navigate = useNavigate();
 
     return (
-        <Flex justify='space-between' align='center' mb={12}>
-            <IconArrowLeft cursor='pointer' size={36} strokeWidth={1.25} opacity={0.8} onClick={() => navigate(urlToGoBack)}/>
-            <Heading size='lg'>{title}</Heading>
-            <SideMenu />
+        <Flex w='100%' justify='center' mb={12}>
+            <Flex w='100%' maxW='1200px' justify='space-between' align='center'>
+                <IconArrowLeft cursor='pointer' size={36} strokeWidth={1.25} opacity={0.8} onClick={() => navigate(urlToGoBack)}/>
+                <Heading size='lg'>{title}</Heading>
+                <SideMenu />
+            </Flex>
         </Flex>
+
     )
 }

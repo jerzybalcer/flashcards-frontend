@@ -3,7 +3,7 @@ import { SideMenu } from "../components/SideMenu"
 
 export const HomePage = () => {
     return (
-        <Flex direction='column' h='100%' gap={12}>
+        <Flex direction='column' h='100%' w='100%' gap={12}>
             <Flex justify='space-between' align='center' gap={4}>
                 <Heading size='2xl'>Hello, Rafał</Heading>
                 <SideMenu />
