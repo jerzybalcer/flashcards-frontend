@@ -12,8 +12,8 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 
 export const App = () => {
   return (
-    <Flex justify='center' h='100%' w='100%' p={0} bg='gray.900'>
-        <Box maxW='1200px' w='100%' p={4} bg='gray.800' boxShadow='0px 0px 41px 9px #0f1017'> 
+    <Flex justify='center' h='100%' w='100%' p={0}>
+        <Box maxW='1200px' w='100%' p={4}> 
           <Routes>
             <Route path='/login' element={<LoginPage />} />
             <Route element={<ProtectedRoute />}>
