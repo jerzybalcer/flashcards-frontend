@@ -26,6 +26,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
 
     const login = async (email: string, password: string) => {
         email = password; // temp: satisfy eslint & ts errors
+        password = email;
         // const user = await loginUser(email, password);
         const user = { email: 'rafalsmykala@gmai.com', name: 'r_smykalka', id: 1 };
         setCurrentUser(user);
