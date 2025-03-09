@@ -18,7 +18,7 @@ export const LoginPage = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleGoogleLogin = (credentialResponse: any) => {
-        console.log(credentialResponse);
+        auth!.loginWithGoogle(credentialResponse.credential);
     }
 
     return (
