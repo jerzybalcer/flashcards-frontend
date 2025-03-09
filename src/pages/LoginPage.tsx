@@ -1,7 +1,8 @@
 import { Box, Button, Card, CardBody, Divider, Flex, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
 import { useAuth } from "../hooks/general/useAuth";
-import { IconBrandGoogle } from "@tabler/icons-react";
 import { useState } from "react";
+import { GoogleLogin } from "@react-oauth/google";
+import { errorToast } from "../utils/toasts";
 
 export const LoginPage = () => {
     const auth = useAuth();
@@ -15,8 +16,7 @@ export const LoginPage = () => {
         auth.login(email, password);
     }
 
-    const handleGoogleLogin = () => {
-        
+    const handleGoogleLogin = (credentialResponse: any) => {
     }
 
     return (
@@ -49,9 +49,10 @@ export const LoginPage = () => {
                             <Divider w='40%'/>
                         </Flex>
 
-                        <Button variant='outline' colorScheme="blue" onClick={() => handleGoogleLogin()} leftIcon={<IconBrandGoogle strokeWidth={1} />}>
-                            Sign in with Google
-                        </Button>
+                        <GoogleLogin
+                            onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
+                            onError={() => errorToast('Login failed')}
+                        />        
                     </Flex>
 
                     <Flex gap={2} align='center'>
