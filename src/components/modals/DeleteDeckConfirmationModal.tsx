@@ -3,9 +3,9 @@ import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import { errorToast, infoToast } from "../../utils/toasts";
 import { Deck } from "../../model/Deck";
-import { deleteDeck } from "../../services/DeckService";
 import { useNavigate } from "react-router-dom";
 import { QueryKeys } from "../../hooks/queries/queryKeys";
+import { useDeleteDeck } from "../../hooks/mutations/useDeleteDeck";
 
 interface DeleteDeckConfirmationModalProps{
     isOpen: boolean;
@@ -16,6 +16,8 @@ interface DeleteDeckConfirmationModalProps{
 export const DeleteDeckConfirmationModal: React.FC<DeleteDeckConfirmationModalProps> = ({ isOpen, deck, onClose }) => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
+
+    const deleteDeck = useDeleteDeck();
 
     const handleDeleteSuccess = () => {
         onClose(); 

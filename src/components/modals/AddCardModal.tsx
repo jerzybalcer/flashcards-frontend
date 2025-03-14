@@ -3,13 +3,14 @@ import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHea
 import { Button } from "@chakra-ui/react"
 import { AxiosError } from 'axios';
 import { useMutation, useQueryClient } from "react-query";
-import { editCard } from "../../services/CardService"
 import { FlashCard } from "../../model/FlashCard";
 import { errorToast, successToast } from "../../utils/toasts";
 import { FlashCardInputForm } from "../FlashCardInputForm";
-import { addCard, addCardsFromFile } from "../../services/DeckService";
 import { FileInputForm } from "../FileInputForm";
 import { QueryKeys } from "../../hooks/queries/queryKeys";
+import { useEditCard } from "../../hooks/mutations/useEditCard";
+import { useAddCardsFromFile } from "../../hooks/mutations/useAddCardsFromFile";
+import { useAddCard } from "../../hooks/mutations/useAddCard";
 
 interface AddCardModalProps {
     isOpen: boolean;
@@ -27,6 +28,10 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
     const cardAddMutationFunction = useRef<(deckId: number, card: FlashCard) => Promise<unknown>>();
     const cardEditMutationFunction = useRef<(card: FlashCard) => Promise<unknown>>();
     const queryClient = useQueryClient();
+
+    const editCard = useEditCard();
+    const addCardsFromFile = useAddCardsFromFile();
+    const addCard = useAddCard();
 
     const handleSuccess = (toastTitle: string, toastDescription: string) => {
         successToast(toastTitle, toastDescription);

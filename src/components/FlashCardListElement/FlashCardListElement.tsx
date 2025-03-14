@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
-import { Box, Card, CardBody, Flex, Text } from "@chakra-ui/react"
+import { Box, Card, CardBody, Flex, Text, useMediaQuery } from "@chakra-ui/react"
 import { FlashCard } from "../../model/FlashCard"
 import { DeleteCardConfirmationModal } from "../modals/DeleteCardConfirmationModal";
 import { FlashCardContextMenu } from "./FlashCardContextMenu";
+import { FlashCardOptionsBottomSheet } from "./FlashCardOptionsBottomSheet";
 
 interface FlasCardListElementProps {
     flashCard: FlashCard;
@@ -13,6 +14,8 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
     const elementRef = useRef<HTMLDivElement>(null);
     
     const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState<boolean>(false);
+
+    const [isMobile] = useMediaQuery('(min-width: 1024px)')
 
     const handleEdit = () => onEdit(flashCard);
 
@@ -25,7 +28,10 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
                         <Text userSelect='text' color='blue.200'>{flashCard.foreignWord}</Text>
                         <Text userSelect='text'>{flashCard.translatedWord}</Text>
                     </Box>
-                    <FlashCardContextMenu onEdit={handleEdit} onDelete={() => setDeleteConfirmationOpen(true)} />
+                    {isMobile 
+                    ? <FlashCardContextMenu onEdit={handleEdit} onDelete={() => setDeleteConfirmationOpen(true)} />
+                    : <FlashCardOptionsBottomSheet flashcard={flashCard} />
+                    }
                 </CardBody>
             </Card>
         </Flex>

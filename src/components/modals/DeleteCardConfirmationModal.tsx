@@ -6,6 +6,7 @@ import { deleteCard } from "../../services/CardService";
 import { errorToast, infoToast } from "../../utils/toasts";
 import { useParams } from "react-router-dom";
 import { QueryKeys } from "../../hooks/queries/queryKeys";
+import { useDeleteCard } from "../../hooks/mutations/useDeleteCard";
 
 interface DeleteCardConfirmationModalProps{
     isOpen: boolean;
@@ -16,6 +17,7 @@ interface DeleteCardConfirmationModalProps{
 export const DeleteCardConfirmationModal: React.FC<DeleteCardConfirmationModalProps> = ({ isOpen, flashCard, onClose }) => {
     const queryClient = useQueryClient();
     const { deckId } = useParams();
+    const { deleteCard } = useDeleteCard();
 
     const handleDeleteSuccess = () => {
         onClose(); 

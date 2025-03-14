@@ -4,9 +4,9 @@ import { useMutation, useQueryClient } from "react-query";
 import { AxiosError } from "axios";
 import { errorToast, successToast } from "../../utils/toasts";
 import { NewDeck } from "../../model/NewDeck";
-import { addDeck } from "../../services/DeckService";
 import { useLanguages } from "../../hooks/queries/useLanguages";
 import { QueryKeys } from "../../hooks/queries/queryKeys";
+import { useAddDeck } from "../../hooks/mutations/useAddDeck";
 
 interface AddDeckModalProps {
     isOpen: boolean;
@@ -20,6 +20,8 @@ export const AddDeckModal: React.FC<AddDeckModalProps> = ({ isOpen, onClose }) =
     const [languageId, setLanguageId] = useState<string>('');
 
     const queryClient = useQueryClient();
+
+    const addDeck = useAddDeck();
 
     const handleSuccess = (toastTitle: string, toastDescription: string) => {
         successToast(toastTitle, toastDescription);

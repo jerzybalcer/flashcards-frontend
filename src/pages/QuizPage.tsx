@@ -5,12 +5,12 @@ import { PageHeading } from "../components/PageHeading"
 import { SetupQuiz } from "../components/Quiz/SetupQuiz";
 import { SolveQuiz } from "../components/Quiz/SolveQuiz";
 import { QuizResult } from "../components/Quiz/QuizResult";
-import { updateQuizCards } from "../services/DeckService";
 import { QuizStat } from "../model/QuizStat";
 import { useParams } from "react-router-dom";
 import { QuizContext } from './../contexts/QuizContext';
 import { Loading } from "../components/Loading";
 import { useDeck } from "../hooks/queries/useDeck";
+import { useUpdateQuizCards } from "../hooks/mutations/useUpdateQuizCards";
 
 enum QuizSteps {
     Setup,
@@ -26,6 +26,8 @@ export const QuizPage = () => {
         const { deckId } = useParams();
 
         const { isFetching: deckLoading, data: deck } = useDeck(Number(deckId));
+
+        const updateQuizCards = useUpdateQuizCards();
         
         const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(1, resultCards));
         
