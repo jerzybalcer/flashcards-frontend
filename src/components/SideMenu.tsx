@@ -21,8 +21,8 @@ export const SideMenu: React.FC = () => {
                             <Flex align='center' gap={4}>
                                 <Avatar src='https://s3.envato.com/files/303471944/200607-Ph1-0662.jpg'/>
                                 <Box minW={0} pr={4}>
-                                    <Heading size='md' textOverflow='ellipsis' whiteSpace='nowrap' overflow='hidden'>Rafał Smykała</Heading>
-                                    <Text opacity={0.8} fontSize='md'>@r_smykalka</Text>
+                                    <Heading size='md' textOverflow='ellipsis' whiteSpace='nowrap' overflow='hidden'>{auth?.currentUser?.name}</Heading>
+                                    <Text opacity={0.8} fontSize='md'>{auth?.currentUser?.email}</Text>
                                 </Box>
                             </Flex>
   
