@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { User } from "../model/User";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../services/UserService";
 
 interface AuthContextType {
     currentUser: User | null;
@@ -25,18 +26,14 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
     const navigate = useNavigate();
 
     const login = async (email: string, password: string) => {
-        email = password; // temp: satisfy eslint & ts errors
-        password = email;
-        // const user = await loginUser(email, password);
-        const user = { email: 'rafalsmykala@gmai.com', name: 'r_smykalka', id: 1 };
-        setCurrentUser(user);
-        localStorage.setItem('user', JSON.stringify(user));
+        const tokenPair = await loginUser(email, password);
+        localStorage.setItem('accessToken', JSON.stringify(tokenPair.accessToken));
         navigate('/');
     };
 
     const logout = () => {
         setCurrentUser(null);
-        localStorage.removeItem('user');
+        localStorage.removeItem('accessToken');
         navigate('/login');
     }
 
