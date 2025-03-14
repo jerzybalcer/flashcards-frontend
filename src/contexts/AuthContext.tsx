@@ -26,8 +26,9 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
     const navigate = useNavigate();
 
     const login = async (email: string, password: string) => {
-        const tokenPair = await loginUser(email, password);
-        localStorage.setItem('accessToken', JSON.stringify(tokenPair.accessToken));
+        const user = await loginUser(email, password);
+        setCurrentUser(user)
+        localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
         navigate('/');
     };
 

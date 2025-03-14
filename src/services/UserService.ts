@@ -1,12 +1,12 @@
 import { AxiosError } from "axios";
 import { apiClient } from "./AxiosInstance";
-import { TokenPair } from "../model/TokenPair";
 import { camelizeKeys } from "humps";
+import { User } from "../model/User";
 
 export const loginUser = async (email: string, password: string) =>
     apiClient
         .post(`/login`, 
             { email: email, password: password }, 
             { headers: {'Content-Type': 'application/json'} })
-        .then(res => camelizeKeys(res.data) as TokenPair)
+        .then(res => camelizeKeys(res.data) as User)
         .catch((err: AxiosError) => Promise.reject(err));
