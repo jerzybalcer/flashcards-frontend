@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { User } from "../model/User";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/UserService";
+import { loginUserWithGoogle } from "../services/UserService";
+import { errorToast } from "../utils/toasts";
 
 interface AuthContextType {
     currentUser: User | null;
     login: (email: string, password: string) => void;
     logout: () => void;
+    loginWithGoogle: (googleToken: string) => void;
 }
 
 export const AuthContext = React.createContext<AuthContextType | null>(null);
@@ -33,6 +36,18 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
         navigate('/');
     };
 
+    const loginWithGoogle = async (googleToken: string) => {
+        const user = await loginUserWithGoogle(googleToken);
+        if(!user) {
+            errorToast('Login failed!');
+            return;
+        }
+        setCurrentUser(user);
+        localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
+        localStorage.setItem('user', JSON.stringify(user));
+        navigate('/');
+    };
+
     const logout = () => {
         setCurrentUser(null);
         localStorage.removeItem('accessToken');
@@ -40,7 +55,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
         navigate('/login');
     }
 
-    return <AuthContext.Provider value={{currentUser, login, logout}}>
+    return <AuthContext.Provider value={{currentUser, login, logout, loginWithGoogle}}>
         {children}
     </AuthContext.Provider>;
 }
