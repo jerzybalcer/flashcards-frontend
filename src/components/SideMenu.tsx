@@ -7,7 +7,7 @@ export const SideMenu: React.FC = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate();
     const auth = useAuth();
-
+ 
     return (
         <>
             <Box onClick={onOpen}>
