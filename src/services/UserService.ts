@@ -13,7 +13,7 @@ export const loginUser = async (email: string, password: string) =>
 
 export const loginUserWithGoogle = async (googleToken: string) =>
     apiClient
-        .post(`/user/login_with_google`, 
+        .post(`/login_with_google`, 
             { idToken: googleToken }, 
             { headers: {'Content-Type': 'application/json'} })
         .then(res => camelizeKeys(res.data) as User)
