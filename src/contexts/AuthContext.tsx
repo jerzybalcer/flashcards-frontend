@@ -29,12 +29,14 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
         const user = await loginUser(email, password);
         setCurrentUser(user)
         localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
+        localStorage.setItem('user', JSON.stringify(user));
         navigate('/');
     };
 
     const logout = () => {
         setCurrentUser(null);
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('user');
         navigate('/login');
     }
 
