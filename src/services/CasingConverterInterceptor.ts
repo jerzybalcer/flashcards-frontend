@@ -2,7 +2,7 @@
 import humps from 'humps'
 import { apiClient } from './AxiosInstance';
 
-export const useCasingInterceptors = () => {
+export const setupCasingInterceptor = () => {
     apiClient.interceptors.request.use(function (config) {
         // const data: any = config.data;
         // config.data = data.map((obj: any) => humps.decamelizeKeys(obj))

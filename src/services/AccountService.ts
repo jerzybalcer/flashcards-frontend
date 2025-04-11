@@ -18,3 +18,11 @@ export const loginUserWithGoogle = async (googleToken: string) =>
             { headers: {'Content-Type': 'application/json'} })
         .then(res => camelizeKeys(res.data) as User)
         .catch((err: AxiosError) => Promise.reject(err));
+
+export const refreshToken = async () =>
+    apiClient
+    .post(`/accounts/token/refresh`, 
+        {}, 
+        { headers: {'Content-Type': 'application/json'}, withCredentials: true })
+    .then(res => camelizeKeys(res.data) as User)
+    .catch((err: AxiosError) => Promise.reject(err));

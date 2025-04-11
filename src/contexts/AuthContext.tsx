@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { User } from "../model/User";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../services/UserService";
-import { loginUserWithGoogle } from "../services/UserService";
+import { loginUser, loginUserWithGoogle } from "../services/AccountService";
 import { errorToast } from "../utils/toasts";
+
 
 interface AuthContextType {
     currentUser: User | null;
