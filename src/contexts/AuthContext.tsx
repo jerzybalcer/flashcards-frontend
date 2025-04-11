@@ -31,7 +31,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
     const login = async (email: string, password: string) => {
         const user = await loginUser(email, password);
         setCurrentUser(user)
-        localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
+        localStorage.setItem('accessToken', user.accessToken);
         localStorage.setItem('user', JSON.stringify(user));
         navigate('/');
     };
@@ -43,7 +43,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({ childr
             return;
         }
         setCurrentUser(user);
-        localStorage.setItem('accessToken', JSON.stringify(user.accessToken));
+        localStorage.setItem('accessToken', user.accessToken);
         localStorage.setItem('user', JSON.stringify(user));
         navigate('/');
     };

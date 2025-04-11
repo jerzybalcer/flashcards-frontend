@@ -14,7 +14,7 @@ export const loginUser = async (email: string, password: string) =>
 export const loginUserWithGoogle = async (googleToken: string) =>
     apiClient
         .post(`/accounts/token/google`, 
-            { idToken: googleToken }, 
+            { id_token: googleToken }, 
             { headers: {'Content-Type': 'application/json'} })
         .then(res => camelizeKeys(res.data) as User)
         .catch((err: AxiosError) => Promise.reject(err));
