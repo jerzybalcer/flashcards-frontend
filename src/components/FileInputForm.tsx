@@ -3,9 +3,10 @@ import { FileInput } from "./FileInput";
 
 interface FileInputFormProps {
     onFileChange: (file: File) => void;
+    onDelimiterChange: (delimiter: string) => void;
 }
 
-export const FileInputForm: React.FC<FileInputFormProps> = ({ onFileChange }) => {
+export const FileInputForm: React.FC<FileInputFormProps> = ({ onFileChange, onDelimiterChange }) => {
     return (
     <Flex direction='column' gap={6}>
         <Alert status='info'>
@@ -20,7 +21,7 @@ export const FileInputForm: React.FC<FileInputFormProps> = ({ onFileChange }) =>
 
         <FormControl isRequired> 
             <FormLabel>Delimiter</FormLabel>
-            <Input defaultValue='-' maxLength={1}/>
+            <Input defaultValue='-' maxLength={1} onChange={(event) => onDelimiterChange(event.currentTarget.value)}/>
         </FormControl>
     </Flex>);
 }

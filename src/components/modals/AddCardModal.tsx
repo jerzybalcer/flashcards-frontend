@@ -23,6 +23,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
     const [translatedWord, setTranslatedWord] = useState<string>("");
     const [currentTab, setCurrentTab] = useState<number>(0);
     const [file, setFile] = useState<File>()
+    const [delimiter, setDelimiter] = useState<string>('-');
 
     const cardAddMutationFunction = useRef<(deckId: number, card: FlashCard) => Promise<unknown>>();
     const cardEditMutationFunction = useRef<(card: FlashCard) => Promise<unknown>>();
@@ -44,7 +45,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
         onError: handleError,
     });
 
-    const fileMutation = useMutation((file: File) => addCardsFromFile(deckId, file, ';'), 
+    const fileMutation = useMutation((args: { file: File, delimiter: string }) => addCardsFromFile(deckId, args.file, args.delimiter), 
     {
         onSuccess: () => handleSuccess('Succesfully saved cards', `Unique cards from file imported`),
         onError: handleError,
@@ -62,7 +63,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
     }
 
     const handleAddFile = () => {
-        fileMutation.mutate(file!);
+        fileMutation.mutate({file: file!, delimiter: delimiter});
     };
 
     const handleSave = () => {
@@ -121,7 +122,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
                             translatednWordDefaultValue={''} />                    
                         </TabPanel>
                         <TabPanel>
-                            <FileInputForm onFileChange={(file) => setFile(file)}/>
+                            <FileInputForm onFileChange={(file) => setFile(file)} onDelimiterChange={(delimiter) => setDelimiter(delimiter)}/>
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
