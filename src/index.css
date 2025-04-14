@@ -29,3 +29,13 @@ html, body, #root, #root {
 ::-webkit-scrollbar-button {
   display: none;
 }
+
+div {
+  box-sizing: border-box;
+}
+/* Pass down the box-sizing property */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}

@@ -1,6 +1,6 @@
-import { Box, Button, Card, CardBody, Divider, Flex, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, Center, Divider, Flex, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
 import { useAuth } from "../hooks/general/useAuth";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { errorToast } from "../utils/toasts";
 import { Navigate } from "react-router-dom";
@@ -10,6 +10,9 @@ export const LoginPage = () => {
 
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+
+    const googleLoginButtonRef = useRef<HTMLDivElement>(null);
+    const [googleLoginWidth, setGoogleLoginWidth] = useState<number>(280);
 
     const handleLogin = () => {
         if(!email || !password || !auth) return;
@@ -22,13 +25,33 @@ export const LoginPage = () => {
         auth!.loginWithGoogle(credentialResponse.credential);
     }
 
+    // Resize Login with Google button
+    useLayoutEffect(() => {
+        const updateButtonWidth = () => {
+            if (googleLoginButtonRef.current) {
+                setGoogleLoginWidth(googleLoginButtonRef.current.clientWidth);
+            }
+        };
+
+        // First resize
+        updateButtonWidth();
+
+        // Resize button on window resize
+        window.addEventListener('resize', updateButtonWidth);
+
+        // Cleanup
+        return () => {
+        window.removeEventListener('resize', updateButtonWidth);
+        };
+    }, []);
+
     if(auth?.currentUser) {
         return <Navigate to='/'/>;
     }
 
     return (
     <Flex justify='center' align='center' h='100%'>
-        <Card w='90%' maxW='600px' shadow='xl'>
+        <Card w='90%' maxW='440px' shadow='xl'>
             <CardBody>
                 <Flex direction='column' gap={8}>
                     <Flex direction='column' gap={1}>
@@ -56,11 +79,14 @@ export const LoginPage = () => {
                             <Divider w='40%'/>
                         </Flex>
 
-                        <GoogleLogin
-                            onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
-                            onError={() => errorToast('Login failed')}
-                        /> 
-       
+                        <Center style={{ colorScheme: 'light'}} ref={googleLoginButtonRef}>
+                            <GoogleLogin
+                                onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
+                                onError={() => errorToast('Login failed')}
+                                width={googleLoginWidth + 'px'}
+                                locale="en"
+                            /> 
+                        </Center>
                     </Flex>
 
                     <Flex gap={2} align='center'>
