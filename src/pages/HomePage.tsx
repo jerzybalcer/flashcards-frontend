@@ -1,11 +1,14 @@
 import { Card, Flex, Heading } from "@chakra-ui/react"
 import { SideMenu } from "../components/SideMenu"
+import { useAuth } from "../hooks/general/useAuth";
 
 export const HomePage = () => {
+    const auth = useAuth();
+
     return (
         <Flex direction='column' h='100%' w='100%' gap={12}>
             <Flex justify='space-between' align='center' gap={4}>
-                <Heading size='2xl'>Hello, Rafał</Heading>
+                <Heading size='2xl'>Hello, {auth!.currentUser!.name}</Heading>
                 <SideMenu />
             </Flex>
             <Flex direction='column' px={4} pb={2} flexGrow={1} gap={8}>

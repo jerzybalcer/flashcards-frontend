@@ -72,6 +72,7 @@ export const setupTokenRefreshInterceptor = () => {
                 } catch (refreshError) {
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('user');
+                    window.location.href='/login';
                     
                     RetryQueue.failAll(refreshError);
                     return Promise.reject(refreshError);

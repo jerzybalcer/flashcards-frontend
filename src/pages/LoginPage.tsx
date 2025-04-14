@@ -3,6 +3,7 @@ import { useAuth } from "../hooks/general/useAuth";
 import { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { errorToast } from "../utils/toasts";
+import { Navigate } from "react-router-dom";
 
 export const LoginPage = () => {
     const auth = useAuth();
@@ -19,6 +20,10 @@ export const LoginPage = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleGoogleLogin = (credentialResponse: any) => {
         auth!.loginWithGoogle(credentialResponse.credential);
+    }
+
+    if(auth?.currentUser) {
+        return <Navigate to='/'/>;
     }
 
     return (
@@ -54,7 +59,8 @@ export const LoginPage = () => {
                         <GoogleLogin
                             onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
                             onError={() => errorToast('Login failed')}
-                        />        
+                        /> 
+       
                     </Flex>
 
                     <Flex gap={2} align='center'>
