@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardBody, Center, Divider, Flex, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
 import { useAuth } from "../hooks/general/useAuth";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { errorToast } from "../utils/toasts";
 import { Navigate } from "react-router-dom";
