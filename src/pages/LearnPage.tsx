@@ -8,12 +8,17 @@ import { ProgressBar } from "../components/ProgressBar"
 import { LearnSettingsModal } from "../components/modals/LearnSettingsModal"
 import { Loading } from "../components/Loading"
 import { useCards } from "../hooks/queries/useCards"
+import { useDeck } from "../hooks/queries/useDeck"
+import { QueryKeys } from "../hooks/queries/queryKeys"
+import { useQueryClient } from "react-query"
 
 export const LearnPage = () => {
     const [currentWord, setCurrentWord] = useState<number>(1);
 
     const { deckId } = useParams();
+    const queryClient = useQueryClient();
 
+    const { isFetching: deckLoading, data: deck } = useDeck(Number(deckId));
     const { isFetching: cardsLoading, data: cards } = useCards(Number(deckId));
 
     const canGoNext: boolean = !cardsLoading && (currentWord < cards!.length);
@@ -29,12 +34,17 @@ export const LearnPage = () => {
 
     const currentFlashCard = () => cards![currentWord - 1];
 
+    const handleGoBack = () => {
+        queryClient.invalidateQueries([QueryKeys.deck, deckId]);
+        queryClient.invalidateQueries([QueryKeys.cards, deckId]);
+    }
+
     return (
         <Flex direction='column' h='100%' w='100%'>
-            <PageHeading title="Learn" urlToGoBack={`/decks/${deckId}`} />
+            <PageHeading title="Learn" urlToGoBack={`/decks/${deckId}`} onGoBack={handleGoBack}/>
 
-            {cardsLoading && <Loading />}
-            {!cardsLoading && cards &&
+            {(cardsLoading || deckLoading) && <Loading />}
+            {!cardsLoading && cards && !deckLoading && deck &&
             (<Flex flexGrow={1} direction='column' justify='space-between' px={4} pb={2} {...swipeHandlers}>
                 <Flex gap={2}>
                     <LearnSettingsModal />
@@ -46,7 +56,7 @@ export const LearnPage = () => {
                         <Card w='90%' h='100%' position='absolute' top={-6} filter='brightness(70%)'></Card>
                         <Card w='95%' h='100%' position='absolute' top={-3} filter='brightness(80%)'></Card>
                         <Box w='100%' h='100%' position='absolute'>
-                            <FlippableFlashCard flashCard={currentFlashCard()} />
+                            <FlippableFlashCard flashCard={currentFlashCard()} foreignLanguageId={deck.languageId} translatedLanguageId='pl'/>
                         </Box>
                     </Flex>
                 </Flex>

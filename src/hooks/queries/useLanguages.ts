@@ -3,5 +3,5 @@ import { getLanguages } from "../../services/LanguageService";
 import { QueryKeys } from "./queryKeys";
 
 export function useLanguages() {
-    return useQuery(QueryKeys.languages, getLanguages);
+    return useQuery(QueryKeys.languages, getLanguages, { staleTime: Infinity });
 }

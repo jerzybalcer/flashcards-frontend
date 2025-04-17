@@ -7,9 +7,11 @@ import './FlippableFlashCard.css'
 
 interface FlippableFlashCardProps {
     flashCard: FlashCard;
+    foreignLanguageId: string;
+    translatedLanguageId: string;
 }
 
-export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCard })  => {
+export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCard, foreignLanguageId, translatedLanguageId })  => {
     const flipCardRef = useRef<HTMLDivElement>(null);
     const foreignSideRef = useRef<HTMLDivElement>(null);
     const translatedSideRef = useRef<HTMLDivElement>(null);
@@ -40,7 +42,7 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
         <Card ref={flipCardRef} className="flip-card-inner" onClick={() => handleFlip()}>
             <Flex className="flip-card-front" direction='column'>
                 <Box alignSelf='end' h='10%' p='5%'>
-                    <ReadAloudButton word={currentSide} language='it' />
+                    <ReadAloudButton word={currentSide} language={foreignLanguageId} />
                 </Box>
 
                 <Box w='100%' h='90%' ref={foreignSideRef} p={4}>
@@ -52,7 +54,7 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
 
             <Flex className="flip-card-back" direction='column'>
                 <Box alignSelf='end' h='10%' p='5%'>
-                    <ReadAloudButton word={currentSide} language='pl' />
+                    <ReadAloudButton word={currentSide} language={translatedLanguageId} />
                 </Box>
 
                 <Box w='100%' h='90%' ref={translatedSideRef} p={4}>

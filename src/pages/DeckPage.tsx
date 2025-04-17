@@ -11,6 +11,8 @@ import { DeckSettingsModal } from "../components/modals/DeckSettingsModal"
 import { Loading } from "../components/Loading"
 import { useDeck } from "../hooks/queries/useDeck"
 import { useCards } from "../hooks/queries/useCards"
+import { QueryKeys } from "../hooks/queries/queryKeys"
+import { useQueryClient } from "react-query"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
@@ -20,6 +22,7 @@ export const DeckPage = () => {
 
     const { deckId } = useParams();
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     const { isFetching: deckLoading, data: deck } = useDeck(Number(deckId));
     const { isFetching: cardsLoading, data: cards } = useCards(Number(deckId), !deckLoading);
@@ -34,6 +37,11 @@ export const DeckPage = () => {
         || 
         c.translatedWord.toLowerCase().includes(cardsSearchPhrase.toLowerCase())
     ) ?? [];
+
+    const handleGoBack = () => {
+        queryClient.invalidateQueries([QueryKeys.deck, deckId]);
+        queryClient.invalidateQueries([QueryKeys.cards, deckId]);
+    }
     
     useEffect(() => {
         setDisplayedCards(searchForCards());
@@ -42,7 +50,7 @@ export const DeckPage = () => {
 
     return (
         <Flex direction='column' h='100%' w='100%'>
-            <PageHeading title="Deck" urlToGoBack='/decks' />
+            <PageHeading title="Deck" urlToGoBack='/decks' onGoBack={handleGoBack} />
 
             {deckLoading && <Loading />}
             {!deckLoading && deck &&
