@@ -56,7 +56,8 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
         {
             foreignWord: foreignWord,
             translatedWord: translatedWord,
-            id: flashCard ? flashCard.id : undefined
+            id: flashCard ? flashCard.id : undefined,
+            exampleSentence: null,
         } as FlashCard;
 
         cardMutation.mutate(newFlashCard);
