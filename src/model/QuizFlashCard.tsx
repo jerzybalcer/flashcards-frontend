@@ -3,4 +3,5 @@ export interface QuizFlashCard {
     foreignWord: string;
     translatedWord: string;
     wrongAnswers: string[];
+    exampleSentence: string | null;
 }
