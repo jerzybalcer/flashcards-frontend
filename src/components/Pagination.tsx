@@ -35,6 +35,7 @@ export const Pagination: React.FC<PaginationProps> = ({ items, itemsPerPage, onP
 
     useEffect(() => {
         onPageChange(getItemsForPage(1));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [items]);
 
     useEffect(() => {

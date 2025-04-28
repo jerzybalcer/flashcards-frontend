@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { App } from './App.tsx'
 import theme from './theme.ts';
 import './index.css'
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             </GoogleOAuthProvider>
           </AuthContextProvider>
         </BrowserRouter>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ChakraProvider>
   </React.StrictMode>,
