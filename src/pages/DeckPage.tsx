@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Box, Button, Flex, Heading, Tag, Text } from "@chakra-ui/react"
 import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
@@ -10,35 +10,24 @@ import { IconCheckbox, IconSchool } from "@tabler/icons-react"
 import { DeckSettingsModal } from "../components/modals/DeckSettingsModal"
 import { Loading } from "../components/Loading"
 import { useDeck } from "../hooks/queries/useDeck"
-import { useCards } from "../hooks/queries/useCards"
+import { useDebounce } from "../hooks/general/useDebounce"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
     const [isAddCardModalOpen, setAddCardModalOpen] = useState<boolean>(false);
     const [flashCardInEdit, setFlashCardInEdit] = useState<FlashCard | undefined>();
-    const [displayedCards, setDisplayedCards] = useState<FlashCard[]>([]);
+
+    const debouncedSearchPhrase = useDebounce<string>(cardsSearchPhrase, 250);
 
     const { deckId } = useParams();
     const navigate = useNavigate();
 
     const { isFetching: deckLoading, data: deck } = useDeck(Number(deckId));
-    const { isFetching: cardsLoading, data: cards } = useCards(Number(deckId));
 
     const onAddCardModalOpen = (flashCard?: FlashCard) => {
         setFlashCardInEdit(flashCard);
         setAddCardModalOpen(true);
     }
-
-    const searchForCards = (): FlashCard[] => cards?.filter(c => 
-        c.foreignWord.toLowerCase().includes(cardsSearchPhrase.toLowerCase())
-        || 
-        c.translatedWord.toLowerCase().includes(cardsSearchPhrase.toLowerCase())
-    ) ?? [];
-    
-    useEffect(() => {
-        setDisplayedCards(searchForCards());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [cards, cardsSearchPhrase]);
 
     return (
         <Flex direction='column' h='100%' w='100%'>
@@ -75,7 +64,7 @@ export const DeckPage = () => {
 
                 <Heading size='md'>Flashcards</Heading>
                 <ListNavigation onAddClick={() => onAddCardModalOpen()} onSearch={(phrase) => setCardsSearchPhrase(phrase)}/>
-                <FlashCardList cards={displayedCards} cardsLoading={cardsLoading} onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) }/>
+                <FlashCardList onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) } searchPhrase={debouncedSearchPhrase}/>
             </Flex>)}
             <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit} deckId={Number(deckId)}/>
         </Flex>

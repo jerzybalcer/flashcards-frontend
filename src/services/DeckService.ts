@@ -6,6 +6,8 @@ import { FlashCard } from "../model/FlashCard";
 import { NewDeck } from "../model/NewDeck";
 import { QuizStat } from "../model/QuizStat";
 import { QuizFlashCard } from "../model/QuizFlashCard";
+import { PaginatedResponse } from '../model/PaginatedResponse';
+import { camelizeKeys } from 'humps';
 
 export const getDeck = async (deckId: number) =>
     apiClient
@@ -32,10 +34,16 @@ export const deleteDeck = async (id: number) =>
         .delete(`/decks/${id}`)
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const getCards = async (deckId: number) => 
+export const getCards = async (deckId: number, page: number, pageSize: number, searchPhrase: string | null) => 
     apiClient
-        .get(`/decks/${deckId}/cards`)
-        .then(res => res.data as FlashCard[])
+        .get(`/decks/${deckId}/cards`, { 
+            params: {
+                page: page,
+                page_size: pageSize,
+                search_text: searchPhrase
+            } 
+        })
+        .then(res => camelizeKeys(res.data) as PaginatedResponse<FlashCard>)
         .catch((err: AxiosError) => Promise.reject(err));
 
 export const addCardsFromFile = async (deckId: number, file: File, delimiter: string) => {

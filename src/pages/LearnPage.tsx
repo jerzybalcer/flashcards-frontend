@@ -14,7 +14,9 @@ export const LearnPage = () => {
 
     const { deckId } = useParams();
 
-    const { isFetching: cardsLoading, data: cards } = useCards(Number(deckId));
+    const { isFetching: cardsLoading, data: cardsResponse } = useCards(Number(deckId), null, 9999);
+
+    const cards = cardsResponse?.pages?.flatMap(p => p.items) ?? [];
 
     const canGoNext: boolean = !cardsLoading && (currentWord < cards!.length);
     const canGoPrevious: boolean = currentWord > 1;
