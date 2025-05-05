@@ -24,7 +24,8 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.22.3",
     "react-swipeable": "^7.0.1",
-    "resize-observer-polyfill": "^1.5.1"
+    "resize-observer-polyfill": "^1.5.1",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.28",
