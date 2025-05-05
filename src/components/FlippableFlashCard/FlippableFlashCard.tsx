@@ -9,9 +9,10 @@ import { useLocalStorage } from 'usehooks-ts';
 
 interface FlippableFlashCardProps {
     flashCard: FlashCard;
+    language: string;
 }
 
-export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCard })  => {
+export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCard, language })  => {
     const flipCardRef = useRef<HTMLDivElement>(null);
     const foreignSideRef = useRef<HTMLDivElement>(null);
     const translatedSideRef = useRef<HTMLDivElement>(null);
@@ -58,7 +59,7 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
         <Card ref={flipCardRef} className="flip-card-inner" onClick={() => handleClick()}>
             <Flex className="flip-card-front" direction='column'>
                 <Box alignSelf='end' h='10%' p='5%'>
-                    <ReadAloudButton word={flashCard.foreignWord} language='it' autoRead={settings.autoRead && isCurrentSide(flashCard.foreignWord)}/>
+                    <ReadAloudButton word={flashCard.foreignWord} language={language} autoRead={settings.autoRead && isCurrentSide(flashCard.foreignWord)}/>
                 </Box>
 
                 <Box w='100%' h='90%' ref={foreignSideRef} p={4}>
