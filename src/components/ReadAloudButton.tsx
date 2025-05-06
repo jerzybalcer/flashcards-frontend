@@ -7,12 +7,11 @@ interface ReadAloudButtonProps {
     word: string;
     language: string;
     autoRead: boolean;
+    canRead: boolean;
 }
 
-export const ReadAloudButton: React.FC<ReadAloudButtonProps> = ({ word, language, autoRead }) => {
-    const { readWord, isAvailable } = useSpeechSynthesis();
-
-    const isSpeechSynthesisAvailable = isAvailable(language);
+export const ReadAloudButton: React.FC<ReadAloudButtonProps> = ({ word, language, autoRead, canRead }) => {
+    const { readWord } = useSpeechSynthesis();
 
     const handleReadAloud = (event?: React.MouseEvent) => {
         if(event){
@@ -22,11 +21,11 @@ export const ReadAloudButton: React.FC<ReadAloudButtonProps> = ({ word, language
     };
 
     useEffect(() => {
-        if(autoRead && isSpeechSynthesisAvailable) handleReadAloud();
+        if(autoRead && canRead) handleReadAloud();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [word, autoRead]);
+    }, [word, autoRead, canRead]);
 
-    if(!isSpeechSynthesisAvailable) return <></>;
+    if(!canRead) return <></>;
 
     return <Button variant='ghost' h='100%' w='100%' p={0} onClick={(event) => handleReadAloud(event)}>
         <IconVolume size={32} opacity={0.8} />

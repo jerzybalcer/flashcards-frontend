@@ -51,7 +51,7 @@ export const LearnPage = () => {
                         <Card w='90%' h='100%' position='absolute' top={-6} filter='brightness(70%)'></Card>
                         <Card w='95%' h='100%' position='absolute' top={-3} filter='brightness(80%)'></Card>
                         <Box w='100%' h='100%' position='absolute'>
-                            <FlippableFlashCard flashCard={currentFlashCard()} language={deck!.languageId} />
+                            <FlippableFlashCard flashCard={currentFlashCard()} foreignLanguage={deck!.languageId} />
                         </Box>
                     </Flex>
                 </Flex>
