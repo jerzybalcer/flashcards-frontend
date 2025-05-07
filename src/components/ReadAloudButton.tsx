@@ -13,11 +13,11 @@ interface ReadAloudButtonProps {
 export const ReadAloudButton: React.FC<ReadAloudButtonProps> = ({ word, language, autoRead, canRead }) => {
     const { readWord } = useSpeechSynthesis();
 
-    const handleReadAloud = (event?: React.MouseEvent) => {
+    const handleReadAloud = async (event?: React.MouseEvent) => {
         if(event){
             event.stopPropagation();
         }
-        readWord(word, language);
+        await readWord(word, language);
     };
 
     useEffect(() => {

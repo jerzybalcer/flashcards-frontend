@@ -19,11 +19,11 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
     const translatedSideRef = useRef<HTMLDivElement>(null);
     const [currentSide, setCurrentSide] = useState<string>(flashCard.foreignWord);
     const [settings] = useLocalStorage('learnSettings', { defaultSide: 'foreign', autoRead: false });
-    const { isAvailable: isSpeechSynthesisAvailable } = useSpeechSynthesis();
+    const { isLanguageAvailable: isSpeechLanguageAvailable } = useSpeechSynthesis();
     const nativeLanguage = 'pl'; // user.nativeLanguage
 
-    const canReadAloudForeignWord = isSpeechSynthesisAvailable(foreignLanguage);
-    const canReadAloudTranslatedWord = isSpeechSynthesisAvailable(foreignLanguage) && isSpeechSynthesisAvailable(nativeLanguage);
+    const canReadAloudForeignWord = isSpeechLanguageAvailable(foreignLanguage);
+    const canReadAloudTranslatedWord = isSpeechLanguageAvailable(foreignLanguage) && isSpeechLanguageAvailable(nativeLanguage);
 
     const isCurrentSide = (word: string) => {
         return currentSide === word;
