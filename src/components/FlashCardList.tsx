@@ -48,8 +48,11 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ onAddCardModalOpen
                         {cards.map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} onEdit={(currentFlashCard) => onAddCardModalOpen(currentFlashCard)}/>
                         )}
                         </>
-                        <Box mt={2} opacity={cardsLoading ? 1 : 0}>
-                            <Loading />
+                        <Box mt={2}>
+                            {!hasNextPage && <Center as='p' opacity={0.8}>You've seen all flashcards.</Center>}
+                            <Box opacity={cardsLoading ? 1 : 0}>
+                                <Loading />
+                            </Box>
                         </Box>
                     </Scrollable>
                     }
