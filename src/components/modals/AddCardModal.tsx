@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import { Button } from "@chakra-ui/react"
-import { AxiosError } from 'axios';
 import { useMutation, useQueryClient } from "react-query";
 import { editCard } from "../../services/CardService"
 import { FlashCard } from "../../model/FlashCard";
-import { errorToast, successToast } from "../../utils/toasts";
+import { successToast } from "../../utils/toasts";
 import { FlashCardInputForm } from "../FlashCardInputForm";
 import { addCard, addCardsFromFile } from "../../services/DeckService";
 import { FileInputForm } from "../FileInputForm";
@@ -35,20 +34,14 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
         queryClient.invalidateQueries([QueryKeys.cards, deckId]);
     };
 
-    const handleError = (error: AxiosError) => {
-        errorToast(error.response?.data as string);
-    };
-
     const cardMutation = useMutation((card: FlashCard) => flashCard ? cardEditMutationFunction.current!(card) : cardAddMutationFunction.current!(deckId, card), 
     {
         onSuccess: () => handleSuccess('Succesfully saved card',`${foreignWord} - ${translatedWord}`),
-        onError: handleError,
     });
 
     const fileMutation = useMutation((args: { file: File, delimiter: string }) => addCardsFromFile(deckId, args.file, args.delimiter), 
     {
         onSuccess: () => handleSuccess('Succesfully saved cards', `Unique cards from file imported`),
-        onError: handleError,
     });
 
     const handleAddCard = async () => {
