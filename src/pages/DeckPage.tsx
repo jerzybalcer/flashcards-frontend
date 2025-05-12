@@ -11,7 +11,7 @@ import { DeckSettingsModal } from "../components/modals/DeckSettingsModal"
 import { Loading } from "../components/Loading"
 import { useDeck } from "../hooks/queries/useDeck"
 import { useDebounce } from "../hooks/general/useDebounce"
-import { SortBottomSheet } from "../components/SortBottomSheet"
+import { SortCardsBottomSheet } from "../components/SortCardsBottomSheet"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
@@ -69,7 +69,7 @@ export const DeckPage = () => {
                 <FlashCardList onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) } searchPhrase={debouncedSearchPhrase}/>
             </Flex>)}
             <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit} deckId={Number(deckId)}/>
-            <SortBottomSheet isOpen={isSortMenuOpen} onSort={() => {}} onClose={() => setSortMenuOpen(false)}/>
+            <SortCardsBottomSheet isOpen={isSortMenuOpen} onSort={() => {}} onClose={() => setSortMenuOpen(false)}/>
         </Flex>
     )
 }

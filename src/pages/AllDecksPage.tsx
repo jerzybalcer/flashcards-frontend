@@ -8,7 +8,7 @@ import { DeckList } from "../components/DeckList";
 import { Scrollable } from "../components/Scrollable";
 import { AddDeckModal } from "../components/modals/AddDeckModal";
 import { useAllDecks } from "../hooks/queries/useAllDecks";
-import { SortBottomSheet } from "../components/SortBottomSheet";
+import { SortDecksBottomSheet } from "../components/SortDecksBottomSheet";
 
 
 export const AllDecksPage = () => {
@@ -48,7 +48,7 @@ export const AllDecksPage = () => {
             )}
 
             <AddDeckModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} />
-            <SortBottomSheet isOpen={isSortMenuOpen} onSort={() => {}} onClose={() => setSortMenuOpen(false)} />
+            <SortDecksBottomSheet isOpen={isSortMenuOpen} onSort={() => {}} onClose={() => setSortMenuOpen(false)} />
         </Flex>
     );
 }

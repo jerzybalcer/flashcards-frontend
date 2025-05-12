@@ -19,8 +19,7 @@ export const RadioCardGroup: React.FC<RadioCardGroupProps> = ({ options, onChang
 
     useEffect(() => {
         setValue(defaultValue ?? '');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [options]);
+    }, [options, defaultValue, setValue]);
     
     return (
         <Flex {...radioGroup} direction='column' gap={2} w='100%'>

@@ -20,7 +20,9 @@ export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText
     return (
         <Drawer isOpen={isOpen} placement='bottom' onClose={() => handleClose()}>
         <DrawerOverlay />
-        <DrawerContent borderTopRadius='md'>
+        <DrawerContent borderTopRadius='md' mx='auto' w='95vw'>
+            {/* <Box borderRadius='xl' width='50px' height='5px' mt={4} mx='auto' background='#5f6774' opacity={0.8}></Box> */}
+
             <DrawerHeader display='flex' alignItems='center' justifyContent='space-between' gap={2} w='100%'>
                 <Flex alignItems='center' w='100%' gap={2}>
                     {...header}
