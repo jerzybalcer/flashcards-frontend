@@ -8,7 +8,7 @@ export const RadioCard = ({ ...props }) => {
     return (
     <Card as='label' variant='outline' bg={state.isChecked ? 'blue.900' : 'transparent'} borderRadius='xl' w='100%'>
         <input {...getInputProps()} ref={inputRef}/>
-        <CardBody {...getRadioProps()} cursor='pointer' display='flex' gap={2} _disabled={{opacity: 0.4}}>
+        <CardBody {...getRadioProps()} cursor='pointer' display='flex' gap={2} _disabled={{opacity: 0.4}} p={4}>
             <Radio size='lg' isChecked={state.isChecked} onClick={() => inputRef.current!.click()}/>
             {props.children}
         </CardBody>
