@@ -8,6 +8,7 @@ import { DeckList } from "../components/DeckList";
 import { Scrollable } from "../components/Scrollable";
 import { AddDeckModal } from "../components/modals/AddDeckModal";
 import { useAllDecks } from "../hooks/queries/useAllDecks";
+import { SortBottomSheet } from "../components/SortBottomSheet";
 
 
 export const AllDecksPage = () => {
@@ -15,6 +16,7 @@ export const AllDecksPage = () => {
 
     const [displayedDecks, setDisplayedDecks] = useState<Deck[]>([]);
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+    const [isSortMenuOpen, setSortMenuOpen] = useState<boolean>(false);
 
     const decksAfterSearch = (searchPhrase: string) => {
         if(!decks) return [];
@@ -38,7 +40,7 @@ export const AllDecksPage = () => {
 
             {!decksLoading && decks && (
             <Flex direction='column' h='100%' px={2} gap={8}>
-                <ListNavigation onSearch={(phrase) => setDisplayedDecks(decksAfterSearch(phrase))} onAddClick={() => setIsAddModalOpen(true)}/>
+                <ListNavigation onSearch={(phrase) => setDisplayedDecks(decksAfterSearch(phrase))} onAddClick={() => setIsAddModalOpen(true)} onSortClick={() => setSortMenuOpen(true)}/>
                 <Scrollable>
                     <DeckList decks={displayedDecks}/>
                 </Scrollable>
@@ -46,6 +48,7 @@ export const AllDecksPage = () => {
             )}
 
             <AddDeckModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} />
+            <SortBottomSheet isOpen={isSortMenuOpen} onSort={() => {}} onClose={() => setSortMenuOpen(false)} />
         </Flex>
     );
 }

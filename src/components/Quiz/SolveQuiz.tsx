@@ -7,7 +7,7 @@ import { FittedText } from "../FittedText";
 import { Deck } from "../../model/Deck";
 import { ProgressBar } from "../ProgressBar";
 import { QuizContext } from "../../contexts/QuizContext";
-import { AnswerFeedback } from "./AnswerFeedback";
+import { AnswerFeedbackBottomSheet } from "./AnswerFeedback";
 import { shuffle } from "../../utils/arrays";
 import { useQuizCards } from "../../hooks/queries/useQuizCards";
 
@@ -80,7 +80,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onSolvedQuiz }) => {
                 </Box>
 
                 <Button py={6} fontSize='lg' colorScheme="blue" borderRadius='xl' onClick={() => handleOnAnswered()} isDisabled={!currentAnswer}>Continue</Button>
-                <AnswerFeedback isOpen={isFeedbackVisible} answer={currentAnswer} correctAnswer={currentCard().foreignWord} 
+                <AnswerFeedbackBottomSheet isOpen={isFeedbackVisible} answer={currentAnswer} correctAnswer={currentCard().foreignWord} 
                     onContinue={() => handleNext()}
                 />
             </Flex>
