@@ -9,15 +9,19 @@ import { Scrollable } from "../components/Scrollable";
 import { AddDeckModal } from "../components/modals/AddDeckModal";
 import { useAllDecks } from "../hooks/queries/useAllDecks";
 import { SortDecksBottomSheet } from "../components/SortDecksBottomSheet";
+import { SortDecksSettings } from "../model/SortDecksSettings";
+import { SortDecksBy } from "../model/SortDecksBy";
+import { SortDirection } from "../model/SortDirection";
 
 
 export const AllDecksPage = () => {
-    const { isFetching: decksLoading, data: decks } = useAllDecks();
-
     const [displayedDecks, setDisplayedDecks] = useState<Deck[]>([]);
     const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
     const [isSortMenuOpen, setSortMenuOpen] = useState<boolean>(false);
+    const [sortSettings, setSortSettings] = useState<SortDecksSettings>({ sortBy: SortDecksBy.Name, direction: 'descending' });
 
+    const { isFetching: decksLoading, data: decks } = useAllDecks(sortSettings.sortBy, sortSettings.direction);
+    
     const decksAfterSearch = (searchPhrase: string) => {
         if(!decks) return [];
 
@@ -31,6 +35,10 @@ export const AllDecksPage = () => {
     }
 
     useEffect(() => setDisplayedDecks(decks ?? []), [decks]);
+
+    const handleSort = (sortBy: SortDecksBy, direction: SortDirection) => {
+        setSortSettings({ sortBy: sortBy, direction: direction });
+    }
 
     return (
         <Flex direction='column' h='100%' w='100%'>
@@ -48,7 +56,7 @@ export const AllDecksPage = () => {
             )}
 
             <AddDeckModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} />
-            <SortDecksBottomSheet isOpen={isSortMenuOpen} onSort={() => {}} onClose={() => setSortMenuOpen(false)} />
+            <SortDecksBottomSheet isOpen={isSortMenuOpen} onSort={handleSort} onClose={() => setSortMenuOpen(false)} />
         </Flex>
     );
 }

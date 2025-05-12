@@ -1,4 +1,4 @@
-import humps from 'humps';
+import humps, { decamelize } from 'humps';
 import { AxiosError } from "axios";
 import { Deck } from "../model/Deck";
 import { apiClient } from "./AxiosInstance";
@@ -8,6 +8,9 @@ import { QuizStat } from "../model/QuizStat";
 import { QuizFlashCard } from "../model/QuizFlashCard";
 import { PaginatedResponse } from '../model/PaginatedResponse';
 import { camelizeKeys } from 'humps';
+import { SortCardsBy } from '../model/SortCardsBy';
+import { SortDirection } from '../model/SortDirection';
+import { SortDecksBy } from '../model/SortDecksBy';
 
 export const getDeck = async (deckId: number) =>
     apiClient
@@ -15,9 +18,14 @@ export const getDeck = async (deckId: number) =>
         .then(res => humps.camelizeKeys(res.data) as Deck)
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const getAllDecks = async () =>
+export const getAllDecks = async (sortBy: SortDecksBy, direction: SortDirection) =>
     apiClient
-        .get(`/decks`)
+        .get(`/decks`, { 
+            params: {
+                sort_by: decamelize(sortBy),
+                sort_direction: direction
+            } 
+        })
         .then(res => res.data as Deck[])
         .catch((err: AxiosError) => Promise.reject(err));
 
@@ -34,13 +42,15 @@ export const deleteDeck = async (id: number) =>
         .delete(`/decks/${id}`)
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const getCards = async (deckId: number, page: number, pageSize: number, searchPhrase: string | null) => 
+export const getCards = async (deckId: number, page: number, pageSize: number, searchPhrase: string | null, sortBy: SortCardsBy, sortDirection: SortDirection) => 
     apiClient
         .get(`/decks/${deckId}/cards`, { 
             params: {
                 page: page,
                 page_size: pageSize,
-                search_text: searchPhrase
+                search_text: searchPhrase,
+                sort_by: decamelize(sortBy),
+                sort_direction: sortDirection
             } 
         })
         .then(res => camelizeKeys(res.data) as PaginatedResponse<FlashCard>)

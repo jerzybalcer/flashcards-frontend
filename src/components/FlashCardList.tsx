@@ -7,18 +7,20 @@ import { Scrollable } from "./Scrollable";
 import { useCards } from "../hooks/queries/useCards";
 import { useParams } from "react-router-dom";
 import { useScrollToBottom } from "../hooks/general/useScrollToBottom";
+import { SortCardsSettings } from "../model/SortCardsSettings";
 
 interface FlashCardListProps {
     onAddCardModalOpen: (flashCard?: FlashCard) => void;
     searchPhrase: string;
+    sortSettings: SortCardsSettings;
 }
 
-export const FlashCardList: React.FC<FlashCardListProps> = ({ onAddCardModalOpen, searchPhrase }) => {
+export const FlashCardList: React.FC<FlashCardListProps> = ({ onAddCardModalOpen, searchPhrase, sortSettings }) => {
     const { deckId } = useParams();
 
     const listRef = useRef<HTMLDivElement>(null);
 
-    const { isFetchingNextPage: cardsLoading, data: cardsResponse, fetchNextPage, hasNextPage } = useCards(Number(deckId), searchPhrase ?? null);
+    const { isFetchingNextPage: cardsLoading, data: cardsResponse, fetchNextPage, hasNextPage } = useCards(Number(deckId), searchPhrase ?? null, undefined, sortSettings.sortBy, sortSettings.direction);
 
     function handleScrollToBottom(){
         if(hasNextPage && !cardsLoading){
@@ -31,11 +33,11 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ onAddCardModalOpen
     const cards = cardsResponse?.pages?.flatMap(p => p.items) ?? [];
 
     useEffect(() => {
-        if(!searchPhrase){
+        if(!searchPhrase && !sortSettings){
             return
         } 
         listRef.current?.scrollTo({ top: 0 });
-    }, [searchPhrase]);
+    }, [searchPhrase, sortSettings]);
 
     return (
         <Box h='100%'>

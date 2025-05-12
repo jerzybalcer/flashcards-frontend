@@ -9,6 +9,7 @@ import { LearnSettingsModal } from "../components/modals/LearnSettingsModal"
 import { Loading } from "../components/Loading"
 import { useCards } from "../hooks/queries/useCards"
 import { useDeck } from "../hooks/queries/useDeck"
+import { SortCardsBy } from "../model/SortCardsBy"
 
 export const LearnPage = () => {
     const [currentWord, setCurrentWord] = useState<number>(1);
@@ -17,7 +18,7 @@ export const LearnPage = () => {
 
     const { isFetching: deckLoading, data: deck } = useDeck(Number(deckId));
 
-    const { isFetching: cardsLoading, data: cardsResponse } = useCards(Number(deckId), null, 9999);
+    const { isFetching: cardsLoading, data: cardsResponse } = useCards(Number(deckId), null, 9999, SortCardsBy.DateAdded, 'descending');
 
     const cards = cardsResponse?.pages?.flatMap(p => p.items) ?? [];
 
