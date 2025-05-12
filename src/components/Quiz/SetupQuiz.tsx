@@ -1,11 +1,13 @@
 import { useContext, useEffect } from "react";
-import { Box, Button, Flex, FormControl, FormLabel, Heading, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react"
+import { Box, Button, Flex, FormControl, FormLabel, Heading } from "@chakra-ui/react"
 import { Deck } from "../../model/Deck";
 import { QuizMode, QuizModes } from "../../model/QuizMode";
 import { RadioCardGroup } from "../RadioCardGroup";
 import { useQueryClient } from "react-query";
 import { QuizContext } from "../../contexts/QuizContext";
 import { QueryKeys } from "../../hooks/queries/queryKeys";
+import { NumberInput } from "../NumberInput";
+import { TooFewCards } from "./TooFewCards";
 
 interface SetupQuizProps {
     deck: Deck;
@@ -25,24 +27,18 @@ export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return  <Flex direction='column' justifyContent='space-between' h='100%'>
+    const isTooFewCards = deck.cardsCount < 10;
+
+    if(isTooFewCards) return <TooFewCards deckId={deck.id}/>
+    
+    return (
+    <Flex direction='column' justifyContent='space-between' h='100%'>
         <Heading>Setup</Heading>
         <Flex direction="column" w='100%' justify='center' alignSelf='center' flexGrow={1}>
             <FormControl isRequired display='flex' justifyContent='center' flexDir='column' gap={8} px={4}>
                 <Box>
                     <FormLabel>Number of cards</FormLabel>
-                    <NumberInput defaultValue={defaultNumberOfCards} 
-                        min={1} 
-                        max={deck.cardsCount} 
-                        onChange={(_, number) => context.setNumberOfCards(number)} 
-                        size='lg'
-                        borderRadius='xl'>
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                    </NumberInput>
+                    <NumberInput defaultValue={defaultNumberOfCards} min={10} max={deck.cardsCount} onChange={value => context.setNumberOfCards(value)}/>
                 </Box>
                 <Box>
                     <FormLabel>Mode</FormLabel>
@@ -55,4 +51,5 @@ export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
         </Flex>
         <Button py={6} fontSize='lg' colorScheme="blue" borderRadius='xl' onClick={() => onStartQuiz()}>Start Quiz</Button>
     </Flex>
+    );
 }
