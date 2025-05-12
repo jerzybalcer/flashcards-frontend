@@ -46,7 +46,7 @@ export const SortDecksBottomSheet: React.FC<Props> = ({ isOpen, onSort, onClose 
 
     return (
         <BottomSheet isOpen={isOpen}
-            header={[<Text fontWeight='bold'>Sort</Text>]}
+            header={[<Text fontWeight='bold'>Sort decks</Text>]}
             body={[getBody()]}
             confirmText="Apply"
             onConfirm={() => handleSort()}
