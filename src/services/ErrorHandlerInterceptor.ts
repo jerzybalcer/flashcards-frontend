@@ -12,8 +12,16 @@ export const setupErrorHandlerInterceptor = () => {
             }
 
             if(error.response.status !== 401) {
-                errorToast(error.response.data.detail);
+                if(error.response.status === 422) {
+                    errorToast('Unexpected error. Error code: 422');
+                }
+                else{
+                    errorToast(error.response.data.detail);
+                }
+                return Promise.reject(error);
             }
+
+
             
             return Promise.reject(error);
     })
