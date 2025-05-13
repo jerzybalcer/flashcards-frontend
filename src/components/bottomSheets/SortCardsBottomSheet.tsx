@@ -1,10 +1,10 @@
-import { BottomSheet } from "./BottomSheet";
 import { Box, FormControl, FormLabel, Text } from "@chakra-ui/react";
-import { RadioCardGroup } from "./RadioCardGroup";
-import { SortCardsBy, SortCardsByOptions } from "../model/SortCardsBy";
-import { SortDirection } from "../model/SortDirection";
 import { useLocalStorage } from "usehooks-ts";
-import { SortCardsSettings } from "../model/SortCardsSettings";
+import { SortCardsBy, SortCardsByOptions } from "../../model/SortCardsBy";
+import { SortCardsSettings } from "../../model/SortCardsSettings";
+import { SortDirection } from "../../model/SortDirection";
+import { RadioCardGroup } from "../RadioCardGroup";
+import { BottomSheet } from "./BottomSheet";
 
 interface Props {
     isOpen: boolean;

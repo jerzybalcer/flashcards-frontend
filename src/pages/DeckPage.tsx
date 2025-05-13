@@ -11,10 +11,10 @@ import { DeckSettingsModal } from "../components/modals/DeckSettingsModal"
 import { Loading } from "../components/Loading"
 import { useDeck } from "../hooks/queries/useDeck"
 import { useDebounce } from "../hooks/general/useDebounce"
-import { SortCardsBottomSheet } from "../components/SortCardsBottomSheet"
 import { SortCardsSettings } from "../model/SortCardsSettings"
 import { SortCardsBy } from "../model/SortCardsBy"
 import { SortDirection } from "../model/SortDirection"
+import { SortCardsBottomSheet } from "../components/bottomSheets/SortCardsBottomSheet"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');

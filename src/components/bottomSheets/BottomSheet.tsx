@@ -35,7 +35,7 @@ export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText
             </DrawerBody>
     
             <DrawerFooter w='100%'>
-                <Button w='100%' py={6} fontSize='lg' colorScheme="blue" borderRadius='xl' onClick={() => onConfirm()}>{confirmText}</Button>
+                <Button w='100%' py={6} mt={2} fontSize='lg' colorScheme="blue" borderRadius='xl' onClick={() => onConfirm()}>{confirmText}</Button>
             </DrawerFooter>
         </DrawerContent>
         </Drawer>

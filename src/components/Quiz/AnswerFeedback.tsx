@@ -1,6 +1,6 @@
 import { Text, Box, Heading } from "@chakra-ui/react";
 import { IconCheck, IconX } from "@tabler/icons-react";
-import { BottomSheet } from "../BottomSheet";
+import { BottomSheet } from "../bottomSheets/BottomSheet";
 
 interface Props {
     isOpen: boolean;
