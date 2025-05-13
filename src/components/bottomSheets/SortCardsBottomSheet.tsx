@@ -8,7 +8,7 @@ import { BottomSheet } from "./BottomSheet";
 
 interface Props {
     isOpen: boolean;
-    onSort: (sortBy: SortCardsBy, direction: SortDirection) => void;
+    onSort?: (sortBy: SortCardsBy, direction: SortDirection) => void;
     onClose: () => void;
 }
 
@@ -25,7 +25,8 @@ export const SortCardsBottomSheet: React.FC<Props> = ({ isOpen, onSort, onClose 
     }
 
     function handleSort() {
-        onSort(settings.sortBy, settings.direction);
+        if(onSort)
+            onSort(settings.sortBy, settings.direction);
         onClose();
     }
 
@@ -48,7 +49,7 @@ export const SortCardsBottomSheet: React.FC<Props> = ({ isOpen, onSort, onClose 
         <BottomSheet isOpen={isOpen}
             header={[<Text fontWeight='bold'>Sort flashcards</Text>]}
             body={[getBody()]}
-            confirmText="Apply"
+            confirmText="Close"
             onConfirm={() => handleSort()}
             onClose={onClose}
         />

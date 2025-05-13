@@ -18,10 +18,11 @@ export const getDeck = async (deckId: number) =>
         .then(res => humps.camelizeKeys(res.data) as Deck)
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const getAllDecks = async (sortBy: SortDecksBy, direction: SortDirection) =>
+export const getAllDecks = async (searchPhrase: string | null, sortBy: SortDecksBy, direction: SortDirection) =>
     apiClient
         .get(`/decks`, { 
             params: {
+                search_text: searchPhrase,
                 sort_by: decamelize(sortBy),
                 sort_direction: direction
             } 

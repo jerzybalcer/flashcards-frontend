@@ -9,12 +9,12 @@ import { RadioCardGroup } from "../RadioCardGroup";
 
 interface Props {
     isOpen: boolean;
-    onSort: (sortBy: SortDecksBy, direction: SortDirection) => void;
+    onSort?: (sortBy: SortDecksBy, direction: SortDirection) => void;
     onClose: () => void;
 }
 
 export const SortDecksBottomSheet: React.FC<Props> = ({ isOpen, onSort, onClose }) => {
-    const [settings, setSettings] = useLocalStorage<SortDecksSettings>('sortDecksSettings', { sortBy: SortDecksBy.Name, direction: 'descending' });
+    const [settings, setSettings] = useLocalStorage<SortDecksSettings>('sortDecksSettings', { sortBy: SortDecksBy.Name, direction: 'ascending' });
 
     function handleSortByChange(value: string){
         const newSortBy = Object.entries(SortDecksByOptions).find(x => x[1] === value)?.[0] as SortDecksBy;
@@ -26,7 +26,8 @@ export const SortDecksBottomSheet: React.FC<Props> = ({ isOpen, onSort, onClose 
     }
 
     function handleSort() {
-        onSort(settings.sortBy, settings.direction);
+        if(onSort)
+            onSort(settings.sortBy, settings.direction);
         onClose();
     }
 
@@ -49,7 +50,7 @@ export const SortDecksBottomSheet: React.FC<Props> = ({ isOpen, onSort, onClose 
         <BottomSheet isOpen={isOpen}
             header={[<Text fontWeight='bold'>Sort decks</Text>]}
             body={[getBody()]}
-            confirmText="Apply"
+            confirmText="Close"
             onConfirm={() => handleSort()}
             onClose={onClose}
         />

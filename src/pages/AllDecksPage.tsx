@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import { PageHeading } from "../components/PageHeading";
 import { Loading } from "../components/Loading";
-import { Deck } from "../model/Deck";
 import { ListNavigation } from "../components/ListNavigation/ListNavigation";
 import { DeckList } from "../components/DeckList";
 import { Scrollable } from "../components/Scrollable";
@@ -10,37 +9,21 @@ import { AddDeckModal } from "../components/modals/AddDeckModal";
 import { useAllDecks } from "../hooks/queries/useAllDecks";
 import { SortDecksSettings } from "../model/SortDecksSettings";
 import { SortDecksBy } from "../model/SortDecksBy";
-import { SortDirection } from "../model/SortDirection";
 import { SortDecksBottomSheet } from "../components/bottomSheets/SortDecksBottomSheet";
 import { useIsMobile } from "../hooks/general/useIsMobile";
 import { AddDeckBottomSheet } from "../components/bottomSheets/AddDeckBottomSheet";
+import { useLocalStorage } from "usehooks-ts";
+import { useDebounce } from "../hooks/general/useDebounce";
 
 
 export const AllDecksPage = () => {
-    const [displayedDecks, setDisplayedDecks] = useState<Deck[]>([]);
     const [isAddDeckOpen, setAddDeckOpen] = useState<boolean>(false);
     const [isSortMenuOpen, setSortMenuOpen] = useState<boolean>(false);
-    const [sortSettings, setSortSettings] = useState<SortDecksSettings>({ sortBy: SortDecksBy.Name, direction: 'descending' });
-
-    const { isFetching: decksLoading, data: decks } = useAllDecks(sortSettings.sortBy, sortSettings.direction);
+    const [sortSettings] = useLocalStorage<SortDecksSettings>('sortDecksSettings', { sortBy: SortDecksBy.Name, direction: 'ascending'});
+    const [searchPhrase, setSearchPhrase] = useState<string>('');
+    const debouncedSearchPhrase = useDebounce<string>(searchPhrase, 250);
     
-    const decksAfterSearch = (searchPhrase: string) => {
-        if(!decks) return [];
-
-        if(!searchPhrase) return decks;
-
-        return decks.filter(deck => 
-            deck.name.toLowerCase().includes(searchPhrase.toLowerCase())
-            ||
-            deck.languageName.toLowerCase().includes(searchPhrase.toLowerCase())
-        );
-    }
-
-    useEffect(() => setDisplayedDecks(decks ?? []), [decks]);
-
-    const handleSort = (sortBy: SortDecksBy, direction: SortDirection) => {
-        setSortSettings({ sortBy: sortBy, direction: direction });
-    }
+    const { isFetching: decksLoading, data: decks } = useAllDecks(debouncedSearchPhrase, sortSettings.sortBy, sortSettings.direction);
 
     const isMobile = useIsMobile();
 
@@ -50,14 +33,14 @@ export const AllDecksPage = () => {
 
             {decksLoading && <Loading />}
 
-            {!decksLoading && decks && (
             <Flex direction='column' h='100%' px={2} gap={8}>
-                <ListNavigation onSearch={(phrase) => setDisplayedDecks(decksAfterSearch(phrase))} onAddClick={() => setAddDeckOpen(true)} onSortClick={() => setSortMenuOpen(true)}/>
+                <ListNavigation onSearch={(phrase) => setSearchPhrase(phrase)} onAddClick={() => setAddDeckOpen(true)} onSortClick={() => setSortMenuOpen(true)}/>
+                {!decksLoading && decks && (
                 <Scrollable>
-                    <DeckList decks={displayedDecks}/>
+                    <DeckList decks={decks}/>
                 </Scrollable>
+                )}
             </Flex>
-            )}
 
             {isMobile ? 
             <AddDeckBottomSheet isOpen={isAddDeckOpen} onClose={() => setAddDeckOpen(false)} />
@@ -65,7 +48,7 @@ export const AllDecksPage = () => {
             <AddDeckModal isOpen={isAddDeckOpen} onClose={() => setAddDeckOpen(false)} />
             }
             
-            <SortDecksBottomSheet isOpen={isSortMenuOpen} onSort={handleSort} onClose={() => setSortMenuOpen(false)} />
+            <SortDecksBottomSheet isOpen={isSortMenuOpen} onClose={() => setSortMenuOpen(false)} />
         </Flex>
     );
 }
