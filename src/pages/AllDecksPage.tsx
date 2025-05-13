@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Flex } from "@chakra-ui/react";
+import { Center, Flex } from "@chakra-ui/react";
 import { PageHeading } from "../components/PageHeading";
 import { Loading } from "../components/Loading";
 import { ListNavigation } from "../components/ListNavigation/ListNavigation";
@@ -37,7 +37,11 @@ export const AllDecksPage = () => {
                 <ListNavigation onSearch={(phrase) => setSearchPhrase(phrase)} onAddClick={() => setAddDeckOpen(true)} onSortClick={() => setSortMenuOpen(true)}/>
                 {!decksLoading && decks && (
                 <Scrollable>
+                    {decks.length === 0 ? 
+                    <Center h='100%' opacity={0.8} display='flex' justifyContent='center' flexDirection='column'>No decks to show.</Center>
+                    :   
                     <DeckList decks={decks}/>
+                    }
                 </Scrollable>
                 )}
             </Flex>
