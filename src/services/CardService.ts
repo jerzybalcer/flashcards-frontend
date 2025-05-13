@@ -5,7 +5,7 @@ import { FlashCard } from "../model/FlashCard";
 export const editCard = async (card: FlashCard) =>
     apiClient
         .put(`/cards/${card.id}`, 
-            {foreign_word: card.foreignWord, translated_word: card.translatedWord, id: card.id}, 
+            {foreign_word: card.foreignWord, translated_word: card.translatedWord, id: card.id, example_sentence: card.exampleSentence}, 
             { headers: {'Content-Type': 'application/json'} })
         .catch((err: AxiosError) => Promise.reject(err));
 
