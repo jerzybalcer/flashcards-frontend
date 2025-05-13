@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { Center, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { PageHeading } from "../components/PageHeading";
-import { Loading } from "../components/Loading";
 import { ListNavigation } from "../components/ListNavigation/ListNavigation";
 import { DeckList } from "../components/DeckList";
-import { Scrollable } from "../components/Scrollable";
 import { AddDeckModal } from "../components/modals/AddDeckModal";
-import { useAllDecks } from "../hooks/queries/useAllDecks";
 import { SortDecksSettings } from "../model/SortDecksSettings";
 import { SortDecksBy } from "../model/SortDecksBy";
 import { SortDecksBottomSheet } from "../components/bottomSheets/SortDecksBottomSheet";
@@ -23,27 +20,14 @@ export const AllDecksPage = () => {
     const [searchPhrase, setSearchPhrase] = useState<string>('');
     const debouncedSearchPhrase = useDebounce<string>(searchPhrase, 250);
     
-    const { isFetching: decksLoading, data: decks } = useAllDecks(debouncedSearchPhrase, sortSettings.sortBy, sortSettings.direction);
-
     const isMobile = useIsMobile();
 
     return (
         <Flex direction='column' h='100%' w='100%'>
             <PageHeading title="Decks"/>
-
-            {decksLoading && <Loading />}
-
             <Flex direction='column' h='100%' px={2} gap={8}>
                 <ListNavigation onSearch={(phrase) => setSearchPhrase(phrase)} onAddClick={() => setAddDeckOpen(true)} onSortClick={() => setSortMenuOpen(true)}/>
-                {!decksLoading && decks && (
-                <Scrollable>
-                    {decks.length === 0 ? 
-                    <Center h='100%' opacity={0.8} display='flex' justifyContent='center' flexDirection='column'>No decks to show.</Center>
-                    :   
-                    <DeckList decks={decks}/>
-                    }
-                </Scrollable>
-                )}
+                <DeckList searchPhrase={debouncedSearchPhrase} sortSettings={sortSettings}/>
             </Flex>
 
             {isMobile ? 

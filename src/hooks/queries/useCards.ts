@@ -11,7 +11,8 @@ export function useCards(deckId: number, searchPhrase: string | null, pageSize: 
         { 
             getNextPageParam: (lastPage) => 
                 lastPage.page * lastPage.pageSize < lastPage.total ? lastPage.page + 1 : undefined,
-            staleTime: 20000
+            staleTime: 20000,
+            keepPreviousData: true,
         },
     );
 }
