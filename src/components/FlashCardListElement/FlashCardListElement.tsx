@@ -6,10 +6,11 @@ import { FlashCardContextMenu } from "./FlashCardContextMenu";
 
 interface FlasCardListElementProps {
     flashCard: FlashCard;
+    foreignLanguageName: string;
     onEdit: (current: FlashCard) => void;
 }
 
-export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flashCard, onEdit }) => {
+export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flashCard, foreignLanguageName, onEdit }) => {
     const elementRef = useRef<HTMLDivElement>(null);
     
     const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState<boolean>(false);
@@ -29,7 +30,7 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
                 </CardBody>
             </Card>
         </Flex>
-        <DeleteCardConfirmationModal isOpen={isDeleteConfirmationOpen} onClose={() => setDeleteConfirmationOpen(false)} flashCard={flashCard}/>
+        <DeleteCardConfirmationModal isOpen={isDeleteConfirmationOpen} onClose={() => setDeleteConfirmationOpen(false)} flashCard={flashCard} foreignLanguageName={foreignLanguageName}/>
         </>
     )
 }

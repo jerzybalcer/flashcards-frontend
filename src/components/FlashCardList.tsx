@@ -13,9 +13,10 @@ interface FlashCardListProps {
     onEditCardFormOpen: (flashCard: FlashCard) => void;
     searchPhrase: string;
     sortSettings: SortCardsSettings;
+    foreignLanguageName: string;
 }
 
-export const FlashCardList: React.FC<FlashCardListProps> = ({ onEditCardFormOpen, searchPhrase, sortSettings }) => {
+export const FlashCardList: React.FC<FlashCardListProps> = ({ onEditCardFormOpen, searchPhrase, sortSettings, foreignLanguageName }) => {
     const { deckId } = useParams();
 
     const listRef = useRef<HTMLDivElement>(null);
@@ -47,7 +48,7 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ onEditCardFormOpen
                     ? <Center h='100%' opacity={0.8}>No flashcards to show.</Center>
                     : <Scrollable scrollableRef={listRef}>
                         <>
-                        {cards.map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} onEdit={(currentFlashCard) => onEditCardFormOpen(currentFlashCard)}/>
+                        {cards.map((obj: FlashCard, index: number) => <FlashCardListElement key={index} flashCard={obj} onEdit={(currentFlashCard) => onEditCardFormOpen(currentFlashCard)} foreignLanguageName={foreignLanguageName}/>
                         )}
                         </>
                         <Box mt={2}>

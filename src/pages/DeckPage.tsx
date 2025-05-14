@@ -113,7 +113,7 @@ export const DeckPage = () => {
 
                 <Heading size='md'>Flashcards</Heading>
                 <ListNavigation onAddClick={handleAddCardOpen} onSearch={(phrase) => setCardsSearchPhrase(phrase)} onSortClick={handleSortMenuOpen}/>
-                <FlashCardList onEditCardFormOpen={handleEditCardOpen} searchPhrase={debouncedSearchPhrase} sortSettings={sortSettings}/>
+                <FlashCardList onEditCardFormOpen={handleEditCardOpen} searchPhrase={debouncedSearchPhrase} sortSettings={sortSettings} foreignLanguageName={deck.languageName}/>
             </Flex>)}
 
             {renderAddCardForm()}

@@ -1,35 +1,31 @@
-import { Button, Card, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react";
-import { AxiosError } from "axios";
+import { Box, Button, Card, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Text } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "react-query";
 import { FlashCard } from "../../model/FlashCard";
 import { deleteCard } from "../../services/CardService";
-import { errorToast, infoToast } from "../../utils/toasts";
+import { successToast } from "../../utils/toasts";
 import { useParams } from "react-router-dom";
 import { QueryKeys } from "../../hooks/queries/queryKeys";
 
 interface DeleteCardConfirmationModalProps{
     isOpen: boolean;
     flashCard: FlashCard;
+    foreignLanguageName: string;
     onClose: () => void;
 }
 
-export const DeleteCardConfirmationModal: React.FC<DeleteCardConfirmationModalProps> = ({ isOpen, flashCard, onClose }) => {
+export const DeleteCardConfirmationModal: React.FC<DeleteCardConfirmationModalProps> = ({ isOpen, flashCard, foreignLanguageName, onClose }) => {
     const queryClient = useQueryClient();
     const { deckId } = useParams();
 
     const handleDeleteSuccess = () => {
         onClose(); 
-        console.log(QueryKeys.cards, deckId)
         queryClient.invalidateQueries({predicate: (query) => query.queryKey.includes(QueryKeys.cards) && (query.queryKey as number[]).includes(Number(deckId))}); 
-        infoToast('Card deleted', `${flashCard.foreignWord} - ${flashCard.translatedWord}`);
+        successToast('Card deleted', `${flashCard.foreignWord} - ${flashCard.translatedWord}`);
     };
-
-    const handleDeleteError = (error: AxiosError) => errorToast(error.response?.data as string);
 
     const deleteMutation = useMutation((id: number) => deleteCard(id), 
     {
         onSuccess: handleDeleteSuccess,
-        onError: handleDeleteError,
     });
 
     const handleDeleteCard = async () => {
@@ -38,16 +34,26 @@ export const DeleteCardConfirmationModal: React.FC<DeleteCardConfirmationModalPr
 
     return (
             <Modal isOpen={isOpen} onClose={() => onClose()} autoFocus={false} returnFocusOnClose={false} isCentered>
-                    <ModalOverlay />
-                    <ModalContent>
+                <ModalOverlay />
+                <ModalContent>
                     <ModalHeader>Are you sure?</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Text>You're about to permanently delete this flashcard from your list:</Text>
+                        <Text>You're about to permanently delete this flashcard from your deck:</Text>
                         <br/>
-                        <Card variant='outline' p={2} gap={2}>
-                            <Text fontWeight='bold'>{flashCard.foreignWord}</Text>
-                            <Text fontWeight='bold'>{flashCard.translatedWord}</Text>
+                        <Card variant='outline' p={2} gap={4}>
+                            <Flex direction='column' gap={2}>
+                                <Box>
+                                    <Tag colorScheme="blue" variant='subtle'>{foreignLanguageName.toUpperCase()}</Tag>
+                                </Box>
+                                <Text fontWeight='bold' color='blue.200' ml={2}>{flashCard.foreignWord}</Text>
+                            </Flex>
+                            <Flex direction='column' gap={2}>
+                                <Box>
+                                    <Tag colorScheme="gray" variant='subtle'>POLISH</Tag>
+                                </Box>
+                                <Text fontWeight='bold' ml={2}>{flashCard.translatedWord}</Text>
+                            </Flex>
                         </Card>
                         <br/>
                     </ModalBody>
@@ -56,7 +62,7 @@ export const DeleteCardConfirmationModal: React.FC<DeleteCardConfirmationModalPr
                         <Button colorScheme="red" mr={4} onClick={() => handleDeleteCard()} isLoading={deleteMutation.isLoading}>Delete</Button>
                         <Button variant='ghost' onClick={() => onClose()}>Cancel</Button>
                     </ModalFooter>
-                    </ModalContent>
+                </ModalContent>
         </Modal>
     )
 }
