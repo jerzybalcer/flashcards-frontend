@@ -8,11 +8,12 @@ interface Props {
     confirmText: string;
     onConfirm: () => void;
     isConfirmLoading?: boolean;
+    isConfirmDeleting?: boolean;
     canClose?: boolean;
     onClose?: () => void;
 }
 
-export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText, onConfirm, canClose = true, onClose, isConfirmLoading = false }) => {
+export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText, onConfirm, canClose = true, onClose, isConfirmDeleting = false, isConfirmLoading = false }) => {
 
     function handleClose() {
         if(onClose) onClose();
@@ -36,7 +37,16 @@ export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText
             </DrawerBody>
     
             <DrawerFooter w='100%'>
-                <Button w='100%' py={6} mt={2} fontSize='lg' colorScheme="blue" borderRadius='xl' onClick={() => onConfirm()} isLoading={isConfirmLoading}>{confirmText}</Button>
+                <Button 
+                    w='100%' py={6} mt={2} 
+                    fontSize='lg' 
+                    borderRadius='xl' 
+                    colorScheme={isConfirmDeleting ? 'red' : 'blue'} 
+                    onClick={() => onConfirm()} 
+                    isLoading={isConfirmLoading}
+                >
+                    {confirmText}
+                </Button>
             </DrawerFooter>
         </DrawerContent>
         </Drawer>

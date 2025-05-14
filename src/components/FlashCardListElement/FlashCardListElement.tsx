@@ -3,6 +3,8 @@ import { Box, Card, CardBody, Flex, Text } from "@chakra-ui/react"
 import { FlashCard } from "../../model/FlashCard"
 import { DeleteCardConfirmationModal } from "../modals/DeleteCardConfirmationModal";
 import { FlashCardContextMenu } from "./FlashCardContextMenu";
+import { useIsMobile } from "../../hooks/general/useIsMobile";
+import { DeleteCardBottomSheet } from "../bottomSheets/DeleteCardBottomSheet";
 
 interface FlasCardListElementProps {
     flashCard: FlashCard;
@@ -17,6 +19,21 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
 
     const handleEdit = () => onEdit(flashCard);
 
+    function handleDeleteConfirmationClose() {
+        setDeleteConfirmationOpen(false);
+    }
+
+    const isMobile = useIsMobile();
+
+    function renderDeleteConfirmation(){
+        if(isMobile){
+            return <DeleteCardBottomSheet isOpen={isDeleteConfirmationOpen} onClose={handleDeleteConfirmationClose} flashCard={flashCard} foreignLanguageName={foreignLanguageName}/>;
+        }
+        else{
+            return <DeleteCardConfirmationModal isOpen={isDeleteConfirmationOpen} onClose={handleDeleteConfirmationClose} flashCard={flashCard} foreignLanguageName={foreignLanguageName}/>
+        }
+    }
+
     return (
         <>
         <Flex flexDirection='row' align='center' justifyContent='space-between' w='100%' my={2} ref={elementRef} className="slider">
@@ -30,7 +47,7 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
                 </CardBody>
             </Card>
         </Flex>
-        <DeleteCardConfirmationModal isOpen={isDeleteConfirmationOpen} onClose={() => setDeleteConfirmationOpen(false)} flashCard={flashCard} foreignLanguageName={foreignLanguageName}/>
+        {renderDeleteConfirmation()}
         </>
     )
 }
