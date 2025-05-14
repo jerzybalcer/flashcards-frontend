@@ -22,13 +22,11 @@ export const AddCardBottomSheet: React.FC<Props> = ({ isOpen, deckId, onClose })
 
     function handleConfirm() {
         if(addingFromFile){
-            handleAddFile().then(() => onClose());
+            handleAddFile().then(() => handleClose());
         }
         else{
-            handleSave().then(() => onClose());
+            handleSave().then(() => handleClose());
         }
-
-        handleClose();
     }
 
     function handleClose(){
