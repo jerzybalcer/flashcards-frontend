@@ -30,7 +30,7 @@ export const AddDeckBottomSheet: React.FC<Props> = ({ isOpen, onClose }) => {
                 <Input value={name} onChange={(event) => setName(event.currentTarget.value)}/>
             </FormControl>
             ,
-            <FormControl isRequired>
+            <FormControl my={4} isRequired>
                 <FormLabel>Language</FormLabel>
                 <Select isDisabled={languagesLoading} placeholder="Select language" value={languageId} 
                     onChange={(event) => setLanguageId(event.currentTarget.value)}>
