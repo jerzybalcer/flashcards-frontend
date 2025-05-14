@@ -1,5 +1,5 @@
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, FormControl, FormLabel, Input, Select } from "@chakra-ui/react";
-import { useAddDeck } from "../../hooks/forms/useAddDeck";
+import { useAddDeck } from "../../hooks/mutations/useAddDeck";
 
 interface AddDeckModalProps {
     isOpen: boolean;

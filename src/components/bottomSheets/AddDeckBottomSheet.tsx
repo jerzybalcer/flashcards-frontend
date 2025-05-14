@@ -1,6 +1,6 @@
 import { BottomSheet } from "./BottomSheet";
 import { FormControl, FormLabel, Input, Select, Text } from "@chakra-ui/react";
-import { useAddDeck } from './../../hooks/forms/useAddDeck';
+import { useAddDeck } from '../../hooks/mutations/useAddDeck';
 
 interface Props {
     isOpen: boolean;
@@ -44,9 +44,5 @@ export const AddDeckBottomSheet: React.FC<Props> = ({ isOpen, onClose }) => {
         ]);
     }
 
-    function handleConfirm() {
-        handleSave();
-    }
-
-    return <BottomSheet isOpen={isOpen} confirmText="Save" onConfirm={handleConfirm} header={[getHeader()]} body={getBody()} canClose onClose={handleClose}></BottomSheet>
+    return <BottomSheet isOpen={isOpen} confirmText="Save" onConfirm={handleSave} header={[getHeader()]} body={getBody()} canClose onClose={handleClose}></BottomSheet>
 }

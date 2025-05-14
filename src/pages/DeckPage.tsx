@@ -15,10 +15,14 @@ import { SortCardsSettings } from "../model/SortCardsSettings"
 import { SortCardsBy } from "../model/SortCardsBy"
 import { SortCardsBottomSheet } from "../components/bottomSheets/SortCardsBottomSheet"
 import { useLocalStorage } from "usehooks-ts"
+import { useIsMobile } from "../hooks/general/useIsMobile"
+import { AddCardBottomSheet } from "../components/bottomSheets/AddCardBottomSheet"
+import { EditCardBottomSheet } from "../components/bottomSheets/EditCardBottomSheet"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
-    const [isAddCardModalOpen, setAddCardModalOpen] = useState<boolean>(false);
+    const [isAddCardOpen, setAddCardOpen] = useState<boolean>(false);
+    const [isEditCardOpen, setEditCardOpen] = useState<boolean>(false);
     const [flashCardInEdit, setFlashCardInEdit] = useState<FlashCard | undefined>();
     const [isSortMenuOpen, setSortMenuOpen] = useState<boolean>(false);
     const [sortSettings] = useLocalStorage<SortCardsSettings>('sortCardsSettings', { sortBy: SortCardsBy.DateAdded, direction: 'descending'});
@@ -30,9 +34,48 @@ export const DeckPage = () => {
 
     const { isFetching: deckLoading, data: deck } = useDeck(Number(deckId));
 
-    const onAddCardModalOpen = (flashCard?: FlashCard) => {
+    function handleEditCardOpen(flashCard?: FlashCard) {
         setFlashCardInEdit(flashCard);
-        setAddCardModalOpen(true);
+        setEditCardOpen(true);
+    }
+
+    function handleAddCardOpen() { setAddCardOpen(true) }
+    function handleSortMenuOpen() { setSortMenuOpen(true) }
+    function handleEditCardClose(){ setEditCardOpen(false) }
+    function handleAddCardClose(){ setAddCardOpen(false) }
+    function handleSortMenuClose(){ setSortMenuOpen(false) }
+
+    const isMobile = useIsMobile();
+
+    function renderEditCardForm() {
+        if(!flashCardInEdit) return <></>
+
+        if(isMobile) {
+            return <EditCardBottomSheet isOpen={isEditCardOpen} flashCard={flashCardInEdit} deckId={Number(deckId)} onClose={handleEditCardClose}/>
+        }
+        else{
+            // TODO: Change this to modal
+            return <EditCardBottomSheet isOpen={isEditCardOpen} flashCard={flashCardInEdit} deckId={Number(deckId)} onClose={handleEditCardClose}/>;
+        }
+    }
+
+    function renderAddCardForm() {
+        if(isMobile) {
+            return <AddCardBottomSheet isOpen={isAddCardOpen} deckId={Number(deckId)} onClose={handleAddCardClose}/>;
+        }
+        else{
+            return <AddCardModal isOpen={isAddCardOpen} onClose={handleAddCardClose} flashCard={flashCardInEdit} deckId={Number(deckId)}/>;
+        }
+    }
+
+    function renderSortMenu() {
+        if(isMobile){
+            return <SortCardsBottomSheet isOpen={isSortMenuOpen} onClose={handleSortMenuClose}/>;
+        }
+        else{
+            // TODO: Change this to context menu
+            return <SortCardsBottomSheet isOpen={isSortMenuOpen} onClose={handleSortMenuClose}/>;
+        }
     }
 
     return (
@@ -69,11 +112,13 @@ export const DeckPage = () => {
                 </Flex>
 
                 <Heading size='md'>Flashcards</Heading>
-                <ListNavigation onAddClick={() => onAddCardModalOpen()} onSearch={(phrase) => setCardsSearchPhrase(phrase)} onSortClick={() => setSortMenuOpen(true)}/>
-                <FlashCardList onAddCardModalOpen={(flashCard?: FlashCard) => onAddCardModalOpen(flashCard) } searchPhrase={debouncedSearchPhrase} sortSettings={sortSettings}/>
+                <ListNavigation onAddClick={handleAddCardOpen} onSearch={(phrase) => setCardsSearchPhrase(phrase)} onSortClick={handleSortMenuOpen}/>
+                <FlashCardList onEditCardFormOpen={handleEditCardOpen} searchPhrase={debouncedSearchPhrase} sortSettings={sortSettings}/>
             </Flex>)}
-            <AddCardModal isOpen={isAddCardModalOpen} onClose={() => setAddCardModalOpen(false)} flashCard={flashCardInEdit} deckId={Number(deckId)}/>
-            <SortCardsBottomSheet isOpen={isSortMenuOpen} onClose={() => setSortMenuOpen(false)}/>
+
+            {renderAddCardForm()}
+            {renderEditCardForm()}
+            {renderSortMenu()}
         </Flex>
     )
 }
