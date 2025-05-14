@@ -1,14 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import { Button } from "@chakra-ui/react"
-import { useMutation, useQueryClient } from "react-query";
-import { editCard } from "../../services/CardService"
 import { FlashCard } from "../../model/FlashCard";
-import { successToast } from "../../utils/toasts";
 import { FlashCardInputForm } from "../FlashCardInputForm";
-import { addCard, addCardsFromFile } from "../../services/DeckService";
 import { FileInputForm } from "../FileInputForm";
-import { QueryKeys } from "../../hooks/queries/queryKeys";
+import { useAddCard } from "../../hooks/mutations/useAddCard";
+import { useAddCardsFromFile } from "../../hooks/mutations/useAddCardsFromFile";
 
 interface AddCardModalProps {
     isOpen: boolean;
@@ -18,89 +15,35 @@ interface AddCardModalProps {
 }
 
 export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, deckId, onClose }) => {
-    const [foreignWord, setForeignWord] = useState<string>("");
-    const [translatedWord, setTranslatedWord] = useState<string>("");
+    const { setForeignWord, setTranslatedWord, handleSave, isLoading: isAddCardLoading } = useAddCard(deckId);
+    const { setFile, setDelimiter, handleAddFile, isLoading: isAddFileLoading } = useAddCardsFromFile(deckId);
+
     const [currentTab, setCurrentTab] = useState<number>(0);
-    const [file, setFile] = useState<File>()
-    const [delimiter, setDelimiter] = useState<string>('-');
+    const addingFromFile = currentTab === 1;
 
-    const cardAddMutationFunction = useRef<(deckId: number, card: FlashCard) => Promise<unknown>>();
-    const cardEditMutationFunction = useRef<(card: FlashCard) => Promise<unknown>>();
-    const queryClient = useQueryClient();
-
-    const handleSuccess = (toastTitle: string, toastDescription: string) => {
-        successToast(toastTitle, toastDescription);
-        handleClose();
-        queryClient.invalidateQueries([QueryKeys.cards, deckId]);
-    };
-
-    const cardMutation = useMutation((card: FlashCard) => flashCard ? cardEditMutationFunction.current!(card) : cardAddMutationFunction.current!(deckId, card), 
-    {
-        onSuccess: () => handleSuccess('Succesfully saved card',`${foreignWord} - ${translatedWord}`),
-    });
-
-    const fileMutation = useMutation((args: { file: File, delimiter: string }) => addCardsFromFile(deckId, args.file, args.delimiter), 
-    {
-        onSuccess: () => handleSuccess('Succesfully saved cards', `Unique cards from file imported`),
-    });
-
-    const handleAddCard = async () => {
-        const newFlashCard = 
-        {
-            foreignWord: foreignWord,
-            translatedWord: translatedWord,
-            id: flashCard ? flashCard.id : undefined,
-            exampleSentence: null,
-        } as FlashCard;
-
-        cardMutation.mutate(newFlashCard);
-    }
-
-    const handleAddFile = () => {
-        fileMutation.mutate({file: file!, delimiter: delimiter});
-    };
-
-    const handleSave = () => {
-        if(currentTab === 0 ){
-            handleAddCard();
-        } else{
-            handleAddFile();
-        }
-    };
-
-    const isMutationLoading = currentTab === 0 ? cardMutation.isLoading : fileMutation.isLoading;
-
-    const isSaveEnabled = () => {
-        if(currentTab === 0 && foreignWord && translatedWord) return true;
-
-        if(currentTab === 1 && file) return true;
-
-        return false;
-    };
-
-    const handleClose = () => {
-        setTranslatedWord('');
-        setForeignWord('');
-        setFile(undefined);
-        onClose();
-    };
-
-    useEffect(() => {
-        if(!flashCard){
-            cardAddMutationFunction.current = addCard;
+    function handleConfirm() {
+        if(addingFromFile){
+            handleAddFile().then(() => onClose());
         }
         else{
-            cardEditMutationFunction.current = editCard;
-            setForeignWord(flashCard.foreignWord);
-            setTranslatedWord(flashCard.translatedWord);
+            handleSave().then(() => onClose());
         }
-    }, [flashCard]);
+
+        handleClose();
+    }
+
+    function handleClose(){
+        setForeignWord('');
+        setTranslatedWord('');
+        setFile(undefined);
+        onClose();
+    }
 
     return (
         <Modal isOpen={isOpen} onClose={handleClose} autoFocus={false} returnFocusOnClose={false} isCentered>
             <ModalOverlay />
             <ModalContent>
-            <ModalHeader>{flashCard ? 'Edit card' : 'New card'}</ModalHeader>
+            <ModalHeader fontWeight='bold'>{flashCard ? 'Edit card' : 'New card'}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
                 {!flashCard && (<Tabs isFitted onChange={(index) => setCurrentTab(index)}>
@@ -129,7 +72,7 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
                 )}
             </ModalBody>
             <ModalFooter>
-                <Button colorScheme="blue" mr={4} onClick={() => handleSave()} isLoading={isMutationLoading} isDisabled={!isSaveEnabled()}> Save </Button>
+                <Button colorScheme="blue" mr={4} onClick={handleConfirm} isLoading={addingFromFile ? isAddFileLoading : isAddCardLoading}>Save</Button>
                 <Button variant='ghost' onClick={handleClose}> Close </Button>
             </ModalFooter>
             </ModalContent>
