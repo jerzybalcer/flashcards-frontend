@@ -8,6 +8,8 @@ import { QueryKeys } from "../queries/queryKeys";
 export function useEditCard(flashCard: FlashCard, deckId: number) {
     const [foreignWord, setForeignWord] = useState<string>(flashCard.foreignWord);
     const [translatedWord, setTranslatedWord] = useState<string>(flashCard.translatedWord);
+    const [foreignExampleSentence, setForeignExampleSentence] = useState<string | null>(flashCard.foreignExampleSentence);
+    const [translatedExampleSentence, setTranslatedExampleSentence] = useState<string | null>(flashCard.translatedExampleSentence);
     const queryClient = useQueryClient();
 
     function handleSuccess(toastTitle: string, toastDescription: string) {
@@ -30,7 +32,8 @@ export function useEditCard(flashCard: FlashCard, deckId: number) {
             foreignWord: foreignWord,
             translatedWord: translatedWord,
             id: flashCard.id,
-            foreignExampleSentence: null,
+            foreignExampleSentence: foreignExampleSentence,
+            translatedExampleSentence: translatedExampleSentence
         } as FlashCard;
 
         await mutation.mutateAsync(newFlashCard);
@@ -39,7 +42,9 @@ export function useEditCard(flashCard: FlashCard, deckId: number) {
     useEffect(() => {
         setForeignWord(flashCard.foreignWord);
         setTranslatedWord(flashCard.translatedWord);
+        setForeignExampleSentence(flashCard.foreignExampleSentence);
+        setTranslatedExampleSentence(flashCard.translatedExampleSentence);
     }, [flashCard]);
 
-    return { foreignWord, setForeignWord, translatedWord, setTranslatedWord, handleSave, isLoading }
+    return { foreignWord, setForeignWord, translatedWord, setTranslatedWord, foreignExampleSentence, setForeignExampleSentence, translatedExampleSentence, setTranslatedExampleSentence, handleSave, isLoading }
 }

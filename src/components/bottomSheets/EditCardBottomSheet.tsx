@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const EditCardBottomSheet: React.FC<Props> = ({ isOpen, flashCard, deckId, onClose }) => {
-    const { setForeignWord, setTranslatedWord, handleSave, isLoading } = useEditCard(flashCard, deckId);
+    const { setForeignWord, setTranslatedWord, setForeignExampleSentence, setTranslatedExampleSentence, handleSave, isLoading } = useEditCard(flashCard, deckId);
 
     function handleConfirm() {
         handleSave().then(() => onClose());
@@ -25,8 +25,13 @@ export const EditCardBottomSheet: React.FC<Props> = ({ isOpen, flashCard, deckId
     function getBody(){
         return <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
             translatednWordOnChange={(value) => setTranslatedWord(value)}
+            foreignExampleSentenceOnChange={(value) => setForeignExampleSentence(value)}
+            translatedExampleSentenceOnChange={(value) => setTranslatedExampleSentence(value)}
             foreignDefaultValue={flashCard.foreignWord}
-            translatednWordDefaultValue={flashCard.translatedWord} />        
+            translatednWordDefaultValue={flashCard.translatedWord} 
+            foreignExampleSentenceDefaultValue={flashCard.foreignExampleSentence}
+            translatedExampleSentenceDefaultValue={flashCard.translatedExampleSentence}
+            />        
     }
     
     return (

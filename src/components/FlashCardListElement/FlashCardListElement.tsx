@@ -1,10 +1,11 @@
 import { useRef, useState } from "react";
-import { Box, Card, CardBody, Flex, Text } from "@chakra-ui/react"
+import { Box, Card, CardBody, Flex, IconButton, Text } from "@chakra-ui/react"
 import { FlashCard } from "../../model/FlashCard"
 import { DeleteCardConfirmationModal } from "../modals/DeleteCardConfirmationModal";
 import { FlashCardContextMenu } from "./FlashCardContextMenu";
 import { useIsMobile } from "../../hooks/general/useIsMobile";
-import { DeleteCardBottomSheet } from "../bottomSheets/DeleteCardBottomSheet";
+import { FlashCardDetailsBottomSheet } from "../bottomSheets/FlashCardDetailsBottomSheet";
+import { IconDotsVertical } from "@tabler/icons-react";
 
 interface FlasCardListElementProps {
     flashCard: FlashCard;
@@ -16,21 +17,29 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
     const elementRef = useRef<HTMLDivElement>(null);
     
     const [isDeleteConfirmationOpen, setDeleteConfirmationOpen] = useState<boolean>(false);
+    const [isDetailsOpen, setDetailsOpen] = useState<boolean>(false);
 
     const handleEdit = () => onEdit(flashCard);
 
+    const handleDeleteConfirmationOpen = () => setDeleteConfirmationOpen(true);
+
     function handleDeleteConfirmationClose() {
         setDeleteConfirmationOpen(false);
+        setDetailsOpen(false);
     }
 
     const isMobile = useIsMobile();
 
     function renderDeleteConfirmation(){
+        return <DeleteCardConfirmationModal isOpen={isDeleteConfirmationOpen} onClose={handleDeleteConfirmationClose} flashCard={flashCard} foreignLanguageName={foreignLanguageName}/>;
+    }
+
+    function renderFlashCardOptionsButton() {
         if(isMobile){
-            return <DeleteCardBottomSheet isOpen={isDeleteConfirmationOpen} onClose={handleDeleteConfirmationClose} flashCard={flashCard} foreignLanguageName={foreignLanguageName}/>;
+            return <IconButton icon={<IconDotsVertical />} variant='ghost' onClick={() => setDetailsOpen(true)} aria-label="options" />
         }
         else{
-            return <DeleteCardConfirmationModal isOpen={isDeleteConfirmationOpen} onClose={handleDeleteConfirmationClose} flashCard={flashCard} foreignLanguageName={foreignLanguageName}/>
+            return <FlashCardContextMenu onEdit={handleEdit} onDelete={handleDeleteConfirmationOpen} />;
         }
     }
 
@@ -43,11 +52,12 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
                         <Text userSelect='text' color='blue.200'>{flashCard.foreignWord}</Text>
                         <Text userSelect='text'>{flashCard.translatedWord}</Text>
                     </Box>
-                    <FlashCardContextMenu onEdit={handleEdit} onDelete={() => setDeleteConfirmationOpen(true)} />
+                    {renderFlashCardOptionsButton()}
                 </CardBody>
             </Card>
         </Flex>
         {renderDeleteConfirmation()}
+        <FlashCardDetailsBottomSheet isOpen={isDetailsOpen} onClose={() => setDetailsOpen(false)} flashCard={flashCard} onEdit={handleEdit} onDelete={handleDeleteConfirmationOpen}/>
         </>
     )
 }
