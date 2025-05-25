@@ -15,7 +15,7 @@ interface AddCardModalProps {
 }
 
 export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, deckId, onClose }) => {
-    const { setForeignWord, setTranslatedWord, handleSave, isLoading: isAddCardLoading } = useAddCard(deckId);
+    const { setForeignWord, setTranslatedWord, setForeignExampleSentence, setTranslatedExampleSentence, handleSave, isLoading: isAddCardLoading } = useAddCard(deckId);
     const { setFile, setDelimiter, handleAddFile, isLoading: isAddFileLoading } = useAddCardsFromFile(deckId);
 
     const [currentTab, setCurrentTab] = useState<number>(0);
@@ -53,8 +53,12 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
                         <TabPanel>
                             <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
                             translatednWordOnChange={(value) => setTranslatedWord(value)}
+                            foreignExampleSentenceOnChange={(value) => setForeignExampleSentence(value)}
+                            translatedExampleSentenceOnChange={(value) => setTranslatedExampleSentence(value)}
                             foreignDefaultValue={''}
-                            translatednWordDefaultValue={''} />                    
+                            translatednWordDefaultValue={''}
+                            foreignExampleSentenceDefaultValue={null} 
+                            translatedExampleSentenceDefaultValue={null}/>                    
                         </TabPanel>
                         <TabPanel>
                             <FileInputForm onFileChange={(file) => setFile(file)} onDelimiterChange={(delimiter) => setDelimiter(delimiter)}/>
@@ -65,8 +69,12 @@ export const AddCardModal: React.FC<AddCardModalProps> = ({ isOpen, flashCard, d
                 {flashCard && (
                     <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
                     translatednWordOnChange={(value) => setTranslatedWord(value)}
+                    foreignExampleSentenceOnChange={(value) => setForeignExampleSentence(value)}
+                    translatedExampleSentenceOnChange={(value) => setTranslatedExampleSentence(value)}
                     foreignDefaultValue={flashCard.foreignWord}
-                    translatednWordDefaultValue={flashCard.translatedWord} />          
+                    translatednWordDefaultValue={flashCard.translatedWord}
+                    foreignExampleSentenceDefaultValue={flashCard.foreignExampleSentence}
+                    translatedExampleSentenceDefaultValue={flashCard.translatedExampleSentence} />          
                 )}
             </ModalBody>
             <ModalFooter>
