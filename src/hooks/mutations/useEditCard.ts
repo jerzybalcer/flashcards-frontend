@@ -30,7 +30,7 @@ export function useEditCard(flashCard: FlashCard, deckId: number) {
             foreignWord: foreignWord,
             translatedWord: translatedWord,
             id: flashCard.id,
-            exampleSentence: null,
+            foreignExampleSentence: null,
         } as FlashCard;
 
         await mutation.mutateAsync(newFlashCard);

@@ -2,5 +2,6 @@ export interface FlashCard {
     id?: number;
     foreignWord: string;
     translatedWord: string;
-    exampleSentence: string | null;
+    foreignExampleSentence: string | null;
+    translatedExampleSentence: string | null;
 }

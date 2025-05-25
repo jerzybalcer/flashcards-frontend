@@ -27,7 +27,8 @@ export function useAddCard(deckId: number) {
         {
             foreignWord: foreignWord,
             translatedWord: translatedWord,
-            exampleSentence: null,
+            foreignExampleSentence: null,
+            translatedExampleSentence: null,
         } as FlashCard;
 
         await mutation.mutateAsync(newFlashCard);

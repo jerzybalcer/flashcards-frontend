@@ -71,7 +71,7 @@ export const addCardsFromFile = async (deckId: number, file: File, delimiter: st
 export const addCard = async (deckId: number, card: FlashCard) =>
     apiClient
         .post(`/decks/${deckId}/cards`, 
-            { foreign_word: card.foreignWord, translated_word: card.translatedWord, example_sentence: card.exampleSentence }, 
+            { foreign_word: card.foreignWord, translated_word: card.translatedWord, foreign_example_sentence: card.foreignExampleSentence, translated_example_sentence: card.translatedExampleSentence }, 
             { headers: {'Content-Type': 'application/json'} })
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
