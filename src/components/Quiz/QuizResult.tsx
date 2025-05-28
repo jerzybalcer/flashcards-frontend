@@ -14,7 +14,7 @@ export const QuizResult: React.FC<QuizResultProps> = ({ deck, onStartAgain, onFi
 
     const context = useContext(QuizContext)!;
 
-    const numberCorrectAnswers = context.answeredQuestions.filter(c => c.lastAnswerCorrect).length;
+    const numberCorrectAnswers = context.answeredQuestions.filter(c => c.answerCorrect).length;
     const fastestAnswer = context.answeredQuestions.sort((a, b) => a.answerTimeMs - b.answerTimeMs)[0];
     const longestAnswer = context.answeredQuestions.sort((a, b) => b.answerTimeMs - a.answerTimeMs)[0];
 

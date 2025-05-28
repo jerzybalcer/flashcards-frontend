@@ -1,12 +1,9 @@
 import { useContext, useEffect, useState } from "react"
 import { Box, Flex } from "@chakra-ui/react"
-import { useMutation } from "react-query";
 import { PageHeading } from "../components/PageHeading"
 import { SetupQuiz } from "../components/Quiz/SetupQuiz";
 import { SolveQuiz } from "../components/Quiz/SolveQuiz";
 import { QuizResult } from "../components/Quiz/QuizResult";
-import { updateQuizCards } from "../services/DeckService";
-import { QuizStat } from "../model/QuizStat";
 import { useParams } from "react-router-dom";
 import { QuizContext } from './../contexts/QuizContext';
 import { Loading } from "../components/Loading";
@@ -27,11 +24,7 @@ export const QuizPage = () => {
 
         const { isFetching: deckLoading, data: deck } = useDeck(Number(deckId));
         
-        const quizResultMutation = useMutation((resultCards: QuizStat[]) => updateQuizCards(1, resultCards));
-        
         const handleQuizSolved = () => {
-            const quizStats = context.answeredQuestions.map(c => ({id: c.flashCard.id!, answerTimeMs: c.answerTimeMs, lastAnswerCorrect: c.lastAnswerCorrect }));
-            quizResultMutation.mutate(quizStats);
             setCurrentStep(QuizSteps.Result);
         };
 

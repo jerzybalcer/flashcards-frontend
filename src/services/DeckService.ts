@@ -4,7 +4,7 @@ import { Deck } from "../model/Deck";
 import { apiClient } from "./AxiosInstance";
 import { FlashCard } from "../model/FlashCard";
 import { NewDeck } from "../model/NewDeck";
-import { QuizStat } from "../model/QuizStat";
+import { QuizCardLog } from "../model/QuizCardLog";
 import { QuizFlashCard } from "../model/QuizFlashCard";
 import { PaginatedResponse } from '../model/PaginatedResponse';
 import { camelizeKeys } from 'humps';
@@ -82,10 +82,10 @@ export const getQuizCards = async (deckId: number, numberOfCards: number) =>
         .then(res => res.data as QuizFlashCard[])
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const updateQuizCards = async (deckId: number, resultCards: QuizStat[]) =>
+export const addQuizCardLog = async (deckId: number, quizCardLog: QuizCardLog) =>
     apiClient
-        .put(`/decks/${deckId}/quiz/results`, 
-            humps.decamelizeKeys(resultCards), 
+        .post(`/decks/${deckId}/quiz/results`, 
+            humps.decamelizeKeys(quizCardLog), 
             { headers: {'Content-Type': 'application/json'} }
         )
         .then(res => res.data as number)

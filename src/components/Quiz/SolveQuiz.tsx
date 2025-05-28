@@ -10,6 +10,9 @@ import { QuizContext } from "../../contexts/QuizContext";
 import { AnswerFeedbackBottomSheet } from "./AnswerFeedback";
 import { shuffle } from "../../utils/arrays";
 import { useQuizCards } from "../../hooks/queries/useQuizCards";
+import { useMutation } from "react-query";
+import { QuizCardLog } from "../../model/QuizCardLog";
+import { addQuizCardLog } from "../../services/DeckService";
 
 interface SolveQuizProps {
     deck: Deck;
@@ -28,6 +31,8 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onSolvedQuiz }) => {
     
     const { data: cards, isFetching: cardsLoading } = useQuizCards(deck.id, context.numberOfCards)
 
+    const quizCardLogMutation = useMutation((quizCardLog: QuizCardLog) => addQuizCardLog(deck.id, quizCardLog));
+
     const currentCard = () => cards![currentIndex - 1];
 
     const handleNext = () => {
@@ -40,14 +45,27 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onSolvedQuiz }) => {
     };
 
     const handleOnAnswered = () => {
+        const timestamp = new Date().getTime();
+
         const answeredQuestion: QuizAnsweredQuestion = {
             flashCard: currentCard(),
-            lastAnswerCorrect: currentAnswer === currentCard().foreignWord,
-            answerTimeMs: new Date().getTime() - startTimeMs
+            answerCorrect: currentAnswer === currentCard().foreignWord,
+            answerTimeMs: timestamp - startTimeMs
         }
 
         context.setAnsweredQuestions([...context.answeredQuestions, answeredQuestion]);
         setFeedbackVisible(true);
+
+        const quizCardLog: QuizCardLog = {
+            cardId: answeredQuestion.flashCard.id as number,
+            timestamp: new Date(timestamp),
+            responseTime: answeredQuestion.answerTimeMs,
+            answerCorrect: answeredQuestion.answerCorrect,
+            // answerType: QuizMode.SingleChoice
+            answerType: 0
+        }
+
+        quizCardLogMutation.mutate(quizCardLog);
     };
 
     useEffect(() => {
