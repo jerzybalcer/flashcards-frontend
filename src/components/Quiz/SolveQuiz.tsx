@@ -13,6 +13,7 @@ import { useQuizCards } from "../../hooks/queries/useQuizCards";
 import { useMutation } from "react-query";
 import { QuizCardLog } from "../../model/QuizCardLog";
 import { addQuizCardLog } from "../../services/DeckService";
+import { QuizMode } from "../../model/QuizMode";
 
 interface SolveQuizProps {
     deck: Deck;
@@ -61,8 +62,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onSolvedQuiz }) => {
             timestamp: new Date(timestamp),
             responseTime: answeredQuestion.answerTimeMs,
             answerCorrect: answeredQuestion.answerCorrect,
-            // answerType: QuizMode.SingleChoice
-            answerType: 0
+            quizMode: QuizMode.SingleChoice
         }
 
         quizCardLogMutation.mutate(quizCardLog);

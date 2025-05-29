@@ -82,11 +82,18 @@ export const getQuizCards = async (deckId: number, numberOfCards: number) =>
         .then(res => res.data as QuizFlashCard[])
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const addQuizCardLog = async (deckId: number, quizCardLog: QuizCardLog) =>
-    apiClient
+export const addQuizCardLog = async (deckId: number, quizCardLog: QuizCardLog) => 
+{
+    const quizModeDecamelized = humps.decamelize(quizCardLog.quizMode);
+    const bodyDecamelized = humps.decamelizeKeys(quizCardLog);
+    // @ts-expect-error need to decamelize the value of QuizMode
+    bodyDecamelized.quiz_mode = quizModeDecamelized;
+    
+    return apiClient
         .post(`/decks/${deckId}/quiz/results`, 
-            humps.decamelizeKeys(quizCardLog), 
+            bodyDecamelized, 
             { headers: {'Content-Type': 'application/json'} }
         )
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
+}
