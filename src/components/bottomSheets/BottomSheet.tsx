@@ -8,11 +8,12 @@ interface Props {
     confirmIcon?: JSX.Element;
     onConfirm: () => void;
     isConfirmLoading?: boolean;
+    isConfirmDisabled?: boolean;
     canClose?: boolean;
     onClose?: () => void;
 }
 
-export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText, confirmIcon, onConfirm, canClose = true, onClose, isConfirmLoading = false }) => {
+export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText, confirmIcon, onConfirm, canClose = true, onClose, isConfirmLoading = false, isConfirmDisabled = false }) => {
     function handleClose() {
         if(onClose) onClose();
     }
@@ -43,6 +44,7 @@ export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText
                         colorScheme='blue'
                         onClick={() => onConfirm()} 
                         isLoading={isConfirmLoading}
+                        isDisabled={isConfirmDisabled}
                         leftIcon={confirmIcon}
                     >
                         {confirmText}

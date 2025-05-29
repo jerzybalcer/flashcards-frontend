@@ -1,13 +1,12 @@
 import { useState } from "react"
-import { Box, Button, Flex, Heading, Tag, Text } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, IconButton, Tag, Text } from "@chakra-ui/react"
 import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
 import { AddCardModal } from "../components/modals/AddCardModal"
 import { FlashCard } from "../model/FlashCard"
 import { useNavigate, useParams } from "react-router-dom"
 import { ListNavigation } from "../components/ListNavigation/ListNavigation"
-import { IconCheckbox, IconSchool } from "@tabler/icons-react"
-import { DeckSettingsModal } from "../components/modals/DeckSettingsModal"
+import { IconCheckbox, IconDotsVertical, IconSchool } from "@tabler/icons-react"
 import { Loading } from "../components/Loading"
 import { useDeck } from "../hooks/queries/useDeck"
 import { useDebounce } from "../hooks/general/useDebounce"
@@ -18,6 +17,8 @@ import { useLocalStorage } from "usehooks-ts"
 import { useIsMobile } from "../hooks/general/useIsMobile"
 import { AddCardBottomSheet } from "../components/bottomSheets/AddCardBottomSheet"
 import { EditCardBottomSheet } from "../components/bottomSheets/EditCardBottomSheet"
+import { DeckDetailsBottomSheet } from "../components/bottomSheets/DeckDetailsBottomSheet"
+import { DeleteDeckConfirmationModal } from "../components/modals/DeleteDeckConfirmationModal"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
@@ -26,6 +27,8 @@ export const DeckPage = () => {
     const [flashCardInEdit, setFlashCardInEdit] = useState<FlashCard | undefined>();
     const [isSortMenuOpen, setSortMenuOpen] = useState<boolean>(false);
     const [sortSettings] = useLocalStorage<SortCardsSettings>('sortCardsSettings', { sortBy: SortCardsBy.DateAdded, direction: 'descending'});
+    const [isDeckDetailsOpen, setDeckDetailsOpen] = useState<boolean>(false);
+    const [isDeleteDeckConfirmationOpen, setDeleteDeckConfirmationOpen] = useState<boolean>(false);
 
     const debouncedSearchPhrase = useDebounce<string>(cardsSearchPhrase, 250);
 
@@ -41,9 +44,13 @@ export const DeckPage = () => {
 
     function handleAddCardOpen() { setAddCardOpen(true) }
     function handleSortMenuOpen() { setSortMenuOpen(true) }
+    function handleDeckDetailsOpen() { setDeckDetailsOpen(true) }
+    function handleDeleteDeckConfirmationOpen() { setDeleteDeckConfirmationOpen(true) }
     function handleEditCardClose(){ setEditCardOpen(false) }
     function handleAddCardClose(){ setAddCardOpen(false) }
     function handleSortMenuClose(){ setSortMenuOpen(false) }
+    function handleDeckDetailsClose(){ setDeckDetailsOpen(false) }
+    function handleDeleteDeckConfirmationClose(){ setDeleteDeckConfirmationOpen(false) }
 
     const isMobile = useIsMobile();
 
@@ -78,6 +85,12 @@ export const DeckPage = () => {
         }
     }
 
+    function renderDeckDetails(){
+        if(!deck) return <></>;
+
+        return <DeckDetailsBottomSheet isOpen={isDeckDetailsOpen} onClose={handleDeckDetailsClose} deck={deck} onDelete={handleDeleteDeckConfirmationOpen}/>
+    }
+
     return (
         <Flex direction='column' h='100%' w='100%'>
             <PageHeading title="Deck" urlToGoBack='/decks' />
@@ -91,7 +104,7 @@ export const DeckPage = () => {
                     </Box>
                     <Flex justify='space-between' align='center'>
                         <Heading size='lg'>{deck.name}</Heading>
-                        <DeckSettingsModal deck={deck} />
+                        <IconButton variant='ghost' aria-label='Settings' icon={<IconDotsVertical />} onClick={handleDeckDetailsOpen}/>
                     </Flex>
                 </Flex>
 
@@ -119,6 +132,12 @@ export const DeckPage = () => {
             {renderAddCardForm()}
             {renderEditCardForm()}
             {renderSortMenu()}
+
+            {deck && 
+            <>
+                {renderDeckDetails()}
+                <DeleteDeckConfirmationModal isOpen={isDeleteDeckConfirmationOpen} onClose={handleDeleteDeckConfirmationClose} deck={deck}/>
+            </>}
         </Flex>
     )
 }
