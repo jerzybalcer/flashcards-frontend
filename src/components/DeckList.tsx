@@ -48,7 +48,7 @@ export const DeckList: React.FC<DeckListProps> = ({ searchPhrase, sortSettings }
                         <Card key={deck.id} onClick={() => handleDeckClick(deck)}>
                             <CardBody gap={2} display='flex' flexDirection='column'>
                                 <Text>{deck.name}</Text>
-                                <Text opacity={0.8}>{deck.cardsCount} cards</Text>
+                                <Text opacity={0.8}>{deck.cardsCount} flashcards</Text>
                             </CardBody>
                         </Card>)}
                     </AccordionPanel>
