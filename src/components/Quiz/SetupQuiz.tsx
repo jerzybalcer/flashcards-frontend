@@ -15,7 +15,7 @@ interface SetupQuizProps {
 }
 
 export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
-    const defaultNumberOfCards = Math.round(deck.cardsCount/2);
+    const defaultNumberOfCards = deck.cardsCount >= 20 ? 20 : deck.cardsCount;
 
     const context = useContext(QuizContext)!;
 
