@@ -53,6 +53,7 @@ export const SortDecksBottomSheet: React.FC<Props> = ({ isOpen, onSort, onClose 
             confirmText="Close"
             onConfirm={() => handleSort()}
             onClose={onClose}
+            closeButtonVisible={false}
         />
     );
 }

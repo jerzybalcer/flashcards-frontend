@@ -42,7 +42,7 @@ export const AnswerFeedbackBottomSheet: React.FC<Props> = ({ isOpen, answer, cor
             body={getBody()}
             confirmText="Continue"
             onConfirm={() => onContinue()}
-            canClose={false}
+            closeButtonVisible={false}
         />
     );
 }

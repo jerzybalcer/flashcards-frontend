@@ -73,7 +73,7 @@ export const AddCardBottomSheet: React.FC<Props> = ({ isOpen, deckId, onClose })
             body={[getBody()]} 
             confirmText="Save" 
             onConfirm={handleConfirm} 
-            canClose 
+            closeButtonVisible 
             onClose={handleClose} 
             isConfirmLoading={addingFromFile ? isAddFileLoading : isAddCardLoading}/>
     );

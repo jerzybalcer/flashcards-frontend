@@ -44,5 +44,5 @@ export const AddDeckBottomSheet: React.FC<Props> = ({ isOpen, onClose }) => {
         ]);
     }
 
-    return <BottomSheet isOpen={isOpen} confirmText="Save" onConfirm={handleSave} header={[getHeader()]} body={getBody()} canClose onClose={handleClose}></BottomSheet>
+    return <BottomSheet isOpen={isOpen} confirmText="Save" onConfirm={handleSave} header={[getHeader()]} body={getBody()} closeButtonVisible onClose={handleClose}></BottomSheet>
 }

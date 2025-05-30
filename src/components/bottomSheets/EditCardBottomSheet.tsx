@@ -19,7 +19,7 @@ export const EditCardBottomSheet: React.FC<Props> = ({ isOpen, flashCard, deckId
     }
 
     function getHeader(){
-        return <Text fontWeight='bold'>Edit deck</Text>;
+        return <Text fontWeight='bold'>Edit flashcard</Text>;
     }
 
     function getBody(){
@@ -41,7 +41,7 @@ export const EditCardBottomSheet: React.FC<Props> = ({ isOpen, flashCard, deckId
             body={[getBody()]} 
             confirmText="Save" 
             onConfirm={handleConfirm} 
-            canClose 
+            closeButtonVisible 
             onClose={onClose} 
             isConfirmLoading={isLoading}/>
     );

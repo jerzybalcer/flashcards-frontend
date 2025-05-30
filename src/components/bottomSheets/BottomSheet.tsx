@@ -9,11 +9,11 @@ interface Props {
     onConfirm: () => void;
     isConfirmLoading?: boolean;
     isConfirmDisabled?: boolean;
-    canClose?: boolean;
+    closeButtonVisible?: boolean;
     onClose?: () => void;
 }
 
-export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText, confirmIcon, onConfirm, canClose = true, onClose, isConfirmLoading = false, isConfirmDisabled = false }) => {
+export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText, confirmIcon, onConfirm, closeButtonVisible = true, onClose, isConfirmLoading = false, isConfirmDisabled = false }) => {
     function handleClose() {
         if(onClose) onClose();
     }
@@ -49,7 +49,7 @@ export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText
                     >
                         {confirmText}
                     </Button>
-                    {canClose && 
+                    {closeButtonVisible && 
                         <Button 
                             w='100%' 
                             py={6} 
