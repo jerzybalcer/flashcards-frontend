@@ -7,7 +7,6 @@ import { useQueryClient } from "react-query";
 import { QuizContext } from "../../contexts/QuizContext";
 import { QueryKeys } from "../../hooks/queries/queryKeys";
 import { NumberInput } from "../NumberInput";
-import { TooFewCards } from "./TooFewCards";
 
 interface SetupQuizProps {
     deck: Deck;
@@ -26,10 +25,6 @@ export const SetupQuiz: React.FC<SetupQuizProps> = ({ deck, onStartQuiz }) => {
         context.setNumberOfCards(defaultNumberOfCards);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const isTooFewCards = deck.cardsCount < 10;
-
-    if(isTooFewCards) return <TooFewCards deckId={deck.id}/>
     
     return (
     <Flex direction='column' justifyContent='space-between' h='100%'>

@@ -20,6 +20,7 @@ import { EditCardBottomSheet } from "../components/bottomSheets/EditCardBottomSh
 import { DeckDetailsBottomSheet } from "../components/bottomSheets/DeckDetailsBottomSheet"
 import { DeleteDeckConfirmationModal } from "../components/modals/DeleteDeckConfirmationModal"
 import { ThreeDotsButton } from "../components/ThreeDotsButton"
+import { TooFewCardsBottomSheet } from "../components/bottomSheets/TooFewCardsBottomSheet"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
@@ -30,6 +31,7 @@ export const DeckPage = () => {
     const [sortSettings] = useLocalStorage<SortCardsSettings>('sortCardsSettings', { sortBy: SortCardsBy.DateAdded, direction: 'descending'});
     const [isDeckDetailsOpen, setDeckDetailsOpen] = useState<boolean>(false);
     const [isDeleteDeckConfirmationOpen, setDeleteDeckConfirmationOpen] = useState<boolean>(false);
+    const [isTooFewCardsOpen, setTooFewCardsOpen] = useState<boolean>(false);
 
     const debouncedSearchPhrase = useDebounce<string>(cardsSearchPhrase, 250);
 
@@ -47,11 +49,21 @@ export const DeckPage = () => {
     function handleSortMenuOpen() { setSortMenuOpen(true) }
     function handleDeckDetailsOpen() { setDeckDetailsOpen(true) }
     function handleDeleteDeckConfirmationOpen() { setDeleteDeckConfirmationOpen(true) }
+    function handleTooFewCardsOpen() { setTooFewCardsOpen(true) }
     function handleEditCardClose(){ setEditCardOpen(false) }
     function handleAddCardClose(){ setAddCardOpen(false) }
     function handleSortMenuClose(){ setSortMenuOpen(false) }
     function handleDeckDetailsClose(){ setDeckDetailsOpen(false) }
     function handleDeleteDeckConfirmationClose(){ setDeleteDeckConfirmationOpen(false) }
+    function handleTooFewCardsClose(){ setTooFewCardsOpen(false) }
+
+    function handleQuizClick() {
+        if(deck && deck.cardsCount >= 10) {
+            navigate(`/decks/${deck.id}/quiz`);
+        }else{
+            handleTooFewCardsOpen();
+        }
+    }
 
     const isMobile = useIsMobile();
 
@@ -117,7 +129,7 @@ export const DeckPage = () => {
                         </Flex>
                     </Button>
    
-                    <Button flexGrow={1} py={12} onClick={() => navigate(`/decks/${deck.id}/quiz`)}>
+                    <Button flexGrow={1} py={12} onClick={handleQuizClick}>
                         <Flex direction='column' justify='center' align='center' gap={4}>
                             <IconCheckbox size={32}/>
                             <Text>Quiz</Text>
@@ -136,6 +148,7 @@ export const DeckPage = () => {
 
             {deck && 
             <>
+                <TooFewCardsBottomSheet isOpen={isTooFewCardsOpen} onClose={handleTooFewCardsClose} />
                 {renderDeckDetails()}
                 <DeleteDeckConfirmationModal isOpen={isDeleteDeckConfirmationOpen} onClose={handleDeleteDeckConfirmationClose} deck={deck}/>
             </>}
