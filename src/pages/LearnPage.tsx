@@ -3,7 +3,7 @@ import { Box, Button, Card, Flex } from "@chakra-ui/react"
 import { useSwipeable } from "react-swipeable"
 import { PageHeading } from "../components/PageHeading"
 import { FlippableFlashCard } from "../components/FlippableFlashCard/FlippableFlashCard"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { ProgressBar } from "../components/ProgressBar"
 import { LearnSettingsModal } from "../components/modals/LearnSettingsModal"
 import { Loading } from "../components/Loading"
@@ -34,7 +34,12 @@ export const LearnPage = () => {
         onSwipedRight: () => tryGoBack(),
     });
 
-    const tryGoNext = () => { if(canGoNext) setCurrentWord(currentWord + 1) };
+    const navigate = useNavigate();
+
+    const tryGoNext = () => { 
+        if(canGoNext) setCurrentWord(currentWord + 1);
+        else navigate(`/decks/${deckId}`);
+    };
     const tryGoBack = () => { if(canGoPrevious) setCurrentWord(currentWord - 1) };
 
     const currentFlashCard = () => cards![currentWord - 1];
@@ -83,7 +88,7 @@ export const LearnPage = () => {
 
                 <Flex w='100%' gap={2} align='center'>
                     <Button w='30%' py={6} fontSize='md' colorScheme="blue" borderRadius='xl' variant='ghost' isDisabled={!canGoPrevious} onClick={() => tryGoBack()}>Previous</Button>
-                    <Button w='70%' py={6} fontSize='lg' colorScheme="blue" borderRadius='xl' isDisabled={!canGoNext} onClick={() => tryGoNext()}>Continue</Button>
+                    <Button w='70%' py={6} fontSize='lg' colorScheme="blue" borderRadius='xl' onClick={() => tryGoNext()}>{canGoNext ? 'Continue' : 'Go back to deck'}</Button>
                 </Flex>
             </Flex>)}
         </Flex>
