@@ -1,8 +1,8 @@
-import { IconButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, ModalFooter, Button, Input, Select, Alert, AlertIcon } from "@chakra-ui/react";
-import { IconDotsVertical } from "@tabler/icons-react";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, ModalFooter, Button, Input, Select, Alert, AlertIcon } from "@chakra-ui/react";
 import { useState } from "react";
 import { Deck } from "../../model/Deck";
 import { DeleteDeckConfirmationModal } from "./DeleteDeckConfirmationModal";
+import { ThreeDotsButton } from "../ThreeDotsButton";
 
 interface DeckSettingsModalProps {
     deck: Deck;
@@ -14,7 +14,7 @@ export const DeckSettingsModal: React.FC<DeckSettingsModalProps> = ({ deck }) =>
 
     return (
         <>
-            <IconButton variant='ghost' aria-label='Settings' icon={<IconDotsVertical />} onClick={() => setIsOpen(true)}/>
+            <ThreeDotsButton onClick={() => setIsOpen(true)} />
             <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} isCentered>
                 <ModalOverlay />
                 <ModalContent>

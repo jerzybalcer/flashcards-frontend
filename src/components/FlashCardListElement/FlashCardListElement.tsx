@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
-import { Box, Card, CardBody, Flex, IconButton, Text } from "@chakra-ui/react"
+import { Box, Card, CardBody, Flex, Text } from "@chakra-ui/react"
 import { FlashCard } from "../../model/FlashCard"
 import { DeleteCardConfirmationModal } from "../modals/DeleteCardConfirmationModal";
 import { FlashCardContextMenu } from "./FlashCardContextMenu";
 import { useIsMobile } from "../../hooks/general/useIsMobile";
 import { FlashCardDetailsBottomSheet } from "../bottomSheets/FlashCardDetailsBottomSheet";
-import { IconDotsVertical } from "@tabler/icons-react";
+import { ThreeDotsButton } from "../ThreeDotsButton";
 
 interface FlasCardListElementProps {
     flashCard: FlashCard;
@@ -36,7 +36,7 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
 
     function renderFlashCardOptionsButton() {
         if(isMobile){
-            return <IconButton icon={<IconDotsVertical />} variant='ghost' onClick={() => setDetailsOpen(true)} aria-label="options" />
+            return <ThreeDotsButton onClick={() => setDetailsOpen(true)} />;
         }
         else{
             return <FlashCardContextMenu onEdit={handleEdit} onDelete={handleDeleteConfirmationOpen} />;

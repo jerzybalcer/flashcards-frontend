@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Box, Button, Card, Flex, IconButton } from "@chakra-ui/react"
+import { Box, Button, Card, Flex } from "@chakra-ui/react"
 import { useSwipeable } from "react-swipeable"
 import { PageHeading } from "../components/PageHeading"
 import { FlippableFlashCard } from "../components/FlippableFlashCard/FlippableFlashCard"
@@ -12,7 +12,7 @@ import { useDeck } from "../hooks/queries/useDeck"
 import { SortCardsBy } from "../model/SortCardsBy"
 import { useIsMobile } from "../hooks/general/useIsMobile"
 import { LearnSettingsBottomSheet } from "../components/bottomSheets/LearnSettingsBottomSheet"
-import { IconDotsVertical } from "@tabler/icons-react"
+import { ThreeDotsButton } from "../components/ThreeDotsButton"
 
 export const LearnPage = () => {
     const [currentWord, setCurrentWord] = useState<number>(1);
@@ -66,7 +66,7 @@ export const LearnPage = () => {
             {!cardsLoading && !deckLoading && cards && deck &&
             (<Flex flexGrow={1} direction='column' justify='space-between' px={4} pb={2} {...swipeHandlers}>
                 <Flex gap={2}>
-                    <IconButton variant='ghost' aria-label='Settings' icon={<IconDotsVertical />} onClick={handleLearnSettingsOpen}/>
+                    <ThreeDotsButton ariaLabel="Settings" onClick={handleLearnSettingsOpen} />
                     {renderLearnSettings()}
                     <ProgressBar currentValue={currentWord} maxValue={cards.length} />
                 </Flex>

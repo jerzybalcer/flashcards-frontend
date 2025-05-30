@@ -1,12 +1,12 @@
 import { useState } from "react"
-import { Box, Button, Flex, Heading, IconButton, Tag, Text } from "@chakra-ui/react"
+import { Box, Button, Flex, Heading, Tag, Text } from "@chakra-ui/react"
 import { FlashCardList } from "../components/FlashCardList"
 import { PageHeading } from "../components/PageHeading"
 import { AddCardModal } from "../components/modals/AddCardModal"
 import { FlashCard } from "../model/FlashCard"
 import { useNavigate, useParams } from "react-router-dom"
 import { ListNavigation } from "../components/ListNavigation/ListNavigation"
-import { IconCheckbox, IconDotsVertical, IconSchool } from "@tabler/icons-react"
+import { IconCheckbox, IconSchool } from "@tabler/icons-react"
 import { Loading } from "../components/Loading"
 import { useDeck } from "../hooks/queries/useDeck"
 import { useDebounce } from "../hooks/general/useDebounce"
@@ -19,6 +19,7 @@ import { AddCardBottomSheet } from "../components/bottomSheets/AddCardBottomShee
 import { EditCardBottomSheet } from "../components/bottomSheets/EditCardBottomSheet"
 import { DeckDetailsBottomSheet } from "../components/bottomSheets/DeckDetailsBottomSheet"
 import { DeleteDeckConfirmationModal } from "../components/modals/DeleteDeckConfirmationModal"
+import { ThreeDotsButton } from "../components/ThreeDotsButton"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
@@ -104,7 +105,7 @@ export const DeckPage = () => {
                     </Box>
                     <Flex justify='space-between' align='center'>
                         <Heading size='lg'>{deck.name}</Heading>
-                        <IconButton variant='ghost' aria-label='Settings' icon={<IconDotsVertical />} onClick={handleDeckDetailsOpen}/>
+                        <ThreeDotsButton onClick={handleDeckDetailsOpen}  />
                     </Flex>
                 </Flex>
 
