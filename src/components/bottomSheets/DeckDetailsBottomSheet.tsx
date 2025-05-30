@@ -31,7 +31,7 @@ export const DeckDetailsBottomSheet: React.FC<Props> = ({ isOpen, onClose, deck,
                 <Flex gap={2} align='center' justify='space-between'>
                 <Text display='inline-block' lineHeight='100%' fontSize={32} userSelect='text'>{deck.name}</Text>
                 </Flex>
-                    <Text display='inline-block' lineHeight='100%' fontSize={24} userSelect='text' color='blue.200'>{deck.cardsCount} flashcards</Text>
+                    <Text display='inline-block' lineHeight='100%' fontSize={24} userSelect='text' color='blue.200'>{deck.cardsCount} {deck.cardsCount == 1 ? 'flashcard' : 'flashcards'}</Text>
             </Flex>
         </Flex>;
     }

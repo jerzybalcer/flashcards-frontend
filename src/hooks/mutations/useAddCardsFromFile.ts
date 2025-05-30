@@ -12,6 +12,7 @@ export function useAddCardsFromFile(deckId: number) {
     function handleSuccess(toastTitle: string, toastDescription: string) {
         successToast(toastTitle, toastDescription);
         queryClient.invalidateQueries([QueryKeys.cards, deckId]);
+        queryClient.invalidateQueries([QueryKeys.deck, deckId]);
     }
     
     const mutation = useMutation(

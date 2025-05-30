@@ -20,6 +20,7 @@ export const DeleteCardConfirmationModal: React.FC<DeleteCardConfirmationModalPr
     const handleDeleteSuccess = () => {
         onClose(); 
         queryClient.invalidateQueries({predicate: (query) => query.queryKey.includes(QueryKeys.cards) && (query.queryKey as number[]).includes(Number(deckId))}); 
+        queryClient.invalidateQueries([QueryKeys.deck, Number(deckId)]);
         successToast('Card deleted', `${flashCard.foreignWord} - ${flashCard.translatedWord}`);
     };
 
