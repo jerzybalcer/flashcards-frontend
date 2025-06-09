@@ -1,18 +1,18 @@
 import { useState } from "react"
 import { Box, Button, Card, Flex } from "@chakra-ui/react"
 import { useSwipeable } from "react-swipeable"
-import { PageHeading } from "../components/PageHeading"
-import { FlippableFlashCard } from "../components/FlippableFlashCard/FlippableFlashCard"
+import { PageHeading } from "@/shared/components/PageHeading"
+import { FlippableFlashCard } from "@/features/Learn/components/FlippableFlashCard/FlippableFlashCard"
 import { useNavigate, useParams } from "react-router-dom"
-import { ProgressBar } from "../components/ProgressBar"
-import { LearnSettingsModal } from "../components/modals/LearnSettingsModal"
-import { Loading } from "../components/Loading"
-import { useCards } from "../hooks/queries/useCards"
-import { useDeck } from "../hooks/queries/useDeck"
+import { ProgressBar } from "../shared/components/ProgressBar"
+import { Loading } from "../shared/components/Loading"
+import { useCards } from "@/shared/hooks/queries/useCards"
+import { useDeck } from "@/shared/hooks/queries/useDeck"
 import { SortCardsBy } from "../model/SortCardsBy"
-import { useIsMobile } from "../hooks/general/useIsMobile"
-import { LearnSettingsBottomSheet } from "../components/bottomSheets/LearnSettingsBottomSheet"
-import { ThreeDotsButton } from "../components/ThreeDotsButton"
+import { useIsMobile } from "@/shared/hooks/general/useIsMobile"
+import { LearnSettingsBottomSheet } from "@/features/Learn/components/LearnSettingsBottomSheet"
+import { ThreeDotsButton } from "../shared/components/ThreeDotsButton"
+import { LearnSettingsDialog } from './../features/Learn/components/LearnSettingsDialog';
 
 export const LearnPage = () => {
     const [currentWord, setCurrentWord] = useState<number>(1);
@@ -59,7 +59,7 @@ export const LearnPage = () => {
             return <LearnSettingsBottomSheet isOpen={learnSettingsOpen} onClose={handleLearnSettingsClose} />
         }
         else{
-            return <LearnSettingsModal isOpen={learnSettingsOpen} onClose={handleLearnSettingsClose} />;
+            return <LearnSettingsDialog isOpen={learnSettingsOpen} onClose={handleLearnSettingsClose} />;
         }
     }
 

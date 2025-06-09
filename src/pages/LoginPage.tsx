@@ -1,8 +1,8 @@
 import { Box, Button, Card, CardBody, Center, Divider, Flex, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
-import { useAuth } from "../hooks/general/useAuth";
+import { useAuth } from "../shared/hooks/general/useAuth";
 import { useLayoutEffect, useRef, useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
-import { errorToast } from "../utils/toasts";
+import { errorToast } from "../shared/utils/toasts";
 import { Navigate } from "react-router-dom";
 
 export const LoginPage = () => {

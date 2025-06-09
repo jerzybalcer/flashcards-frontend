@@ -1,26 +1,26 @@
 import { useState } from "react"
 import { Box, Button, Flex, Heading, Tag, Text } from "@chakra-ui/react"
-import { FlashCardList } from "../components/FlashCardList"
-import { PageHeading } from "../components/PageHeading"
-import { AddCardModal } from "../components/modals/AddCardModal"
+import { FlashCardList } from "@/features/Deck/components/FlashCardList"
+import { PageHeading } from "@/shared/components/PageHeading"
+import { AddCardDialog } from "@/features/Deck/components/dialogs/AddCardDialog"
 import { FlashCard } from "../model/FlashCard"
 import { useNavigate, useParams } from "react-router-dom"
-import { ListNavigation } from "../components/ListNavigation/ListNavigation"
+import { ListNavigation } from "../shared/components/ListNavigation/ListNavigation"
 import { IconCheckbox, IconSchool } from "@tabler/icons-react"
-import { Loading } from "../components/Loading"
-import { useDeck } from "../hooks/queries/useDeck"
-import { useDebounce } from "../hooks/general/useDebounce"
+import { Loading } from "../shared/components/Loading"
+import { useDeck } from "@/shared/hooks/queries/useDeck"
+import { useDebounce } from "@/shared//hooks/general/useDebounce"
 import { SortCardsSettings } from "../model/SortCardsSettings"
 import { SortCardsBy } from "../model/SortCardsBy"
-import { SortCardsBottomSheet } from "../components/bottomSheets/SortCardsBottomSheet"
+import { SortCardsBottomSheet } from "@/features/Deck/components/bottomSheets/SortCardsBottomSheet"
 import { useLocalStorage } from "usehooks-ts"
-import { useIsMobile } from "../hooks/general/useIsMobile"
-import { AddCardBottomSheet } from "../components/bottomSheets/AddCardBottomSheet"
-import { EditCardBottomSheet } from "../components/bottomSheets/EditCardBottomSheet"
-import { DeckDetailsBottomSheet } from "../components/bottomSheets/DeckDetailsBottomSheet"
-import { DeleteDeckConfirmationModal } from "../components/modals/DeleteDeckConfirmationModal"
-import { ThreeDotsButton } from "../components/ThreeDotsButton"
-import { TooFewCardsBottomSheet } from "../components/bottomSheets/TooFewCardsBottomSheet"
+import { useIsMobile } from "@/shared/hooks/general/useIsMobile"
+import { AddCardBottomSheet } from "@/features/Deck/components/bottomSheets/AddCardBottomSheet"
+import { EditCardBottomSheet } from "@/features/Deck/components/bottomSheets/EditCardBottomSheet"
+import { DeckDetailsBottomSheet } from "@/features/Deck/components/bottomSheets/DeckDetailsBottomSheet"
+import { DeleteDeckConfirmationDialog } from "@/features/Deck/components/dialogs/DeleteDeckConfirmationDialog"
+import { ThreeDotsButton } from "../shared/components/ThreeDotsButton"
+import { TooFewCardsBottomSheet } from "@/features/Deck/components/bottomSheets/TooFewCardsBottomSheet"
 
 export const DeckPage = () => {
     const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
@@ -84,7 +84,7 @@ export const DeckPage = () => {
             return <AddCardBottomSheet isOpen={isAddCardOpen} deckId={Number(deckId)} onClose={handleAddCardClose}/>;
         }
         else{
-            return <AddCardModal isOpen={isAddCardOpen} onClose={handleAddCardClose} flashCard={flashCardInEdit} deckId={Number(deckId)}/>;
+            return <AddCardDialog isOpen={isAddCardOpen} onClose={handleAddCardClose} flashCard={flashCardInEdit} deckId={Number(deckId)}/>;
         }
     }
 
@@ -150,7 +150,7 @@ export const DeckPage = () => {
             <>
                 <TooFewCardsBottomSheet isOpen={isTooFewCardsOpen} onClose={handleTooFewCardsClose} />
                 {renderDeckDetails()}
-                <DeleteDeckConfirmationModal isOpen={isDeleteDeckConfirmationOpen} onClose={handleDeleteDeckConfirmationClose} deck={deck}/>
+                <DeleteDeckConfirmationDialog isOpen={isDeleteDeckConfirmationOpen} onClose={handleDeleteDeckConfirmationClose} deck={deck}/>
             </>}
         </Flex>
     )

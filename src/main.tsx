@@ -8,7 +8,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { App } from './App.tsx'
 import theme from './theme.ts';
 import './index.css'
-import { AuthContextProvider } from './contexts/AuthContext.tsx';
+import { AuthContextProvider } from './shared/context/AuthContext.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {

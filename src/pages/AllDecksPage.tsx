@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Flex } from "@chakra-ui/react";
-import { PageHeading } from "../components/PageHeading";
-import { ListNavigation } from "../components/ListNavigation/ListNavigation";
-import { DeckList } from "../components/DeckList";
-import { AddDeckModal } from "../components/modals/AddDeckModal";
+import { useLocalStorage } from "usehooks-ts";
+import { PageHeading } from "@/shared/components/PageHeading";
+import { ListNavigation } from "../shared/components/ListNavigation/ListNavigation";
+import { DeckList } from "@/features/AllDecks/components/DeckList";
+import { AddDeckDialog } from "@/features/AllDecks/components/AddDeckDialog";
 import { SortDecksSettings } from "../model/SortDecksSettings";
 import { SortDecksBy } from "../model/SortDecksBy";
-import { SortDecksBottomSheet } from "../components/bottomSheets/SortDecksBottomSheet";
-import { useIsMobile } from "../hooks/general/useIsMobile";
-import { AddDeckBottomSheet } from "../components/bottomSheets/AddDeckBottomSheet";
-import { useLocalStorage } from "usehooks-ts";
-import { useDebounce } from "../hooks/general/useDebounce";
+import { SortDecksBottomSheet } from "@/features/AllDecks/components/SortDecksBottomSheet";
+import { useIsMobile } from "@/shared/hooks/general/useIsMobile";
+import { AddDeckBottomSheet } from "@/features/AllDecks/components/AddDeckBottomSheet";
+import { useDebounce } from "@/shared/hooks/general/useDebounce";
 
 
 export const AllDecksPage = () => {
@@ -33,7 +33,7 @@ export const AllDecksPage = () => {
             {isMobile ? 
             <AddDeckBottomSheet isOpen={isAddDeckOpen} onClose={() => setAddDeckOpen(false)} />
             :
-            <AddDeckModal isOpen={isAddDeckOpen} onClose={() => setAddDeckOpen(false)} />
+            <AddDeckDialog isOpen={isAddDeckOpen} onClose={() => setAddDeckOpen(false)} />
             }
             
             <SortDecksBottomSheet isOpen={isSortMenuOpen} onClose={() => setSortMenuOpen(false)} />

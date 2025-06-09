@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react"
 import { Box, Flex } from "@chakra-ui/react"
-import { PageHeading } from "../components/PageHeading"
-import { SetupQuiz } from "../components/Quiz/SetupQuiz";
-import { SolveQuiz } from "../components/Quiz/SolveQuiz";
-import { QuizResult } from "../components/Quiz/QuizResult";
+import { PageHeading } from "@/shared/components/PageHeading"
+import { SetupQuiz } from "../features/Quiz/components/SetupQuiz";
+import { SolveQuiz } from "../features/Quiz/components/SolveQuiz";
+import { QuizResult } from "@/features/Quiz/components/QuizResult";
 import { useParams } from "react-router-dom";
-import { QuizContext } from './../contexts/QuizContext';
-import { Loading } from "../components/Loading";
-import { useDeck } from "../hooks/queries/useDeck";
+import { QuizContext } from '@/features/Quiz/context/QuizContext';
+import { Loading } from "../shared/components/Loading";
+import { useDeck } from "@/shared/hooks/queries/useDeck";
 
 enum QuizSteps {
     Setup,
