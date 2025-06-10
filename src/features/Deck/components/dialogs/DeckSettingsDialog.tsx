@@ -1,8 +1,9 @@
+import { Deck } from "@/model/Deck";
+import { ThreeDotsButton } from "@/shared/components/ThreeDotsButton";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, ModalFooter, Button, Input, Select, Alert, AlertIcon } from "@chakra-ui/react";
 import { useState } from "react";
-import { Deck } from "../../model/Deck";
 import { DeleteDeckConfirmationDialog } from "./DeleteDeckConfirmationDialog";
-import { ThreeDotsButton } from "../../shared/components/ThreeDotsButton";
+
 
 interface Props {
     deck: Deck;

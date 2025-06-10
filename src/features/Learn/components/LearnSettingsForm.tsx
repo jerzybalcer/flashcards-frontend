@@ -1,7 +1,7 @@
+import { FlashCardSide } from "@/model/FlashCardSide";
+import { LearnSettings } from "@/model/LearnSettings";
 import { FormControl, Alert, AlertIcon, VStack, FormLabel, Switch, RadioGroup, HStack, Radio } from "@chakra-ui/react"
 import { useLocalStorage } from "usehooks-ts";
-import { FlashCardSide } from "../model/FlashCardSide";
-import { LearnSettings } from "../model/LearnSettings";
 
 export const LearnSettingsForm = () => {
     const [settings, setSettings] = useLocalStorage<LearnSettings>('learnSettings', { defaultSide: 'foreign', autoRead: false });

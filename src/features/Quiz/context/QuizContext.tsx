@@ -1,5 +1,5 @@
+import { QuizAnsweredQuestion } from "@/model/QuizAnsweredQuestion";
 import React, { useState } from "react";
-import { QuizAnsweredQuestion } from "../../model/QuizAnsweredQuestion";
 
 interface QuizContextType {
     numberOfCards: number;

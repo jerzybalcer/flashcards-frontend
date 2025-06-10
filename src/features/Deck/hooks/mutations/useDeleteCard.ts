@@ -1,8 +1,8 @@
+import { FlashCard } from "@/model/FlashCard";
+import { QueryKeys } from "@/shared/hooks/queries/queryKeys";
+import { deleteCard } from "@/shared/services/CardService";
+import { successToast } from "@/shared/utils/toasts";
 import { useQueryClient, useMutation } from "react-query";
-import { deleteCard } from "../../services/CardService";
-import { successToast } from "../../shared/utils/toasts";
-import { QueryKeys } from "../queries/queryKeys";
-import { FlashCard } from "../../model/FlashCard";
 
 export function useDeleteCard(deckId: number, flashCard: FlashCard) {
     const queryClient = useQueryClient();
