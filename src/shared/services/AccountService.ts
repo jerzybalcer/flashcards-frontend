@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { apiClient } from "./AxiosInstance";
 import { camelizeKeys } from "humps";
-import { User } from "../model/User";
+import { User } from "@/model/User";
 
 export const loginUser = async (email: string, password: string) =>
     apiClient

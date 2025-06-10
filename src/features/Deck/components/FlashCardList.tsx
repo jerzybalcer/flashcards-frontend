@@ -7,22 +7,22 @@ import { Scrollable } from "@/shared/components/Scrollable";
 import { useScrollToBottom } from "@/shared/hooks/general/useScrollToBottom";
 import { useCards } from "@/shared/hooks/queries/useCards";
 import { useParams } from "react-router-dom";
-import { FlashCardListElement } from "./FlashCardListElement/FlashCardListElement";
+import { FlashCardListElement } from "./FlashCardListElement";
 
 
-interface FlashCardListProps {
+interface Props {
     onEditCardFormOpen: (flashCard: FlashCard) => void;
-    searchPhrase: string;
+    searchText: string;
     sortSettings: SortCardsSettings;
     foreignLanguageName: string;
 }
 
-export const FlashCardList: React.FC<FlashCardListProps> = ({ onEditCardFormOpen, searchPhrase, sortSettings, foreignLanguageName }) => {
+export const FlashCardList: React.FC<Props> = ({ onEditCardFormOpen, searchText, sortSettings, foreignLanguageName }) => {
     const { deckId } = useParams();
 
     const listRef = useRef<HTMLDivElement>(null);
 
-    const { isFetchingNextPage: cardsLoading, data: cardsResponse, fetchNextPage, hasNextPage } = useCards(Number(deckId), searchPhrase ?? null, undefined, sortSettings.sortBy, sortSettings.direction);
+    const { isFetchingNextPage: cardsLoading, data: cardsResponse, fetchNextPage, hasNextPage } = useCards(Number(deckId), searchText ?? null, undefined, sortSettings.sortBy, sortSettings.direction);
 
     function handleScrollToBottom(){
         if(hasNextPage && !cardsLoading){
@@ -35,11 +35,11 @@ export const FlashCardList: React.FC<FlashCardListProps> = ({ onEditCardFormOpen
     const cards = cardsResponse?.pages?.flatMap(p => p.items) ?? [];
 
     useEffect(() => {
-        if(!searchPhrase && !sortSettings){
+        if(!searchText && !sortSettings){
             return
         } 
         listRef.current?.scrollTo({ top: 0 });
-    }, [searchPhrase, sortSettings]);
+    }, [searchText, sortSettings]);
 
     return (
         <Box h='100%'>

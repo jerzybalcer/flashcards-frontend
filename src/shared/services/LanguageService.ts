@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
-import { Language } from "../model/Language";
 import { apiClient } from "./AxiosInstance";
+import { Language } from "@/model/Language";
 
 export const getLanguages = async () =>
     apiClient

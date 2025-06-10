@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
 import { Box, Card, CardBody, Flex, Text } from "@chakra-ui/react"
-import { FlashCard } from "../../../../model/FlashCard"
-import { FlashCardDetailsBottomSheet } from "../bottomSheets/FlashCardDetailsBottomSheet";
-import { ThreeDotsButton } from "../../../../shared/components/ThreeDotsButton";
+import { FlashCard } from "@/model/FlashCard";
+import { ThreeDotsButton } from "@/shared/components/ThreeDotsButton";
 import { useIsMobile } from "@/shared/hooks/general/useIsMobile";
-import { DeleteCardConfirmationDialog } from "../dialogs/DeleteCardConfirmationDialog";
+import { FlashCardDetailsBottomSheet } from "./bottomSheets/FlashCardDetailsBottomSheet";
+import { DeleteCardConfirmationDialog } from "./dialogs/DeleteCardConfirmationDialog";
 import { FlashCardContextMenu } from "./FlashCardContextMenu";
 
 interface FlasCardListElementProps {

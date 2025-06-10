@@ -1,16 +1,17 @@
 import humps, { decamelize } from 'humps';
 import { AxiosError } from "axios";
-import { Deck } from "../model/Deck";
-import { apiClient } from "./AxiosInstance";
-import { FlashCard } from "../model/FlashCard";
-import { NewDeck } from "../model/NewDeck";
-import { QuizCardLog } from "../model/QuizCardLog";
-import { QuizFlashCard } from "../model/QuizFlashCard";
-import { PaginatedResponse } from '../model/PaginatedResponse';
 import { camelizeKeys } from 'humps';
-import { SortCardsBy } from '../model/SortCardsBy';
-import { SortDirection } from '../model/SortDirection';
-import { SortDecksBy } from '../model/SortDecksBy';
+import { Deck } from '@/model/Deck';
+import { FlashCard } from '@/model/FlashCard';
+import { NewDeck } from '@/model/NewDeck';
+import { PaginatedResponse } from '@/model/PaginatedResponse';
+import { QuizCardLog } from '@/model/QuizCardLog';
+import { QuizFlashCard } from '@/model/QuizFlashCard';
+import { SortCardsBy } from '@/model/SortCardsBy';
+import { SortDecksBy } from '@/model/SortDecksBy';
+import { SortDirection } from '@/model/SortDirection';
+import { apiClient } from './AxiosInstance';
+
 
 export const getDeck = async (deckId: number) =>
     apiClient

@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { apiClient } from './AxiosInstance';
-import { FlashCard } from "../model/FlashCard";
+import { FlashCard } from "@/model/FlashCard";
+
 
 export const editCard = async (card: FlashCard) =>
     apiClient

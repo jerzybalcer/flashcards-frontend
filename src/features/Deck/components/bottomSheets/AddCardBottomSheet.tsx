@@ -1,7 +1,7 @@
 import { BottomSheet } from "@/shared/components/BottomSheet";
-import { FileInputForm } from "@/shared/components/FileInputForm";
-import { FlashCardInputForm } from "@/shared/components/FlashCardInputForm";
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@chakra-ui/react";
+import { FileInputForm } from "@/features/Deck/components/FileInputForm";
+import { FlashCardInputForm } from "@/features/Deck/components/FlashCardInputForm";
+import { Tabs, TabList, Tab, TabPanels, TabPanel, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useAddCard } from "../../hooks/mutations/useAddCard";
 import { useAddCardsFromFile } from "../../hooks/mutations/useAddCardsFromFile";

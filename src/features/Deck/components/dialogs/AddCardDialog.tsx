@@ -4,8 +4,8 @@ import { Button } from "@chakra-ui/react"
 import { useAddCard } from "../../hooks/mutations/useAddCard";
 import { useAddCardsFromFile } from "../../hooks/mutations/useAddCardsFromFile";
 import { FlashCard } from "@/model/FlashCard";
-import { FileInputForm } from "@/shared/components/FileInputForm";
-import { FlashCardInputForm } from "@/shared/components/FlashCardInputForm";
+import { FileInputForm } from "@/features/Deck/components/FileInputForm";
+import { FlashCardInputForm } from "@/features/Deck/components/FlashCardInputForm";
 
 interface Props {
     isOpen: boolean;

@@ -1,7 +1,7 @@
 
 import { FlashCard } from "@/model/FlashCard";
 import { BottomSheet } from "@/shared/components/BottomSheet";
-import { FlashCardInputForm } from "@/shared/components/FlashCardInputForm";
+import { FlashCardInputForm } from "@/features/Deck/components/FlashCardInputForm";
 import { Text } from "@chakra-ui/react";
 import { useEditCard } from "../../hooks/mutations/useEditCard";
 

@@ -1,157 +1,57 @@
-import { useState } from "react"
-import { Box, Button, Flex, Heading, Tag, Text } from "@chakra-ui/react"
-import { FlashCardList } from "@/features/Deck/components/FlashCardList"
-import { PageHeading } from "@/shared/components/PageHeading"
-import { AddCardDialog } from "@/features/Deck/components/dialogs/AddCardDialog"
-import { FlashCard } from "../model/FlashCard"
+import { Flex, useDisclosure } from "@chakra-ui/react"
 import { useNavigate, useParams } from "react-router-dom"
-import { ListNavigation } from "../shared/components/ListNavigation/ListNavigation"
-import { IconCheckbox, IconSchool } from "@tabler/icons-react"
-import { Loading } from "../shared/components/Loading"
+import { PageHeading } from "@/shared/components/PageHeading"
+import { Loading } from "@/shared/components/Loading"
 import { useDeck } from "@/shared/hooks/queries/useDeck"
-import { useDebounce } from "@/shared//hooks/general/useDebounce"
-import { SortCardsSettings } from "../model/SortCardsSettings"
-import { SortCardsBy } from "../model/SortCardsBy"
-import { SortCardsBottomSheet } from "@/features/Deck/components/bottomSheets/SortCardsBottomSheet"
-import { useLocalStorage } from "usehooks-ts"
-import { useIsMobile } from "@/shared/hooks/general/useIsMobile"
-import { AddCardBottomSheet } from "@/features/Deck/components/bottomSheets/AddCardBottomSheet"
-import { EditCardBottomSheet } from "@/features/Deck/components/bottomSheets/EditCardBottomSheet"
 import { DeckDetailsBottomSheet } from "@/features/Deck/components/bottomSheets/DeckDetailsBottomSheet"
 import { DeleteDeckConfirmationDialog } from "@/features/Deck/components/dialogs/DeleteDeckConfirmationDialog"
-import { ThreeDotsButton } from "../shared/components/ThreeDotsButton"
 import { TooFewCardsBottomSheet } from "@/features/Deck/components/bottomSheets/TooFewCardsBottomSheet"
+import { DeckActions } from "@/features/Deck/components/DeckActions"
+import { DeckHeader } from "@/features/Deck/components/DeckHeader"
+import { DeckFlashCards } from "@/features/Deck/components/DeckFlashCards"
 
 export const DeckPage = () => {
-    const [cardsSearchPhrase, setCardsSearchPhrase] = useState<string>('');
-    const [isAddCardOpen, setAddCardOpen] = useState<boolean>(false);
-    const [isEditCardOpen, setEditCardOpen] = useState<boolean>(false);
-    const [flashCardInEdit, setFlashCardInEdit] = useState<FlashCard | undefined>();
-    const [isSortMenuOpen, setSortMenuOpen] = useState<boolean>(false);
-    const [sortSettings] = useLocalStorage<SortCardsSettings>('sortCardsSettings', { sortBy: SortCardsBy.DateAdded, direction: 'descending'});
-    const [isDeckDetailsOpen, setDeckDetailsOpen] = useState<boolean>(false);
-    const [isDeleteDeckConfirmationOpen, setDeleteDeckConfirmationOpen] = useState<boolean>(false);
-    const [isTooFewCardsOpen, setTooFewCardsOpen] = useState<boolean>(false);
-
-    const debouncedSearchPhrase = useDebounce<string>(cardsSearchPhrase, 250);
-
     const { deckId } = useParams();
     const navigate = useNavigate();
 
     const { isFetching: deckLoading, data: deck } = useDeck(Number(deckId));
 
-    function handleEditCardOpen(flashCard?: FlashCard) {
-        setFlashCardInEdit(flashCard);
-        setEditCardOpen(true);
+    const deckDetailsModal = useDisclosure();
+    const tooFewCardsModal = useDisclosure();
+    const deleteDeckConfirmationModal = useDisclosure();
+
+    function handleLearnClick() {
+        if(deck && deck.cardsCount > 0){
+            navigate(`/decks/${deck.id}/learn`);
+        }else{
+            tooFewCardsModal.onToggle();
+        }
     }
-
-    function handleAddCardOpen() { setAddCardOpen(true) }
-    function handleSortMenuOpen() { setSortMenuOpen(true) }
-    function handleDeckDetailsOpen() { setDeckDetailsOpen(true) }
-    function handleDeleteDeckConfirmationOpen() { setDeleteDeckConfirmationOpen(true) }
-    function handleTooFewCardsOpen() { setTooFewCardsOpen(true) }
-    function handleEditCardClose(){ setEditCardOpen(false) }
-    function handleAddCardClose(){ setAddCardOpen(false) }
-    function handleSortMenuClose(){ setSortMenuOpen(false) }
-    function handleDeckDetailsClose(){ setDeckDetailsOpen(false) }
-    function handleDeleteDeckConfirmationClose(){ setDeleteDeckConfirmationOpen(false) }
-    function handleTooFewCardsClose(){ setTooFewCardsOpen(false) }
-
     function handleQuizClick() {
         if(deck && deck.cardsCount >= 10) {
             navigate(`/decks/${deck.id}/quiz`);
         }else{
-            handleTooFewCardsOpen();
+            tooFewCardsModal.onToggle();
         }
-    }
-
-    const isMobile = useIsMobile();
-
-    function renderEditCardForm() {
-        if(!flashCardInEdit) return <></>
-
-        if(isMobile) {
-            return <EditCardBottomSheet isOpen={isEditCardOpen} flashCard={flashCardInEdit} deckId={Number(deckId)} onClose={handleEditCardClose}/>
-        }
-        else{
-            // TODO: Change this to modal
-            return <EditCardBottomSheet isOpen={isEditCardOpen} flashCard={flashCardInEdit} deckId={Number(deckId)} onClose={handleEditCardClose}/>;
-        }
-    }
-
-    function renderAddCardForm() {
-        if(isMobile) {
-            return <AddCardBottomSheet isOpen={isAddCardOpen} deckId={Number(deckId)} onClose={handleAddCardClose}/>;
-        }
-        else{
-            return <AddCardDialog isOpen={isAddCardOpen} onClose={handleAddCardClose} flashCard={flashCardInEdit} deckId={Number(deckId)}/>;
-        }
-    }
-
-    function renderSortMenu() {
-        if(isMobile){
-            return <SortCardsBottomSheet isOpen={isSortMenuOpen} onClose={handleSortMenuClose}/>;
-        }
-        else{
-            // TODO: Change this to context menu
-            return <SortCardsBottomSheet isOpen={isSortMenuOpen} onClose={handleSortMenuClose}/>;
-        }
-    }
-
-    function renderDeckDetails(){
-        if(!deck) return <></>;
-
-        return <DeckDetailsBottomSheet isOpen={isDeckDetailsOpen} onClose={handleDeckDetailsClose} deck={deck} onDelete={handleDeleteDeckConfirmationOpen}/>
     }
 
     return (
         <Flex direction='column' h='100%' w='100%'>
             <PageHeading title="Deck" urlToGoBack='/decks' />
-
             {deckLoading && <Loading />}
+
             {!deckLoading && deck &&
-            (<Flex direction='column' px={4} gap={4} h='90%' overflowY='auto'>
-                <Flex direction='column' gap={2}>
-                    <Box>
-                        <Tag size='md' colorScheme="blue" variant='subtle'>{deck.languageName.toUpperCase()}</Tag>
-                    </Box>
-                    <Flex justify='space-between' align='center'>
-                        <Heading size='lg'>{deck.name}</Heading>
-                        <ThreeDotsButton onClick={handleDeckDetailsOpen}  />
-                    </Flex>
+            (<>
+                <Flex direction='column' px={4} gap={4} h='90%' overflowY='auto'>
+                    <DeckHeader deck={deck} onDeckDetailsOpen={deckDetailsModal.onToggle} />
+                    <DeckActions onLearnClick={handleLearnClick} onQuizClick={handleQuizClick} />
+                    <DeckFlashCards deck={deck} />
                 </Flex>
 
-                <Flex gap={2} mb={6}>
-                    <Button flexGrow={1} py={12} onClick={() => navigate(`/decks/${deck.id}/learn`)}>
-                        <Flex direction='column' justify='center' align='center' gap={4}>
-                            <IconSchool size={32}/>
-                            <Text>Learn</Text>
-                        </Flex>
-                    </Button>
-   
-                    <Button flexGrow={1} py={12} onClick={handleQuizClick}>
-                        <Flex direction='column' justify='center' align='center' gap={4}>
-                            <IconCheckbox size={32}/>
-                            <Text>Quiz</Text>
-                        </Flex>
-                    </Button>
-                </Flex>
-
-                <Heading size='md'>Flashcards</Heading>
-                <ListNavigation onAddClick={handleAddCardOpen} onSearch={(phrase) => setCardsSearchPhrase(phrase)} onSortClick={handleSortMenuOpen}/>
-                <FlashCardList onEditCardFormOpen={handleEditCardOpen} searchPhrase={debouncedSearchPhrase} sortSettings={sortSettings} foreignLanguageName={deck.languageName}/>
-            </Flex>)}
-
-            {renderAddCardForm()}
-            {renderEditCardForm()}
-            {renderSortMenu()}
-
-            {deck && 
-            <>
-                <TooFewCardsBottomSheet isOpen={isTooFewCardsOpen} onClose={handleTooFewCardsClose} />
-                {renderDeckDetails()}
-                <DeleteDeckConfirmationDialog isOpen={isDeleteDeckConfirmationOpen} onClose={handleDeleteDeckConfirmationClose} deck={deck}/>
-            </>}
+                <TooFewCardsBottomSheet isOpen={tooFewCardsModal.isOpen} onClose={tooFewCardsModal.onClose} />
+                <DeckDetailsBottomSheet isOpen={deckDetailsModal.isOpen} onClose={deckDetailsModal.onClose} deck={deck} onDelete={deleteDeckConfirmationModal.onToggle} />
+                <DeleteDeckConfirmationDialog isOpen={deleteDeckConfirmationModal.isOpen} onClose={deleteDeckConfirmationModal.onClose} deck={deck}/>
+            </>)}
         </Flex>
     )
 }

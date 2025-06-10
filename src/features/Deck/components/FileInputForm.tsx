@@ -1,5 +1,5 @@
 import { Alert, AlertIcon, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
-import { FileInput } from "./FileInput";
+import { FileInput } from "../../../shared/components/FileInput";
 
 interface FileInputFormProps {
     onFileChange: (file: File) => void;

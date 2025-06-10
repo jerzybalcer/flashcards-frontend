@@ -23,7 +23,7 @@ export const TooFewCardsBottomSheet: React.FC<Props> = ({ isOpen, onClose }) => 
         return <Flex direction='column' justify='space-between' align='center' gap='28px' mb={8}>
             <Flex direction='column' justify='space-between' align='center' gap='10px' textAlign='center'>
                 <Text display='inline-block' lineHeight='100%' fontSize={32} fontWeight={700} userSelect='text'>Too few flashcards</Text>
-                <Text display='inline-block' lineHeight='100%' fontSize={24} fontWeight={700} userSelect='text' color='blue.200'>Add at least 10 to start quizzing</Text>
+                <Text display='inline-block' lineHeight='100%' fontSize={24} fontWeight={700} userSelect='text' color='blue.200'>Add some to continue</Text>
             </Flex>
         </Flex>;
     }
