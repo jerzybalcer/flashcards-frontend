@@ -1,22 +1,18 @@
 import { useState } from "react"
-import { Box, Button, Card, Flex } from "@chakra-ui/react"
+import { Flex } from "@chakra-ui/react"
 import { useSwipeable } from "react-swipeable"
 import { PageHeading } from "@/shared/components/PageHeading"
-import { FlippableFlashCard } from "@/features/Learn/components/FlippableFlashCard/FlippableFlashCard"
 import { useNavigate, useParams } from "react-router-dom"
-import { ProgressBar } from "../shared/components/ProgressBar"
 import { Loading } from "../shared/components/Loading"
 import { useCards } from "@/shared/hooks/queries/useCards"
 import { useDeck } from "@/shared/hooks/queries/useDeck"
 import { SortCardsBy } from "../model/SortCardsBy"
-import { useIsMobile } from "@/shared/hooks/general/useIsMobile"
-import { LearnSettingsBottomSheet } from "@/features/Learn/components/LearnSettingsBottomSheet"
-import { ThreeDotsButton } from "../shared/components/ThreeDotsButton"
-import { LearnSettingsDialog } from './../features/Learn/components/LearnSettingsDialog';
+import { LearnContent } from "@/features/Learn/components/LearnContent"
+import { LearnHeader } from "@/features/Learn/components/LearnHeader"
+import { LearnNavigation } from "@/features/Learn/components/LearnNavigation"
 
 export const LearnPage = () => {
-    const [currentWord, setCurrentWord] = useState<number>(1);
-    const [learnSettingsOpen, setLearnSettingsOpen] = useState<boolean>(false);
+    const [currentCardNumber, setCurrentWord] = useState<number>(1);
 
     const { deckId } = useParams();
 
@@ -26,8 +22,8 @@ export const LearnPage = () => {
 
     const cards = cardsResponse?.pages?.flatMap(p => p.items) ?? [];
 
-    const canGoNext: boolean = !cardsLoading && (currentWord < cards!.length);
-    const canGoPrevious: boolean = currentWord > 1;
+    const canGoNext: boolean = !cardsLoading && (currentCardNumber < cards!.length);
+    const canGoPrevious: boolean = currentCardNumber > 1;
 
     const swipeHandlers = useSwipeable({
         onSwipedLeft: () => tryGoNext(),
@@ -37,31 +33,12 @@ export const LearnPage = () => {
     const navigate = useNavigate();
 
     const tryGoNext = () => { 
-        if(canGoNext) setCurrentWord(currentWord + 1);
+        if(canGoNext) setCurrentWord(currentCardNumber + 1);
         else navigate(`/decks/${deckId}`);
     };
-    const tryGoBack = () => { if(canGoPrevious) setCurrentWord(currentWord - 1) };
+    const tryGoBack = () => { if(canGoPrevious) setCurrentWord(currentCardNumber - 1) };
 
-    const currentFlashCard = () => cards![currentWord - 1];
-
-    const isMobile = useIsMobile();
-
-    function handleLearnSettingsClose(){
-        setLearnSettingsOpen(false);
-    }
-
-    function handleLearnSettingsOpen(){
-        setLearnSettingsOpen(true);
-    }
-
-    function renderLearnSettings() {
-        if(isMobile){
-            return <LearnSettingsBottomSheet isOpen={learnSettingsOpen} onClose={handleLearnSettingsClose} />
-        }
-        else{
-            return <LearnSettingsDialog isOpen={learnSettingsOpen} onClose={handleLearnSettingsClose} />;
-        }
-    }
+    const currentFlashCard =  cards![currentCardNumber - 1];
 
     return (
         <Flex direction='column' h='100%' w='100%'>
@@ -69,28 +46,13 @@ export const LearnPage = () => {
 
             {(cardsLoading || deckLoading) && <Loading />}
             {!cardsLoading && !deckLoading && cards && deck &&
-            (<Flex flexGrow={1} direction='column' justify='space-between' px={4} pb={2} {...swipeHandlers}>
-                <Flex gap={2}>
-                    <ThreeDotsButton ariaLabel="Settings" onClick={handleLearnSettingsOpen} />
-                    {renderLearnSettings()}
-                    <ProgressBar currentValue={currentWord} maxValue={cards.length} />
-                </Flex>
-
-                <Flex direction='column' justify='space-between' align='center'>
-                    <Flex w='80dvw' h='45dvh' position='relative' justify='center'>
-                        <Card w='90%' h='100%' position='absolute' top={-6} filter='brightness(70%)'></Card>
-                        <Card w='95%' h='100%' position='absolute' top={-3} filter='brightness(80%)'></Card>
-                        <Box w='100%' h='100%' position='absolute'>
-                            <FlippableFlashCard flashCard={currentFlashCard()} foreignLanguage={deck!.languageId} />
-                        </Box>
-                    </Flex>
-                </Flex>
-
-                <Flex w='100%' gap={2} align='center'>
-                    <Button w='30%' py={6} fontSize='md' colorScheme="blue" borderRadius='xl' variant='ghost' isDisabled={!canGoPrevious} onClick={() => tryGoBack()}>Previous</Button>
-                    <Button w='70%' py={6} fontSize='lg' colorScheme="blue" borderRadius='xl' onClick={() => tryGoNext()}>{canGoNext ? 'Continue' : 'Go back to deck'}</Button>
-                </Flex>
-            </Flex>)}
+            (
+            <Flex flexGrow={1} direction='column' justify='space-between' px={4} pb={2} {...swipeHandlers}>
+                <LearnHeader currentCardNumber={currentCardNumber} cardsCount={cards.length}/>
+                <LearnContent flashcard={currentFlashCard} foreignLanguageId={deck.languageId} />
+                <LearnNavigation isPreviousEnabled={canGoPrevious} onPreviousClick={tryGoBack} onNextClick={tryGoNext} isNextEnabled={canGoNext} />
+            </Flex>
+            )}
         </Flex>
     )
 }

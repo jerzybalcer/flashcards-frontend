@@ -19,7 +19,6 @@ export const DeckPage = () => {
     const deckDetailsModal = useDisclosure();
     const tooFewCardsModal = useDisclosure();
     const deleteDeckConfirmationModal = useDisclosure();
-
     function handleLearnClick() {
         if(deck && deck.cardsCount > 0){
             navigate(`/decks/${deck.id}/learn`);
