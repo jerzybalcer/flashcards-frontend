@@ -1,5 +1,7 @@
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button, FormControl, FormLabel, Input, Select } from "@chakra-ui/react";
+import { useRef } from "react";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button } from "@chakra-ui/react";
 import { useAddDeck } from "@/features/AllDecks/hooks/useAddDeck";
+import { AddDeckForm } from "./AddDeckForm";
 
 interface Props {
     isOpen: boolean;
@@ -7,16 +9,13 @@ interface Props {
 }
 
 export const AddDeckDialog: React.FC<Props> = ({ isOpen, onClose }) => {
-    const { 
-        languagesLoading, 
-        languages, 
-        name, 
-        setName, 
-        languageId, 
-        setLanguageId, 
-        handleClose, 
-        handleSave 
-    } = useAddDeck(onClose);
+    const formRef = useRef<HTMLFormElement>(null);
+
+    const { handleSave, handleClose } = useAddDeck(onClose);
+
+    function handleConfirm() {
+        formRef.current?.requestSubmit();
+    }
 
     return (
     <Modal isOpen={isOpen} onClose={() => handleClose()} autoFocus={false} returnFocusOnClose={false} isCentered>
@@ -25,25 +24,11 @@ export const AddDeckDialog: React.FC<Props> = ({ isOpen, onClose }) => {
             <ModalHeader fontWeight='bold'>New deck</ModalHeader>
             <ModalCloseButton />
             <ModalBody display='flex' flexDirection='column' gap={4}>
-                <FormControl isRequired>
-                    <FormLabel>Name</FormLabel>
-                    <Input value={name} onChange={(event) => setName(event.currentTarget.value)}/>
-                </FormControl>
-                <FormControl isRequired>
-                    <FormLabel>Language</FormLabel>
-                    <Select isDisabled={languagesLoading} placeholder="Select language" value={languageId} 
-                        onChange={(event) => setLanguageId(event.currentTarget.value)}>
-                        {languages?.map(language => 
-                        <option key={language.id} value={language.id}>
-                            {language.name}
-                        </option>
-                        )}
-                    </Select>
-                </FormControl>
+                <AddDeckForm formRef={formRef} onSubmit={handleSave} />
             </ModalBody>
             <ModalFooter>
-            <Button colorScheme="blue" mr={4} onClick={() => handleSave()}>Save</Button>
-            <Button variant='ghost' onClick={() => handleClose()}>Close</Button>
+                <Button colorScheme="blue" mr={4} onClick={() => handleConfirm()}>Save</Button>
+                <Button variant='ghost' onClick={() => handleClose()}>Close</Button>
             </ModalFooter>
         </ModalContent>
     </Modal>
