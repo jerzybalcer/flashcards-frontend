@@ -1,12 +1,9 @@
+import { useMutation, useQueryClient } from "react-query";
 import { QueryKeys } from "@/shared/hooks/queries/queryKeys";
 import { addCardsFromFile } from "@/shared/services/DeckService";
 import { successToast } from "@/shared/utils/toasts";
-import { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
 
 export function useAddCardsFromFile(deckId: number) {
-    const [file, setFile] = useState<File>()
-    const [delimiter, setDelimiter] = useState<string>('-');
     const queryClient = useQueryClient();
 
     function handleSuccess(toastTitle: string, toastDescription: string) {
@@ -22,11 +19,11 @@ export function useAddCardsFromFile(deckId: number) {
         }
     );
 
-    async function handleAddFile() {
+    async function handleAddFile(file: File, delimiter: string) {
         await mutation.mutateAsync({file: file!, delimiter: delimiter});
     }
 
     const isLoading = mutation.isLoading;
 
-    return { file, setFile, delimiter, setDelimiter, handleAddFile, isLoading };
+    return { handleAddFile, isLoading };
 }

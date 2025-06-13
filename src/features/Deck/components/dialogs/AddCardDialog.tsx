@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import { Button } from "@chakra-ui/react"
 import { useAddCard } from "../../hooks/mutations/useAddCard";
 import { useAddCardsFromFile } from "../../hooks/mutations/useAddCardsFromFile";
 import { FlashCard } from "@/model/FlashCard";
 import { FileInputForm } from "@/features/Deck/components/FileInputForm";
-import { FlashCardInputForm } from "@/features/Deck/components/FlashCardInputForm";
+import { AddFlashCardForm } from "@/features/Deck/components/AddFlashCardForm";
 
 interface Props {
     isOpen: boolean;
@@ -15,30 +15,29 @@ interface Props {
 }
 
 export const AddCardDialog: React.FC<Props> = ({ isOpen, flashCard, deckId, onClose }) => {
-    const { setForeignWord, setTranslatedWord, setForeignExampleSentence, setTranslatedExampleSentence, handleSave, isLoading: isAddCardLoading } = useAddCard(deckId);
-    const { setFile, setDelimiter, handleAddFile, isLoading: isAddFileLoading } = useAddCardsFromFile(deckId);
+    const { handleSave, isLoading: isAddCardLoading } = useAddCard(deckId);
+    const { handleAddFile, isLoading: isAddFileLoading } = useAddCardsFromFile(deckId);
+
+    const formRef = useRef<HTMLFormElement>(null);
+    const fileFormRef = useRef<HTMLFormElement>(null);
 
     const [currentTab, setCurrentTab] = useState<number>(0);
     const addingFromFile = currentTab === 1;
 
     function handleConfirm() {
-        if(addingFromFile){
-            handleAddFile().then(() => handleClose());
-        }
-        else{
-            handleSave().then(() => handleClose());
-        }
+        addingFromFile ? fileFormRef.current?.requestSubmit() : formRef.current?.requestSubmit();
     }
 
-    function handleClose(){
-        setForeignWord('');
-        setTranslatedWord('');
-        setFile(undefined);
-        onClose();
+    function handleSubmit(flashcard: FlashCard) {
+        handleSave(flashcard).then(() => onClose());
+    }
+
+    function handleFileSubmit(file: File, delimiter: string) {
+        handleAddFile(file, delimiter).then(() => onClose());
     }
 
     return (
-        <Modal isOpen={isOpen} onClose={handleClose} autoFocus={false} returnFocusOnClose={false} isCentered>
+        <Modal isOpen={isOpen} onClose={onClose} autoFocus={false} returnFocusOnClose={false} isCentered>
             <ModalOverlay />
             <ModalContent>
             <ModalHeader fontWeight='bold'>{flashCard ? 'Edit card' : 'New card'}</ModalHeader>
@@ -51,35 +50,21 @@ export const AddCardDialog: React.FC<Props> = ({ isOpen, flashCard, deckId, onCl
                     </TabList>
                     <TabPanels pt={4}>
                         <TabPanel>
-                            <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
-                            translatednWordOnChange={(value) => setTranslatedWord(value)}
-                            foreignExampleSentenceOnChange={(value) => setForeignExampleSentence(value)}
-                            translatedExampleSentenceOnChange={(value) => setTranslatedExampleSentence(value)}
-                            foreignDefaultValue={''}
-                            translatednWordDefaultValue={''}
-                            foreignExampleSentenceDefaultValue={null} 
-                            translatedExampleSentenceDefaultValue={null}/>                    
+                            <AddFlashCardForm formRef={formRef} onSubmit={handleSubmit} />              
                         </TabPanel>
                         <TabPanel>
-                            <FileInputForm onFileChange={(file) => setFile(file)} onDelimiterChange={(delimiter) => setDelimiter(delimiter)}/>
+                            <FileInputForm formRef={fileFormRef} onSubmit={handleFileSubmit}/>
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
                 )}
                 {flashCard && (
-                    <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
-                    translatednWordOnChange={(value) => setTranslatedWord(value)}
-                    foreignExampleSentenceOnChange={(value) => setForeignExampleSentence(value)}
-                    translatedExampleSentenceOnChange={(value) => setTranslatedExampleSentence(value)}
-                    foreignDefaultValue={flashCard.foreignWord}
-                    translatednWordDefaultValue={flashCard.translatedWord}
-                    foreignExampleSentenceDefaultValue={flashCard.foreignExampleSentence}
-                    translatedExampleSentenceDefaultValue={flashCard.translatedExampleSentence} />          
+                    <AddFlashCardForm formRef={formRef} onSubmit={handleSubmit} />       
                 )}
             </ModalBody>
             <ModalFooter>
                 <Button colorScheme="blue" mr={4} onClick={handleConfirm} isLoading={addingFromFile ? isAddFileLoading : isAddCardLoading}>Save</Button>
-                <Button variant='ghost' onClick={handleClose}> Close </Button>
+                <Button variant='ghost' onClick={onClose}> Close </Button>
             </ModalFooter>
             </ModalContent>
         </Modal>

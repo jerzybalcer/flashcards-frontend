@@ -1,9 +1,10 @@
 
 import { FlashCard } from "@/model/FlashCard";
 import { BottomSheet } from "@/shared/components/BottomSheet";
-import { FlashCardInputForm } from "@/features/Deck/components/FlashCardInputForm";
+import { AddFlashCardForm } from "@/features/Deck/components/AddFlashCardForm";
 import { Text } from "@chakra-ui/react";
 import { useEditCard } from "../../hooks/mutations/useEditCard";
+import { useRef } from "react";
 
 interface Props {
     isOpen: boolean;
@@ -13,10 +14,16 @@ interface Props {
 }
 
 export const EditCardBottomSheet: React.FC<Props> = ({ isOpen, flashCard, deckId, onClose }) => {
-    const { setForeignWord, setTranslatedWord, setForeignExampleSentence, setTranslatedExampleSentence, handleSave, isLoading } = useEditCard(flashCard, deckId);
+    const { handleSave, isLoading } = useEditCard(deckId);
+
+    const formRef = useRef<HTMLFormElement>(null);
 
     function handleConfirm() {
-        handleSave().then(() => onClose());
+        formRef.current?.requestSubmit();
+    }
+
+    function handleSubmit(flashCard: FlashCard) {
+        handleSave(flashCard).then(() => onClose());
     }
 
     function getHeader(){
@@ -24,15 +31,7 @@ export const EditCardBottomSheet: React.FC<Props> = ({ isOpen, flashCard, deckId
     }
 
     function getBody(){
-        return <FlashCardInputForm foreignWordOnChange={(value) => setForeignWord(value)} 
-            translatednWordOnChange={(value) => setTranslatedWord(value)}
-            foreignExampleSentenceOnChange={(value) => setForeignExampleSentence(value)}
-            translatedExampleSentenceOnChange={(value) => setTranslatedExampleSentence(value)}
-            foreignDefaultValue={flashCard.foreignWord}
-            translatednWordDefaultValue={flashCard.translatedWord} 
-            foreignExampleSentenceDefaultValue={flashCard.foreignExampleSentence}
-            translatedExampleSentenceDefaultValue={flashCard.translatedExampleSentence}
-            />        
+        return <AddFlashCardForm formRef={formRef} onSubmit={handleSubmit} defaultValue={flashCard}/>        
     }
     
     return (
