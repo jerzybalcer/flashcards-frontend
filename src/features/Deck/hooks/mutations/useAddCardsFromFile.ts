@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { QueryKeys } from "@/shared/hooks/queries/queryKeys";
 import { addCardsFromFile } from "@/shared/services/DeckService";
 import { successToast } from "@/shared/utils/toasts";
+import { FlashCardsFile } from "@/model/FlashCardsFile";
 
 export function useAddCardsFromFile(deckId: number) {
     const queryClient = useQueryClient();
@@ -13,14 +14,14 @@ export function useAddCardsFromFile(deckId: number) {
     }
     
     const mutation = useMutation(
-        (args: { file: File, delimiter: string }) => addCardsFromFile(deckId, args.file, args.delimiter), 
+        (file: FlashCardsFile) => addCardsFromFile(deckId, file.file, file.delimiter), 
         {
             onSuccess: () => handleSuccess('Succesfully saved cards', `Unique cards from file imported`),
         }
     );
 
-    async function handleAddFile(file: File, delimiter: string) {
-        await mutation.mutateAsync({file: file!, delimiter: delimiter});
+    async function handleAddFile(file: FlashCardsFile) {
+        await mutation.mutateAsync(file);
     }
 
     const isLoading = mutation.isLoading;

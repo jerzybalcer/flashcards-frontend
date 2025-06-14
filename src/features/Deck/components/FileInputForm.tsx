@@ -1,7 +1,8 @@
 import { Alert, AlertIcon, Flex, FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react";
 import { FileInput } from "../../../shared/components/FileInput";
 import { useState } from "react";
-import { FormErrors } from "@/model/FormErrors";
+import { useFormValidation } from "@/shared/hooks/general/useFormValidation";
+import { FlashCardsFile } from "@/model/FlashCardsFile";
 
 interface FormFields {
     file?: File;
@@ -10,30 +11,20 @@ interface FormFields {
 
 interface Props {
     formRef: React.Ref<HTMLFormElement>;
-    onSubmit: (file: File, delimiter: string) => void;
+    onSubmit: (file: FlashCardsFile) => void;
 }
 
 export const FileInputForm: React.FC<Props> = ({ formRef, onSubmit }) => {
-    const [file, setFile] = useState<File>();
-    const [delimiter, setDelimiter] = useState<string>('-');
-    const [errors, setErrors] = useState<FormErrors<FormFields>>({});
+    const [file, setFile] = useState<FormFields>({});
+    const { errors, isValid } = useFormValidation<FormFields>();
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        const newErrors: FormErrors<FormFields> = {};
-
-        if(!file) newErrors.file = 'File is required';
-        if(!delimiter) newErrors.delimiter = 'Delimiter is required';
-
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
+        if(isValid(file)){
+            onSubmit(file as FlashCardsFile);
+            setFile({ delimiter: '-' });
         }
-
-        onSubmit(file!, delimiter);
-        setFile(undefined);
-        setDelimiter('-');
     }
     
     return (
@@ -46,13 +37,13 @@ export const FileInputForm: React.FC<Props> = ({ formRef, onSubmit }) => {
 
             <FormControl isRequired isInvalid={!!errors.file}>
                 <FormLabel>File</FormLabel>
-                <FileInput onChange={(currentFile) => setFile(currentFile)}/>
+                <FileInput onChange={(currentFile) => setFile({...file, file: currentFile})}/>
                 <FormErrorMessage>{errors.file}</FormErrorMessage>
             </FormControl>
 
             <FormControl isRequired isInvalid={!!errors.delimiter}> 
                 <FormLabel>Delimiter</FormLabel>
-                <Input value={delimiter ?? ''} maxLength={1} onChange={(event) => setDelimiter(event.currentTarget.value)}/>
+                <Input value={file?.delimiter ?? ''} maxLength={1} onChange={(event) => setFile({...file, delimiter: event.currentTarget.value})}/>
                 <FormErrorMessage>{errors.delimiter}</FormErrorMessage>
             </FormControl>
         </Flex>

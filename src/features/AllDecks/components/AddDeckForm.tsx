@@ -3,7 +3,7 @@ import { FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/reac
 import { NewDeck } from "@/model/NewDeck";
 import { LanguageInput } from "@/shared/components/LanguageInput"
 import { useLanguages } from "@/shared/hooks/queries/useLanguages";
-import { FormErrors } from "@/model/FormErrors";
+import { useFormValidation } from "@/shared/hooks/general/useFormValidation";
 
 interface FormFields {
     name?: string;
@@ -19,22 +19,14 @@ export const AddDeckForm: React.FC<Props> = ({ formRef, onSubmit }) => {
     const { isFetching: languagesLoading, data: languages } = useLanguages();
 
     const [deck, setDeck] = useState<FormFields>({} as FormFields);
-    const [errors, setErrors] = useState<FormErrors<FormFields>>({});
+    const { errors, isValid } = useFormValidation<FormFields>();
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        const newErrors: FormErrors<FormFields> = {};
-
-        if(!deck.name?.trim()) newErrors.name = 'Name is required';
-        if(!deck.languageId) newErrors.languageId = 'Language is required';
-
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
+        if(isValid(deck)){
+            onSubmit(deck as NewDeck);
         }
-
-        onSubmit(deck as NewDeck);
     }
 
     return <form ref={formRef} onSubmit={handleSubmit} noValidate>

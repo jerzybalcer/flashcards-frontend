@@ -6,6 +6,7 @@ import { AddFlashCardForm } from "@/features/Deck/components/AddFlashCardForm";
 import { useAddCard } from "../../hooks/mutations/useAddCard";
 import { useAddCardsFromFile } from "../../hooks/mutations/useAddCardsFromFile";
 import { FlashCard } from "@/model/FlashCard";
+import { FlashCardsFile } from "@/model/FlashCardsFile";
 
 
 interface Props {
@@ -32,8 +33,8 @@ export const AddCardBottomSheet: React.FC<Props> = ({ isOpen, deckId, onClose })
         handleSave(flashcard).then(() => onClose());
     }
 
-    function handleFileSubmit(file: File, delimiter: string) {
-        handleAddFile(file, delimiter).then(() => onClose());
+    function handleFileSubmit(file: FlashCardsFile) {
+        handleAddFile(file).then(() => onClose());
     }
 
     function getHeader() {

@@ -6,6 +6,7 @@ import { useAddCardsFromFile } from "../../hooks/mutations/useAddCardsFromFile";
 import { FlashCard } from "@/model/FlashCard";
 import { FileInputForm } from "@/features/Deck/components/FileInputForm";
 import { AddFlashCardForm } from "@/features/Deck/components/AddFlashCardForm";
+import { FlashCardsFile } from "@/model/FlashCardsFile";
 
 interface Props {
     isOpen: boolean;
@@ -32,8 +33,8 @@ export const AddCardDialog: React.FC<Props> = ({ isOpen, flashCard, deckId, onCl
         handleSave(flashcard).then(() => onClose());
     }
 
-    function handleFileSubmit(file: File, delimiter: string) {
-        handleAddFile(file, delimiter).then(() => onClose());
+    function handleFileSubmit(file: FlashCardsFile) {
+        handleAddFile(file).then(() => onClose());
     }
 
     return (

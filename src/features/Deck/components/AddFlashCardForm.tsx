@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Input } from "@chakra-ui/input"
 import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/form-control"
 import { FlashCard } from "@/model/FlashCard"
-import { FormErrors } from "@/model/FormErrors";
+import { useFormValidation } from "@/shared/hooks/general/useFormValidation";
 
 interface FormFields {
     foreignWord?: string;
@@ -19,23 +19,15 @@ interface Props {
 
 export const AddFlashCardForm: React.FC<Props> = ({ formRef, onSubmit, defaultValue }) => {
     const [flashcard, setFlashcard] = useState<FormFields>(defaultValue as FormFields ?? {} as FormFields);
-    const [errors, setErrors] = useState<FormErrors<FormFields>>({});
+    const { errors, isValid } = useFormValidation<FormFields>();
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        const newErrors: FormErrors<FormFields> = {};
-
-        if(!flashcard.foreignWord?.trim()) newErrors.foreignWord = 'Foreign word is required';
-        if(!flashcard.translatedWord?.trim()) newErrors.translatedWord = 'Translated word is required';
-
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
+        if(isValid(flashcard)){
+            onSubmit(flashcard as FlashCard);
+            setFlashcard({});
         }
-
-        onSubmit(flashcard as FlashCard);
-        setFlashcard({});
     }
 
     useEffect(() => {
