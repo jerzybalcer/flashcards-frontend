@@ -11,6 +11,7 @@ import { SortCardsBy } from '@/model/SortCardsBy';
 import { SortDecksBy } from '@/model/SortDecksBy';
 import { SortDirection } from '@/model/SortDirection';
 import { apiClient } from './AxiosInstance';
+import { EditedDeck } from '@/model/EditedDeck';
 
 
 export const getDeck = async (deckId: number) =>
@@ -37,6 +38,13 @@ export const addDeck = async (deck: NewDeck) =>
             { name: deck.name, language_id: deck.languageId }, 
             { headers: {'Content-Type': 'application/json'} })
         .then(res => res.data as number)
+        .catch((err: AxiosError) => Promise.reject(err));
+
+export const editDeck = async (deck: EditedDeck) =>
+    apiClient
+        .put(`/decks/${deck.id}`, 
+            { name: deck.name, language_id: deck.languageId, id: deck.id }, 
+            { headers: {'Content-Type': 'application/json'} })
         .catch((err: AxiosError) => Promise.reject(err));
 
 export const deleteDeck = async (id: number) =>

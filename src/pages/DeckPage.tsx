@@ -9,6 +9,7 @@ import { TooFewCardsBottomSheet } from "@/features/Deck/components/bottomSheets/
 import { DeckActions } from "@/features/Deck/components/DeckActions"
 import { DeckHeader } from "@/features/Deck/components/DeckHeader"
 import { DeckFlashCards } from "@/features/Deck/components/DeckFlashCards"
+import { EditDeckModal } from "@/features/AllDecks/components/EditDeckModal"
 
 export const DeckPage = () => {
     const { deckId } = useParams();
@@ -19,6 +20,8 @@ export const DeckPage = () => {
     const deckDetailsModal = useDisclosure();
     const tooFewCardsModal = useDisclosure();
     const deleteDeckConfirmationModal = useDisclosure();
+    const editDeckModal = useDisclosure();
+
     function handleLearnClick() {
         if(deck && deck.cardsCount > 0){
             navigate(`/decks/${deck.id}/learn`);
@@ -48,7 +51,8 @@ export const DeckPage = () => {
                 </Flex>
 
                 <TooFewCardsBottomSheet isOpen={tooFewCardsModal.isOpen} onClose={tooFewCardsModal.onClose} />
-                <DeckDetailsBottomSheet isOpen={deckDetailsModal.isOpen} onClose={deckDetailsModal.onClose} deck={deck} onDelete={deleteDeckConfirmationModal.onToggle} />
+                <DeckDetailsBottomSheet isOpen={deckDetailsModal.isOpen} onClose={deckDetailsModal.onClose} deck={deck} onDelete={deleteDeckConfirmationModal.onToggle} onEdit={editDeckModal.onToggle} />
+                <EditDeckModal isOpen={editDeckModal.isOpen} onClose={editDeckModal.onClose} deck={deck} />
                 <DeleteDeckConfirmationDialog isOpen={deleteDeckConfirmationModal.isOpen} onClose={deleteDeckConfirmationModal.onClose} deck={deck}/>
             </>)}
         </Flex>

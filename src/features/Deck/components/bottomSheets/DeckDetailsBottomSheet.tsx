@@ -8,9 +8,10 @@ interface Props {
     onClose: () => void;
     deck: Deck;
     onDelete: () => void;
+    onEdit: () => void;
 }
 
-export const DeckDetailsBottomSheet: React.FC<Props> = ({ isOpen, onClose, deck, onDelete }) => {
+export const DeckDetailsBottomSheet: React.FC<Props> = ({ isOpen, onClose, deck, onDelete, onEdit }) => {
 
     function getHeader() {
         return <Flex justify='space-between' align='center' w='100%'>
@@ -37,7 +38,7 @@ export const DeckDetailsBottomSheet: React.FC<Props> = ({ isOpen, onClose, deck,
     }
 
     function handleEdit() {
-
+        onEdit();
     }
 
     return <BottomSheet isOpen={isOpen} header={[getHeader()]} body={[getBody()]} confirmText="Edit" confirmIcon={<IconEdit />} onConfirm={handleEdit} onClose={onClose}/>
