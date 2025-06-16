@@ -1,28 +1,25 @@
-import { useState } from "react";
 import { Select } from "@chakra-ui/react"
 import { Language } from "@/model/Language"
 
 interface Props {
     languages: Language[];
     isLoading: boolean;
+    value?: Language;
     onChange: (language?: Language) => void;
 }
 
-export const LanguageInput: React.FC<Props> = ({ languages, isLoading, onChange }) => {
-    const [languageId, setLanguageId] = useState<string | undefined>();
-
+export const LanguageInput: React.FC<Props> = ({ languages, isLoading, value, onChange }) => {
     function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
         const languageId = event.currentTarget.value;
         const language = languages.find(l => l.id === languageId);
 
-        setLanguageId(languageId);
         onChange(language);
     }
 
     return <Select 
                 isDisabled={isLoading} 
                 placeholder="Select language" 
-                value={languageId} 
+                value={value?.id} 
                 onChange={handleChange}
             >
             {languages.map(language => 

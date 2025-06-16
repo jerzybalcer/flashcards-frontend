@@ -28,7 +28,7 @@ export const DeckFlashCards: React.FC<Props> = ({ deck }) => {
 
     function handleEditCardOpen(flashCard: FlashCard) {
         setEditedFlashCard(flashCard);
-        addCardModal.onToggle();
+        editCardModal.onToggle();
     }
 
     return <> 

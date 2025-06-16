@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Input } from "@chakra-ui/input"
+import { useForm } from "react-hook-form";
 import { FormControl, FormErrorMessage, FormLabel } from "@chakra-ui/form-control"
 import { FlashCard } from "@/model/FlashCard"
-import { useFormValidation } from "@/shared/hooks/general/useFormValidation";
 
 interface FormFields {
-    foreignWord?: string;
-    translatedWord?: string;
-    foreignExampleSentence?: string;
-    translatedExampleSentence?: string;
+    foreignWord: string;
+    translatedWord: string;
+    foreignExampleSentence: string;
+    translatedExampleSentence: string;
 }
 
 interface Props {
@@ -18,47 +18,68 @@ interface Props {
 }
 
 export const AddFlashCardForm: React.FC<Props> = ({ formRef, onSubmit, defaultValue }) => {
-    const [flashcard, setFlashcard] = useState<FormFields>(defaultValue as FormFields ?? {} as FormFields);
-    const { errors, isValid } = useFormValidation<FormFields>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormFields>({
+        defaultValues: {
+          foreignWord: defaultValue?.foreignWord ?? '',
+          translatedWord: defaultValue?.translatedWord ?? '',
+          foreignExampleSentence: defaultValue?.foreignExampleSentence ?? '',
+          translatedExampleSentence: defaultValue?.translatedExampleSentence ?? '',
+        },
+      });
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
+    function onFormSubmit(data: FormFields) {
+        const flashCard = data as FlashCard;
+        flashCard.id = defaultValue?.id;
+        onSubmit(data as FlashCard);
+        reset();
+    }
 
-        if(isValid(flashcard)){
-            onSubmit(flashcard as FlashCard);
-            setFlashcard({});
-        }
+    function validateExampleSentence(value: string){
+        if (value && value.trim() === "") {
+            return "Sentence cannot contain only spaces";
+          }
+          return true;
     }
 
     useEffect(() => {
-        setFlashcard(defaultValue as FormFields)
-    }, [defaultValue]);
+        reset()
+    }, [defaultValue, reset]);
 
-    return <form ref={formRef} onSubmit={handleSubmit} noValidate>
+    return <form ref={formRef} onSubmit={handleSubmit(onFormSubmit)} noValidate autoComplete="off">
         <FormControl isRequired isInvalid={!!errors.foreignWord}>
             <FormLabel>Foreign Word</FormLabel>
             <Input maxLength={100} placeholder='Enter the word'
-                value={flashcard.foreignWord ?? ''} onChange={(event) => setFlashcard({...flashcard, foreignWord: event.target.value})} />
-            <FormErrorMessage>{errors.foreignWord}</FormErrorMessage>
+                {...register("foreignWord", { required: "Foreign word is required" })}
+            />
+            <FormErrorMessage>{errors.foreignWord?.message}</FormErrorMessage>
         </FormControl>
 
         <FormControl mt={6} isRequired isInvalid={!!errors.translatedWord}>
             <FormLabel>Translated Word</FormLabel>
-            <Input maxLength={100} placeholder='Enter the word' value={flashcard.translatedWord ?? ''}
-                onChange={(event) => setFlashcard({...flashcard, translatedWord: event.target.value})} />
-            <FormErrorMessage>{errors.translatedWord}</FormErrorMessage>
+            <Input maxLength={100} placeholder='Enter the word'
+                {...register("translatedWord", { required: "Translated word is required" })}
+            />
+            <FormErrorMessage>{errors.translatedWord?.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl mt={6}>
+        <FormControl mt={6} isInvalid={!!errors.foreignExampleSentence}>
             <FormLabel>Example sentence</FormLabel>
-            <Input maxLength={300} placeholder='Enter the sentence' value={flashcard.foreignExampleSentence ?? ''}
-                onChange={(event) => setFlashcard({...flashcard, foreignExampleSentence: event.target.value})} />
+            <Input maxLength={300} placeholder='Enter the sentence'
+                {...register("foreignExampleSentence", {
+                    validate: validateExampleSentence
+                  })}
+            />
+            <FormErrorMessage>{errors.foreignExampleSentence?.message}</FormErrorMessage>
         </FormControl>
 
-        <FormControl mt={6}>
+        <FormControl mt={6} isInvalid={!!errors.translatedExampleSentence}>
             <FormLabel>Translated example sentence</FormLabel>
-            <Input maxLength={300} placeholder='Enter the sentence' value={flashcard.translatedExampleSentence ?? ''}
-                onChange={(event) => setFlashcard({...flashcard, translatedExampleSentence: event.target.value})} />
+            <Input maxLength={300} placeholder='Enter the sentence'
+                {...register("translatedExampleSentence", {
+                    validate: validateExampleSentence
+                  })}
+            />
+            <FormErrorMessage>{errors.translatedExampleSentence?.message}</FormErrorMessage>
         </FormControl>
     </form>
 }

@@ -1,13 +1,13 @@
-import { useState } from "react";
 import { FormControl, FormErrorMessage, FormLabel, Input } from "@chakra-ui/react"
 import { NewDeck } from "@/model/NewDeck";
 import { LanguageInput } from "@/shared/components/LanguageInput"
 import { useLanguages } from "@/shared/hooks/queries/useLanguages";
-import { useFormValidation } from "@/shared/hooks/general/useFormValidation";
+import { Language } from "@/model/Language";
+import { Controller, useForm } from "react-hook-form";
 
 interface FormFields {
-    name?: string;
-    languageId?: string;
+    name: string;
+    language: Language | undefined;
 }
 
 interface Props {
@@ -17,28 +17,34 @@ interface Props {
 
 export const AddDeckForm: React.FC<Props> = ({ formRef, onSubmit }) => {
     const { isFetching: languagesLoading, data: languages } = useLanguages();
+    const { handleSubmit, control, register, formState: { errors }} = useForm<FormFields>({defaultValues: { name: '', language: undefined },});
 
-    const [deck, setDeck] = useState<FormFields>({} as FormFields);
-    const { errors, isValid } = useFormValidation<FormFields>();
-
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        if(isValid(deck)){
-            onSubmit(deck as NewDeck);
-        }
+    function onFormSubmit(data: FormFields) {
+        onSubmit({ name: data.name, languageId: data.language!.id } as NewDeck);
     }
 
-    return <form ref={formRef} onSubmit={handleSubmit} noValidate>
+    return <form ref={formRef} onSubmit={handleSubmit(onFormSubmit)} noValidate autoComplete="off">
         <FormControl isInvalid={!!errors.name}>
             <FormLabel>Name</FormLabel>
-            <Input value={deck.name ?? ''} onChange={(event) => setDeck({...deck, name: event.currentTarget.value})}/>
-            <FormErrorMessage>{errors.name}</FormErrorMessage>
+            <Input {...register("name", { required: "Name is required" })} placeholder="Enter name"/>
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl my={4} isRequired isInvalid={!!errors.languageId}>
+        <FormControl my={4} isRequired isInvalid={!!errors.language}>
             <FormLabel>Language</FormLabel>
-            <LanguageInput languages={languages ?? []} isLoading={languagesLoading} onChange={(language) => setDeck({...deck, languageId: language?.id})} />
-            <FormErrorMessage>{errors.languageId}</FormErrorMessage>
+            <Controller
+                name="language"
+                control={control}
+                rules={{ required: "Language is required" }}
+                render={({ field }) => (
+                    <LanguageInput
+                        languages={languages ?? []}
+                        isLoading={languagesLoading}
+                        value={field.value}
+                        onChange={field.onChange}
+                    />
+                )}
+            />
+            <FormErrorMessage>{errors.language?.message}</FormErrorMessage>
         </FormControl>
     </form>
 }

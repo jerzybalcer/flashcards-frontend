@@ -21,8 +21,11 @@ export function useAddCard(deckId: number) {
         }
     );
 
-    async function handleSave(deck: FlashCard) {
-        await mutation.mutateAsync(deck);
+    async function handleSave(card: FlashCard) {
+        if(!card.foreignExampleSentence) card.foreignExampleSentence = null;
+        if(!card.translatedExampleSentence) card.translatedExampleSentence = null;
+        
+        await mutation.mutateAsync(card);
     }
 
     const isLoading = mutation.isLoading;
