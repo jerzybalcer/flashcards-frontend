@@ -23,6 +23,9 @@ export function useEditCard(deckId: number) {
     const isLoading = mutation.isLoading;
 
     async function handleSave(flashcard: FlashCard) {
+        if(flashcard.foreignExampleSentence === '') flashcard.foreignExampleSentence = null;
+        if(flashcard.translatedExampleSentence === '') flashcard.translatedExampleSentence = null;
+        
         await mutation.mutateAsync(flashcard);
     }
 
