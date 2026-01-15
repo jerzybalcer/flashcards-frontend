@@ -27,8 +27,8 @@ export const FlashCardDetailsBottomSheet: React.FC<Props> = ({ isOpen, onClose, 
     function getBody() {
         return <Flex direction='column' justify='space-between' align='center' gap='28px'>
             <Flex direction='column' justify='space-between' align='center' gap='10px'>
-                <Text display='inline-block' lineHeight='100%' fontSize={32} userSelect='text'>{flashCard.foreignWord}</Text>
-                <Text display='inline-block' lineHeight='100%' fontSize={24} userSelect='text' color='blue.200'>{flashCard.translatedWord}</Text>
+                <Text display='inline-block' lineHeight='100%' fontSize={32} userSelect='text' color='blue.200'>{flashCard.foreignWord}</Text>
+                <Text display='inline-block' lineHeight='100%' fontSize={24} userSelect='text'>{flashCard.translatedWord}</Text>
             </Flex>
             <Flex direction='column' justify='space-between' align='center' gap='10px' borderColor='blue.200' borderStyle='solid' borderWidth="1px" borderRadius='md' p='10px' w='100%'>
                 <Text display='inline-block' lineHeight='28px' fontSize={16} fontWeight={600} userSelect='text'>{flashCard.foreignExampleSentence ?? 'No example sentence'}</Text>

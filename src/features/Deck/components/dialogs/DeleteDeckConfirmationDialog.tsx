@@ -49,8 +49,10 @@ export const DeleteDeckConfirmationDialog: React.FC<Props> = ({ isOpen, deck, on
                             <Box>
                                 <Tag size='sm' colorScheme="blue" variant='subtle'>{deck.languageName.toUpperCase()}</Tag>
                             </Box>
-                            <Text fontWeight='bold' fontSize='lg'>{deck.name}</Text>
-                            <Text opacity={0.8}>{deck.cardsCount} flashcards</Text>
+                            <Box ml={2}>
+                                <Text fontWeight='bold' fontSize='lg'>{deck.name}</Text>
+                                <Text opacity={0.8}>{deck.cardsCount} flashcards</Text>
+                            </Box>
                         </Card>
                         <br/>
                     </ModalBody>

@@ -46,13 +46,13 @@ export const DeleteCardConfirmationDialog: React.FC<Props> = ({ isOpen, flashCar
                         <Card variant='outline' p={2} gap={4}>
                             <Flex direction='column' gap={2}>
                                 <Box>
-                                    <Tag colorScheme="blue" variant='subtle'>{foreignLanguageName.toUpperCase()}</Tag>
+                                    <Tag size='sm' colorScheme="blue" variant='subtle'>{foreignLanguageName.toUpperCase()}</Tag>
                                 </Box>
                                 <Text fontWeight='bold' color='blue.200' ml={2}>{flashCard.foreignWord}</Text>
                             </Flex>
                             <Flex direction='column' gap={2}>
                                 <Box>
-                                    <Tag colorScheme="gray" variant='subtle'>POLISH</Tag>
+                                    <Tag size='sm' colorScheme="gray" variant='subtle'>POLISH</Tag>
                                 </Box>
                                 <Text fontWeight='bold' ml={2}>{flashCard.translatedWord}</Text>
                             </Flex>
