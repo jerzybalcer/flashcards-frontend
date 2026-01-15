@@ -45,7 +45,7 @@ export const AddDeckForm: React.FC<Props> = ({ formRef, onSubmit, defaultValue }
     }, [defaultValue, reset]);
 
     return <form ref={formRef} onSubmit={handleSubmit(onFormSubmit)} noValidate autoComplete="off">
-        <FormControl isRequired isInvalid={!!errors.name}>
+        <FormControl isInvalid={!!errors.name}>
             <FormLabel>Name</FormLabel>
             <Input {...register("name", { required: "Name is required" })} placeholder="Enter name"/>
             <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
