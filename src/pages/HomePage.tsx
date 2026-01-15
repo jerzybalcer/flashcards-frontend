@@ -1,6 +1,6 @@
 import { Card, Flex, Heading } from "@chakra-ui/react"
-import { SideMenu } from "../components/SideMenu"
-import { useAuth } from "../hooks/general/useAuth";
+import { SideMenu } from "@/shared/components/SideMenu"
+import { useAuth } from "@/shared/hooks/general/useAuth";
 
 export const HomePage = () => {
     const auth = useAuth();

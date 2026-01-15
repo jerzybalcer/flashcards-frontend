@@ -1,14 +1,13 @@
-import './App.css'
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { DeckPage } from './pages/DeckPage';
 import { LearnPage } from './pages/LearnPage';
 import { QuizPage } from './pages/QuizPage';
 import { AllDecksPage } from './pages/AllDecksPage';
 import { Box, Flex } from '@chakra-ui/react';
-import { QuizContextProvider } from './contexts/QuizContext';
+import { QuizContextProvider } from './features/Quiz/context/QuizContext';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import { ProtectedRoute } from '@/shared/components/ProtectedRoute';
 
 export const App = () => {
   return (
