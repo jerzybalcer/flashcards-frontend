@@ -16,7 +16,7 @@ export const App = () => {
           <Routes>
             <Route path='/login' element={<LoginPage />} />
             <Route element={<ProtectedRoute />}>
-              <Route path='/' element={<Navigate to='/decks' />} />
+              <Route path='/' element={<Navigate to='/home' />} />
               <Route path='/home' element={<HomePage />} />
               <Route path='/decks' element={<AllDecksPage />} />
               <Route path='/decks/:deckId' element={<DeckPage />} />

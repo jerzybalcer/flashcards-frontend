@@ -18,22 +18,22 @@ export const RecentDecks = () => {
 
     return (
         <Flex direction="column" gap={4}>
-            <Heading size="md">Recent Decks</Heading>
+            <Heading fontSize='24px' fontFamily='Playwrite US Modern' fontWeight={400}>Recent Decks</Heading>
             {decksLoading && <Loading />}
             {!decksLoading && !decks && <Text opacity={0.8}>No decks to show.</Text>}
             {decks && !decksLoading && decks.slice(0, 2).map(deck => (
                 <Card key={deck.id} onClick={() => handleDeckClick(deck)}>
                     <CardBody display='flex' gap={2} justifyContent='space-between'>
                         <Flex gap={2} flexDirection='column'>
-                            <Text>{deck.name}</Text>
+                            <Text fontSize='24px' fontWeight={700}>{deck.name}</Text>
                             <Flex gap={2} align='center'>
                                 <Tag colorScheme="blue" variant='subtle'>{deck.languageId.toUpperCase()}</Tag>
-                                <Text color='blue.200'>{deck.cardsCount} flashcards</Text>
+                                <Text fontSize='20px' fontWeight={700} color='blue.200'>{deck.cardsCount} flashcards</Text>
                             </Flex>
                         </Flex>
                         <Flex direction='column' align='center' gap={1}>
-                            <Text>Go to</Text>
-                            <IconArrowRight color="var(--chakra-colors-blue-200)" />
+                            <Text fontSize='20px' fontWeight={700}>Go to</Text>
+                            <IconArrowRight size='36px' color="var(--chakra-colors-blue-200)" />
                         </Flex>
                     </CardBody>
                 </Card>
