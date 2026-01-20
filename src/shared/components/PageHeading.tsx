@@ -1,4 +1,4 @@
-import { Box, Flex, Heading } from "@chakra-ui/react"
+import { Flex, Heading } from "@chakra-ui/react"
 import { SideMenu } from "./SideMenu"
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
@@ -14,14 +14,14 @@ export const PageHeading: React.FC<PageHeadingProps> = ({ title, urlToGoBack = '
     return (
         <Flex w='100%' justify='center' mb={12}>
             <Flex w='100%' maxW='1200px' justify='space-between' align='center'>
-                {urlToGoBack !== null ? 
+                {urlToGoBack !== null &&
                 (<IconArrowLeft cursor='pointer' size={36} strokeWidth={1.25} opacity={0.8} onClick={() => navigate(urlToGoBack)}/>) 
-                : (<Box width='36px' height='36px'/>)
                 }
-                <Heading fontFamily='Playwrite US Traditional' size='lg'>{title}</Heading>
+                <Heading fontFamily='Playwrite US Modern' fontWeight={400} fontSize={urlToGoBack ? '28px' : '36px'}>{title}</Heading>
                 <SideMenu />
             </Flex>
         </Flex>
 
     )
 }
+
