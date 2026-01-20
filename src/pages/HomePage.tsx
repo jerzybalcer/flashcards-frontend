@@ -13,11 +13,13 @@ export const HomePage = () => {
         <Flex direction='column' h='100%' w='100%'>
             <PageHeading title="Cardify" urlToGoBack={null}/>
             <Scrollable>
-                <Flex direction='column' px={4} pb={2} flexGrow={1} gap={8}>
+                <Flex direction='column' px={1} gap={6}>
                     <Heading fontSize='36px' fontFamily='Playwrite US Modern' fontWeight={400}>Hello, {auth!.currentUser!.name}</Heading>
-                    <YourWordForToday />
-                    <YourGoals />
-                    <RecentDecks />
+                    <Flex direction='column' gap={10}>
+                        <YourWordForToday />
+                        <YourGoals />
+                        <RecentDecks />
+                    </Flex>
                 </Flex>
 
             </Scrollable>

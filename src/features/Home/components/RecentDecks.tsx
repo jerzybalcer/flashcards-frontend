@@ -17,7 +17,7 @@ export const RecentDecks = () => {
     }
 
     return (
-        <Flex direction="column" gap={4}>
+        <Flex direction="column" gap={5}>
             <Heading fontSize='24px' fontFamily='Playwrite US Modern' fontWeight={400}>Recent Decks</Heading>
             {decksLoading && <Loading />}
             {!decksLoading && !decks && <Text opacity={0.8}>No decks to show.</Text>}

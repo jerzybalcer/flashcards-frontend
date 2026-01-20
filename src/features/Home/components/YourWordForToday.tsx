@@ -3,7 +3,7 @@ import { IconInfoCircle } from "@tabler/icons-react";
 
 export const YourWordForToday = () => {
     return (
-        <Flex direction="column" gap={4}>
+        <Flex direction="column" gap={5}>
             <Flex justify='space-between' align='center'>
                 <Heading fontSize='24px' fontFamily='Playwrite US Modern' fontWeight={400}>Your word for today</Heading>
                 <IconInfoCircle size='36px' strokeWidth={1.5} color="var(--chakra-colors-blue-200)"/>
