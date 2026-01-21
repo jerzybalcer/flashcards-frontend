@@ -20,10 +20,10 @@ export const TooFewCardsBottomSheet: React.FC<Props> = ({ isOpen, onClose }) => 
     }
 
     function getBody() {
-        return <Flex direction='column' justify='space-between' align='center' gap='28px' mb={8}>
-            <Flex direction='column' justify='space-between' align='center' gap='10px' textAlign='center'>
-                <Text display='inline-block' lineHeight='100%' fontSize={32} fontWeight={700} userSelect='text'>Too few flashcards</Text>
-                <Text display='inline-block' lineHeight='100%' fontSize={24} fontWeight={700} userSelect='text' color='blue.200'>Add some to continue</Text>
+        return <Flex direction='column' justify='space-between' align='center' mb='30px'>
+            <Flex direction='column' justify='space-between' align='center' gap='30px' textAlign='center'>
+                <Text display='inline-block' fontSize='30px' fontWeight={400} fontFamily='Playwrite US Modern'>Too few flashcards</Text>
+                <Text display='inline-block' fontSize='20px' fontWeight={700} color='blue.200'>Add some to continue</Text>
             </Flex>
         </Flex>;
     }
