@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Playwrite US Modern";
-  src: url("./fonts/PlaywriteUSModern-VariableFont_wght.ttf") format("truetype");
+  src: url("./assets/fonts/PlaywriteUSModern-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: "Playwrite US Traditional";
-  src: url("./fonts/PlaywriteUSTrad-VariableFont_wght.ttf") format("truetype");
+  src: url("./assets/fonts/PlaywriteUSTrad-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: "Satoshi";
-  src: url("./fonts/Satoshi-Variable.ttf") format("truetype");
+  src: url("./assets/fonts/Satoshi-Variable.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
