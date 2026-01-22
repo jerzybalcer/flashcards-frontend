@@ -1,6 +1,6 @@
 import { Center, Flex, Text, useTheme } from "@chakra-ui/react";
 import { BottomSheet } from "@/shared/components/BottomSheet";
-import { IconInfoCircle } from "@tabler/icons-react";
+import { IconCalendarWeek } from '@tabler/icons-react';
 
 interface Props {
     isOpen: boolean;
@@ -12,7 +12,7 @@ export const YourWordsForTodayBottomSheet: React.FC<Props> = ({ isOpen, onClose 
 
     function getHeader() {
         return <Center w='100%'>
-            <IconInfoCircle size='60px' strokeWidth={1.5} color={blue200}/>
+            <IconCalendarWeek size='60px' strokeWidth={1.5} color={blue200}/>
         </Center>;
     }
 
@@ -25,5 +25,5 @@ export const YourWordsForTodayBottomSheet: React.FC<Props> = ({ isOpen, onClose 
         </Flex>;
     }
 
-    return <BottomSheet isOpen={isOpen} header={[getHeader()]} body={[getBody()]} confirmText="Close" onConfirm={onClose} onClose={onClose} closeButtonVisible={false}  />
+    return <BottomSheet isOpen={isOpen} header={[getHeader()]} body={[getBody()]} confirmText="Take a Quiz" onConfirm={() => {}} onClose={onClose} closeButtonVisible={true}  />
 }
