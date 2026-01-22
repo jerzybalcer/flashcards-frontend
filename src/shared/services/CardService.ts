@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import { apiClient } from './AxiosInstance';
 import { FlashCard } from "@/model/FlashCard";
+import humps from "humps";
 
 
 export const editCard = async (card: FlashCard) =>
@@ -13,4 +14,10 @@ export const editCard = async (card: FlashCard) =>
 export const deleteCard = async (id: number) =>
     apiClient
         .delete(`/cards/${id}`)
+        .catch((err: AxiosError) => Promise.reject(err));
+
+export const getDailyCards = async () =>
+    apiClient
+        .get(`/cards/daily`)
+        .then(res => humps.camelizeKeys(res.data) as FlashCard[])
         .catch((err: AxiosError) => Promise.reject(err));
