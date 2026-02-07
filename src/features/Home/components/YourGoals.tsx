@@ -1,8 +1,8 @@
-import { Scrollable } from "@/shared/components/Scrollable";
 import { Card, CardBody, Flex, Heading, Text, Image } from "@chakra-ui/react";
 import percent64Image from '@/assets/images/64percent.png';
 import percent90Image from '@/assets/images/90percent.png';
 import percent42Image from '@/assets/images/42percent.png';
+import { Carousel } from "@/shared/components/Carousel";
 
 export const YourGoals = () => {
     const goals: {name: string, percent: number, imageSrc: string}[] = [
@@ -14,8 +14,7 @@ export const YourGoals = () => {
     return (
         <Flex direction='column' gap={5}>
             <Heading fontSize='24px' fontFamily='Playwrite US Modern' fontWeight={400}>Your Goals</Heading>
-            <Scrollable horizontal>
-                <Flex justify='space-between' align='center' gap={2} pb={2}>
+            <Carousel>
                 {goals.map(goal => (
                     <Card key={goal.name} flex={1} h='100%' minW='120px'>
                         <CardBody display='flex' flexDirection='column' gap={4} justifyContent='space-between' alignItems='center' p={2}>
@@ -27,9 +26,7 @@ export const YourGoals = () => {
                         </CardBody>
                     </Card>
                 ))}
-                </Flex>
-            </Scrollable>
-            
+            </Carousel>
         </Flex>
     );
 }

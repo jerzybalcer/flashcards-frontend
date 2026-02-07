@@ -19,8 +19,8 @@ export const HomePage = () => {
             <Scrollable>
                 <Flex direction='column' px={1} gap={10}>
                     <YourWordsForToday onInfoClick={() => handleYourWordsForTodayInfoClick()}/>
-                    <YourGoals />
                     <RecentDecks />
+                    <YourGoals />
                 </Flex>
             </Scrollable>
             <YourWordsForTodayBottomSheet isOpen={yourWordsForTodayModal.isOpen} onClose={yourWordsForTodayModal.onClose} />
