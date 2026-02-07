@@ -25,7 +25,7 @@ export const RecentDecks = () => {
                 <Card key={deck.id} onClick={() => handleDeckClick(deck)}>
                     <CardBody display='flex' gap={4} justifyContent='space-between'>
                         <Flex gap={2} flexDirection='column' minW={0}>
-                            <Text fontSize='24px' fontWeight={700} maxW='100%' noOfLines={1}>{deck.name}</Text>
+                            <Text fontSize='24px' fontWeight={700} maxW='100%' noOfLines={1} wordBreak='break-all'>{deck.name}</Text>
                             <Flex gap={2} align='center'>
                                 <Tag colorScheme="blue" variant='subtle'>{deck.languageId.toUpperCase()}</Tag>
                                 <Text fontSize='20px' fontWeight={700} color='blue.200'>{deck.cardsCount} flashcards</Text>
