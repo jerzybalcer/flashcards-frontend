@@ -44,7 +44,8 @@ export const Carousel: React.FC<Props> = ({ children }) => {
                     w='16px' h='16px'
                     border='2px solid' borderColor='blue.200' 
                     bg={selectedIndex === i ? 'blue.200' : 'transparent'}
-                    onClick={() => emblaApi.scrollTo(i)}/>
+                    onClick={() => emblaApi.scrollTo(i)}
+                    cursor='pointer'/>
                 ))}
             </Flex>
         </Flex>
