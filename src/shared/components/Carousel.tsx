@@ -28,9 +28,9 @@ export const Carousel: React.FC<Props> = ({ children }) => {
     return (
     <>
         <Box overflow='hidden' ref={emblaRef}>
-            <Flex gap={4}>
+            <Flex>
                 {children.map((child, i) => (
-                <Box flex='0 0 100%' minW='0' key={i}>
+                <Box flex='0 0 100%' minW='0' key={i} mr={4}>
                     {child}
                 </Box>
                 ))}
