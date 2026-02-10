@@ -1,4 +1,4 @@
-import { Card, CardBody, Text, Tag, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, HStack, Center } from "@chakra-ui/react"
+import { Card, CardBody, Text, Tag, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, HStack, Center, Flex } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom";
 import { Deck } from "@/model/Deck"
 import { groupBy } from "@/shared/utils/arrays";
@@ -6,6 +6,7 @@ import { useAllDecks } from "@/shared/hooks/queries/useAllDecks";
 import { Scrollable } from "@/shared/components/Scrollable";
 import { SortDecksSettings } from "@/model/SortDecksSettings";
 import { Loading } from "@/shared/components/Loading";
+import { IconArrowRight } from "@tabler/icons-react";
 
 interface DeckListProps {
     searchPhrase: string;
@@ -38,7 +39,7 @@ export const DeckList: React.FC<DeckListProps> = ({ searchPhrase, sortSettings }
                 <AccordionItem display='flex' flexDirection='column' key={language} border='none'>
                     <AccordionButton display='flex' justifyContent='space-between' alignItems='center' gap={1} p={0} py={2} w='100%' position='sticky' top={0} zIndex='docked' bgColor='gray.800' _expanded={{bgColor: 'gray.800'}}>
                         <HStack>
-                            <Text>{decksGroupedByLanguage[language][0].languageName}</Text>
+                            <Text fontSize='h2' fontWeight={700}>{decksGroupedByLanguage[language][0].languageName}</Text>
                             <Tag colorScheme="blue" variant='subtle'>{language.toUpperCase()}</Tag>
                         </HStack>
                         <AccordionIcon alignSelf='end'/>
@@ -46,11 +47,20 @@ export const DeckList: React.FC<DeckListProps> = ({ searchPhrase, sortSettings }
                     <AccordionPanel display='flex' flexDirection='column' gap={4} p={2}>
                         {decksGroupedByLanguage[language].map(deck => 
                         <Card key={deck.id} onClick={() => handleDeckClick(deck)}>
-                            <CardBody gap={2} display='flex' flexDirection='column'>
-                                <Text>{deck.name}</Text>
-                                <Text opacity={0.8}>{deck.cardsCount} flashcards</Text>
+                            <CardBody display='flex' gap={4} justifyContent='space-between'>
+                                <Flex gap={2} flexDirection='column' minW={0}>
+                                    <Text fontSize='t1' fontWeight={600} maxW='100%' noOfLines={1} wordBreak='break-all'>{deck.name}</Text>
+                                    <Flex gap={2} align='center'>
+                                        <Text fontSize='bd' fontWeight='normal' color='blue.200'>{deck.cardsCount} flashcards</Text>
+                                    </Flex>
+                                </Flex>
+                                <Flex direction='column' align='center' gap={1} flexShrink={0}>
+                                    <Text fontSize='lb' fontWeight={700}>Go to</Text>
+                                    <IconArrowRight size='36px' color="var(--chakra-colors-blue-200)" />
+                                </Flex>
                             </CardBody>
-                        </Card>)}
+                        </Card>
+                    )}
                     </AccordionPanel>
                 </AccordionItem>)}
         </Accordion>
