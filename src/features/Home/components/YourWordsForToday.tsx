@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, Center, Flex, Heading, Text } from "@chakra-ui/react";
+import { Card, CardBody, Center, Flex, Heading, Text } from "@chakra-ui/react";
 import { IconArrowRight, IconCheck } from "@tabler/icons-react";
 import { useDailyCards } from "../hooks/queries/useDailyCards";
 import { Loading } from "@/shared/components/Loading";
