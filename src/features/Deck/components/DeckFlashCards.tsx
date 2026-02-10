@@ -32,7 +32,7 @@ export const DeckFlashCards: React.FC<Props> = ({ deck }) => {
     }
 
     return <> 
-        <Heading size='md'>Flashcards</Heading>
+        <Heading as='h3' fontSize='h3' fontFamily='Playwrite US Modern'>Flashcards</Heading>
         <ListNavigation onAddClick={addCardModal.onToggle} onSearch={text => setSearchText(text)} onSortClick={sortModal.onToggle} />
         <FlashCardList onEditCardFormOpen={handleEditCardOpen} searchText={searchText} sortSettings={sortSettings} foreignLanguageName={deck.languageName} />
 

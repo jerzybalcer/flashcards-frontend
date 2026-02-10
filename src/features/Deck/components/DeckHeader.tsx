@@ -14,7 +14,7 @@ export const DeckHeader: React.FC<Props> = ({ deck, onDeckDetailsOpen }) => {
                 <Tag size='md' colorScheme="blue" variant='subtle'>{deck.languageName.toUpperCase()}</Tag>
             </Box>
             <Flex justify='space-between' align='center'>
-                <Heading size='lg'>{deck.name}</Heading>
+                <Heading as='h2' fontSize='h2'>{deck.name}</Heading>
                 <ThreeDotsButton onClick={onDeckDetailsOpen} />
             </Flex>
         </Flex>;

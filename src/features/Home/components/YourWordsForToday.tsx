@@ -23,10 +23,8 @@ export const YourWordsForToday: React.FC<Props> = ({ onInfoClick }) => {
 
             {alreadyStudied && (
                 <Flex gap={2}>
-                    <Text fontSize='bd' fontWeight={700} color='blue.200'>Already studied today</Text>
-                    <Box bg='blue.200' borderRadius='50%' p='2px' w='28px' h='28px'>
-                        <IconCheck color='black' size='24px'/>
-                    </Box>
+                    <Text fontSize='t2' fontWeight={700} color='blue.200'>Already studied today</Text>
+                    <IconCheck color="var(--chakra-colors-blue-200)" size='24px'/>
                 </Flex>
             )}
 
@@ -42,7 +40,7 @@ export const YourWordsForToday: React.FC<Props> = ({ onInfoClick }) => {
                 <Card onClick={() => {}} key={c.id} h='100%'>
                     <CardBody gap={2} display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
                         <Text fontSize='t1' fontWeight={600} userSelect='text' color='blue.200' textAlign='center'>{c.foreignWord}</Text>
-                        <Text fontSize='t2' fontWeight={600} userSelect='text' textAlign='center'>{c.translatedWord}</Text>
+                        <Text fontSize='t1' fontWeight={600} userSelect='text' textAlign='center'>{c.translatedWord}</Text>
                     </CardBody>
                 </Card>
                 ))}
