@@ -15,7 +15,7 @@ export const YourWordsForToday: React.FC<Props> = ({ onInfoClick }) => {
     return (
         <Flex direction="column" gap={5}>
             <Flex justify='space-between'>
-                <Heading fontSize='24px' fontFamily='Playwrite US Modern' fontWeight={400}>Your words for today</Heading>
+                <Heading as='h2' fontSize='h2' fontFamily='Playwrite US Modern' fontWeight={400}>Your words for today</Heading>
                 {cards && cards.length > 0 && (
                     <IconArrowRight size='36px' color="var(--chakra-colors-blue-200)" onClick={onInfoClick}/>
                 )}
@@ -23,7 +23,7 @@ export const YourWordsForToday: React.FC<Props> = ({ onInfoClick }) => {
 
             {alreadyStudied && (
                 <Flex gap={2}>
-                    <Text fontSize='20px' fontWeight={700} color='blue.200'>Already studied today</Text>
+                    <Text fontSize='bd' fontWeight={700} color='blue.200'>Already studied today</Text>
                     <Box bg='blue.200' borderRadius='50%' p='2px' w='28px' h='28px'>
                         <IconCheck color='black' size='24px'/>
                     </Box>
@@ -41,8 +41,8 @@ export const YourWordsForToday: React.FC<Props> = ({ onInfoClick }) => {
                 {cards.map(c => (
                 <Card onClick={() => {}} key={c.id} h='100%'>
                     <CardBody gap={2} display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
-                        <Text fontSize='32px' fontWeight={700} userSelect='text' color='blue.200' textAlign='center'>{c.foreignWord}</Text>
-                        <Text fontSize='20px' fontWeight={700} userSelect='text' textAlign='center'>{c.translatedWord}</Text>
+                        <Text fontSize='t1' fontWeight={600} userSelect='text' color='blue.200' textAlign='center'>{c.foreignWord}</Text>
+                        <Text fontSize='t2' fontWeight={600} userSelect='text' textAlign='center'>{c.translatedWord}</Text>
                     </CardBody>
                 </Card>
                 ))}

@@ -41,7 +41,7 @@ export const Carousel: React.FC<Props> = ({ children }) => {
                 {emblaApi?.scrollSnapList().map((_, i) => (
                     <Box key={i} 
                     borderRadius='50%' 
-                    w='16px' h='16px'
+                    w='14px' h='14px'
                     border='2px solid' borderColor='blue.200' 
                     bg={selectedIndex === i ? 'blue.200' : 'transparent'}
                     onClick={() => emblaApi.scrollTo(i)}
