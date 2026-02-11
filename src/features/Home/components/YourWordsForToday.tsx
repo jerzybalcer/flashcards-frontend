@@ -31,7 +31,7 @@ export const YourWordsForToday: React.FC<Props> = ({ onInfoClick }) => {
                     <Text fontSize='t2' fontWeight={700}>Not studied yet</Text>
 
                     <Button borderRadius='xl' variant='outline' color='blue.200' rightIcon={<IconArrowRight color="var(--chakra-colors-blue-200)" size='24px'/>}>
-                        Go to quiz
+                        Start quiz
                     </Button>
 
                 </Flex>

@@ -10,6 +10,8 @@ interface Props {
 export const YourWordsForTodayBottomSheet: React.FC<Props> = ({ isOpen, onClose }) => {
     const blue200 = useTheme().colors.blue[200];
 
+    const alreadyStudied: boolean = Math.random() < 0.5; // TODO: replace with actual logic
+
     function getHeader() {
         return <Center w='100%'>
             <IconInfoCircle size='60px' strokeWidth={1.5} color={blue200}/>
@@ -25,5 +27,11 @@ export const YourWordsForTodayBottomSheet: React.FC<Props> = ({ isOpen, onClose 
         </Flex>;
     }
 
-    return <BottomSheet isOpen={isOpen} header={[getHeader()]} body={[getBody()]} confirmText="Go to quiz" onConfirm={() => {}} onClose={onClose} closeButtonVisible={true}  />
+
+    if(alreadyStudied){
+        return <BottomSheet isOpen={isOpen} header={[getHeader()]} body={[getBody()]} confirmText="Close" onConfirm={onClose} onClose={onClose} closeButtonVisible={false}  />
+
+    }else{
+        return <BottomSheet isOpen={isOpen} header={[getHeader()]} body={[getBody()]} confirmText="Start quiz" onConfirm={() => {}} onClose={onClose} closeButtonVisible={true}  />
+    }
 }
