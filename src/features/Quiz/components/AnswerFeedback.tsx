@@ -11,12 +11,12 @@ interface Props {
 }
 
 export const AnswerFeedbackBottomSheet: React.FC<Props> = ({ isOpen, answer, correctAnswer, onContinue }) => {
-
+    // TODO: replace IconCheck with IconCircleCheckFilled and adjust IconX accordingly
     function getHeader() {
         if(answer === correctAnswer)
             return [<>
                 <Box bg='green.200' borderRadius='50%' p='2px'>
-                    <IconCheck color='black' />
+                    <IconCheck color='black' /> 
                 </Box>
                 <Text color='green.200'>Correct</Text>
             </>]

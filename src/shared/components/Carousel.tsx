@@ -26,7 +26,7 @@ export const Carousel: React.FC<Props> = ({ children }) => {
     }, [emblaApi]);
 
     return (
-    <>
+    <Flex direction='column' gap={4} h='100%'>
         <Box overflow='hidden' ref={emblaRef}>
             <Flex>
                 {children.map((child, i) => (
@@ -49,6 +49,6 @@ export const Carousel: React.FC<Props> = ({ children }) => {
                 ))}
             </Flex>
         </Flex>
-    </>
+    </Flex>
     );
 }

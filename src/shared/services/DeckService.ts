@@ -20,6 +20,12 @@ export const getDeck = async (deckId: number) =>
         .then(res => humps.camelizeKeys(res.data) as Deck)
         .catch((err: AxiosError) => Promise.reject(err));
 
+export const getRecentDecks = async () =>
+    apiClient
+        .get(`/decks/recent`)
+        .then(res => res.data as Deck[])
+        .catch((err: AxiosError) => Promise.reject(err));
+
 export const getAllDecks = async (searchPhrase: string | null, sortBy: SortDecksBy, direction: SortDirection) =>
     apiClient
         .get(`/decks`, { 

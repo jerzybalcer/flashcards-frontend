@@ -5,4 +5,6 @@ export const QueryKeys = {
     quizCards: 'quizCards',
     languages: 'languages',
     dailyCards: 'dailyCards',
+    goals: 'goals',
+    recentDecks: 'recentDecks'
 };

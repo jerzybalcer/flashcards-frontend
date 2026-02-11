@@ -1,14 +1,12 @@
 import { Deck } from "@/model/Deck";
-import { SortDecksBy } from "@/model/SortDecksBy";
 import { Loading } from "@/shared/components/Loading";
-import { useAllDecks } from "@/shared/hooks/queries/useAllDecks";
 import { Card, CardBody, Flex, Heading, Tag, Text } from "@chakra-ui/react";
 import { IconArrowRight } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
+import { useRecentDecks } from "../hooks/queries/useRecentDecks";
 
 export const RecentDecks = () => {
-    // TODO: use actual recent decks instead of fetching all decks
-    const { isFetching: decksLoading, data: decks } = useAllDecks(null, SortDecksBy.NumberOfCards, 'descending');
+    const { isFetching: decksLoading, data: decks } = useRecentDecks();
 
     const navigate = useNavigate();
 
