@@ -91,9 +91,9 @@ export const addCard = async (deckId: number, card: FlashCard) =>
         .then(res => res.data as number)
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const getQuizCards = async (deckId: number, numberOfCards: number) =>
+export const getQuizCards = async (deckId: number, numberOfCards: number, useDailyCards: boolean) =>
     apiClient
-        .get(`/decks/${deckId}/quiz/cards?number_of_cards=${numberOfCards}`)
+        .get(`/decks/${deckId}/quiz/cards?number_of_cards=${numberOfCards}&is_daily_quiz=${useDailyCards}`)
         .then(res => res.data as QuizFlashCard[])
         .catch((err: AxiosError) => Promise.reject(err));
 

@@ -30,7 +30,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onSolvedQuiz }) => {
 
     const context = useContext(QuizContext)!;
     
-    const { data: cards, isFetching: cardsLoading } = useQuizCards(deck.id, context.numberOfCards)
+    const { data: cards, isFetching: cardsLoading } = useQuizCards(deck.id, context.numberOfCards, false)
 
     const quizCardLogMutation = useMutation((quizCardLog: QuizCardLog) => addQuizCardLog(deck.id, quizCardLog));
 
