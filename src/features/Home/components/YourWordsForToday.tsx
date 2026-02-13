@@ -46,7 +46,7 @@ export const YourWordsForToday: React.FC<Props> = ({ onInfoClick }) => {
             {!cardsLoading && cards && cards.length !== 0 && (
             <Carousel>
                 {cards.map(c => (
-                <Card onClick={() => {}} key={c.id} h='100%'>
+                <Card onClick={() => {}} key={c.id} h='100%' borderRadius='xl'>
                     <CardBody gap={2} display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
                         <Text fontSize='t1' fontWeight={600} userSelect='text' color='blue.200' textAlign='center'>{c.foreignWord}</Text>
                         <Text fontSize='t1' fontWeight={600} userSelect='text' textAlign='center'>{c.translatedWord}</Text>

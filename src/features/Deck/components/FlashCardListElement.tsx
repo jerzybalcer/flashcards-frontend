@@ -46,7 +46,7 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
     return (
         <>
         <Flex flexDirection='row' align='center' justifyContent='space-between' w='100%' my={2} ref={elementRef} className="slider">
-            <Card variant='elevated' shadow='md' flex={1}>
+            <Card variant='elevated' shadow='md' flex={1} borderRadius='xl'>
                 <CardBody display='flex' flexDirection='row' alignItems='center' justifyContent='space-between'>
                     <Box>
                         <Text fontSize='t2' userSelect='text' color='blue.200'>{flashCard.foreignWord}</Text>

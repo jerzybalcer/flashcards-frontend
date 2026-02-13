@@ -21,7 +21,7 @@ export const BottomSheet: React.FC<Props> = ({ isOpen, header, body, confirmText
     return (
         <Drawer isOpen={isOpen} placement='bottom' onClose={() => handleClose()} autoFocus={false} returnFocusOnClose={false}>
         <DrawerOverlay />
-        <DrawerContent borderTopRadius='md'>
+        <DrawerContent borderTopRadius='md' borderTopLeftRadius='xl' borderTopRightRadius='xl'>
             {/* DRAGGING HANDLE */}
             {/* <Box borderRadius='xl' width='50px' height='5px' mt={4} mx='auto' background='#5f6774' opacity={0.8}></Box> */}
 

@@ -46,7 +46,7 @@ export const DeckList: React.FC<DeckListProps> = ({ searchPhrase, sortSettings }
                     </AccordionButton>
                     <AccordionPanel display='flex' flexDirection='column' gap={4} p={2}>
                         {decksGroupedByLanguage[language].map(deck => 
-                        <Card key={deck.id} onClick={() => handleDeckClick(deck)}>
+                        <Card key={deck.id} onClick={() => handleDeckClick(deck)} borderRadius='xl'>
                             <CardBody display='flex' gap={4} justifyContent='space-between'>
                                 <Flex gap={2} flexDirection='column' minW={0}>
                                     <Text fontSize='t1' fontWeight={600} maxW='100%' noOfLines={1} wordBreak='break-all'>{deck.name}</Text>
@@ -54,8 +54,7 @@ export const DeckList: React.FC<DeckListProps> = ({ searchPhrase, sortSettings }
                                         <Text fontSize='bd' fontWeight='normal' color='blue.200'>{deck.cardsCount} flashcards</Text>
                                     </Flex>
                                 </Flex>
-                                <Flex direction='column' align='center' gap={1} flexShrink={0}>
-                                    <Text fontSize='lb' fontWeight={700}>Go to</Text>
+                                <Flex direction='column' justify='center' align='center' gap={1} flexShrink={0}>
                                     <IconArrowRight size='36px' color="var(--chakra-colors-blue-200)" />
                                 </Flex>
                             </CardBody>

@@ -1,17 +1,34 @@
-import { Card, CardBody, Flex, Heading, Text, Image } from "@chakra-ui/react";
+import { Card, CardBody, Flex, Heading, Text, Image, useDisclosure } from "@chakra-ui/react";
 import percent64Image from '@/assets/images/64percent.png';
 import percent90Image from '@/assets/images/90percent.png';
 import percent42Image from '@/assets/images/42percent.png';
 import { Carousel } from "@/shared/components/Carousel";
 import { useGoals } from "@/shared/hooks/queries/useGoals";
 import { Loading } from "@/shared/components/Loading";
+import { Goal } from "@/model/Goal";
+import { useEffect, useState } from "react";
+import { GoalDetailsBottomSheet } from "./bottomSheets/GoalDetailsBottomSheet";
 
 export const YourGoals = () => {
     const imgs = [percent64Image, percent90Image, percent42Image];
 
     const { isFetching: goalsLoading, data: goals } = useGoals();
 
+    const goalDetailsModal = useDisclosure();
+    const [currentGoal, setCurrentGoal] = useState<Goal | undefined>(undefined);
+    
+    function handleGoalDetailsClick(goal: Goal) {
+        setCurrentGoal(goal);
+        goalDetailsModal.onToggle();
+    }
+
     const top3Goals = goals?.sort((a, b) => b.progress - a.progress).slice(0, 3);
+
+    useEffect(() => {
+        if (goals && goals.length > 0) {
+            setCurrentGoal(goals[0]);
+        }
+    }, [goals])
 
     return (
         <Flex direction='column' gap={5}>
@@ -20,7 +37,7 @@ export const YourGoals = () => {
             {!goalsLoading && top3Goals && (
             <Carousel>
                 {top3Goals.map((goal, i) => (
-                    <Card key={goal.goalId} flex={1} h='100%' minW='120px'>
+                    <Card key={goal.goalId} flex={1} h='100%' minW='120px' borderRadius='xl' onClick={() => handleGoalDetailsClick(goal)}>
                         <CardBody display='flex' flexDirection='column' gap={4} justifyContent='space-between' alignItems='center' p={2}>
                             <Image src={imgs[i%2]} w='98px' h='98px'/>
                             <Flex direction='column' justify='space-between' align='center' h='100%'>
@@ -31,6 +48,9 @@ export const YourGoals = () => {
                     </Card>
                 ))}
             </Carousel>
+            )}
+            {currentGoal && (
+                <GoalDetailsBottomSheet isOpen={goalDetailsModal.isOpen} onClose={goalDetailsModal.onClose} goal={currentGoal} />
             )}
         </Flex>
     );
