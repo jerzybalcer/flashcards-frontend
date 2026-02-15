@@ -1,5 +1,5 @@
 import { Button, Card, CardBody, Center, Flex, Heading, IconButton, Text } from "@chakra-ui/react";
-import { IconArrowRight, IconCircleCheckFilled, IconInfoCircle } from "@tabler/icons-react";
+import { IconArrowRight, IconCheck, IconInfoCircle } from "@tabler/icons-react";
 import { useDailyCards } from "../hooks/queries/useDailyCards";
 import { Loading } from "@/shared/components/Loading";
 import { Carousel } from "@/shared/components/Carousel";
@@ -24,7 +24,7 @@ export const YourWordsForToday: React.FC<Props> = ({ onInfoClick }) => {
             {alreadyStudied ? (
                 <Flex gap={2} align='center'>
                     <Text fontSize='t2' fontWeight={700} color='blue.200'>Already studied today</Text>
-                    <IconCircleCheckFilled color="var(--chakra-colors-blue-200)" size='24px'/>
+                    <IconCheck color="var(--chakra-colors-blue-200)" />
                 </Flex>
             ) : (               
                 <Flex gap={2} align='center' justify='space-between'>

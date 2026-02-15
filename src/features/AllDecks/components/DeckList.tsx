@@ -51,11 +51,11 @@ export const DeckList: React.FC<DeckListProps> = ({ searchPhrase, sortSettings }
                                 <Flex gap={2} flexDirection='column' minW={0}>
                                     <Text fontSize='t1' fontWeight={600} maxW='100%' noOfLines={1} wordBreak='break-all'>{deck.name}</Text>
                                     <Flex gap={2} align='center'>
-                                        <Text fontSize='bd' fontWeight='normal' color='blue.200'>{deck.cardsCount} flashcards</Text>
+                                        <Text fontSize='bd' fontWeight='normal' color='white'>{deck.cardsCount} flashcards</Text>
                                     </Flex>
                                 </Flex>
                                 <Flex direction='column' justify='center' align='center' gap={1} flexShrink={0}>
-                                    <IconArrowRight size='36px' color="var(--chakra-colors-blue-200)" />
+                                    <IconArrowRight size='32px' color="var(--chakra-colors-blue-200)" />
                                 </Flex>
                             </CardBody>
                         </Card>

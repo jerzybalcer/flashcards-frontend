@@ -22,7 +22,7 @@ export const YourWordsForTodayBottomSheet: React.FC<Props> = ({ isOpen, onClose 
         return <Flex direction='column' justify='space-between' align='center' mb='30px'>
             <Flex direction='column' justify='space-between' align='center' gap='30px' textAlign='center'>
                 <Text display='inline-block' fontSize='h2' fontWeight={400} fontFamily='Playwrite US Modern'>Your words for today</Text>
-                <Text display='inline-block' fontSize='t1' fontWeight={400} color='blue.200'>Daily selected words you struggled with in previous quizzes and may need to study again.</Text>
+                <Text display='inline-block' fontSize='t1' fontWeight={400}>Daily selected words you struggled with in previous quizzes and may need to study again.</Text>
             </Flex>
         </Flex>;
     }
