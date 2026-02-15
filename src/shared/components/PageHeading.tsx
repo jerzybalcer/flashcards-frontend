@@ -15,7 +15,7 @@ export const PageHeading: React.FC<PageHeadingProps> = ({ title, urlToGoBack = '
         <Flex w='100%' justify='center' mb={12}>
             <Flex w='100%' maxW='1200px' justify='space-between' align='center'>
                 {urlToGoBack !== null &&
-                (<IconArrowLeft cursor='pointer' size={36} strokeWidth={1.25} opacity={0.8} onClick={() => navigate(urlToGoBack)}/>) 
+                (<IconArrowLeft cursor='pointer' size='32px' onClick={() => navigate(urlToGoBack)}/>) 
                 }
                 <Heading fontFamily='Playwrite US Modern' fontWeight={400} fontSize='h1' as='h1'>{title}</Heading>
                 <SideMenu />
