@@ -1,6 +1,7 @@
 import { Center, Flex, Text, useTheme } from "@chakra-ui/react";
 import { BottomSheet } from "@/shared/components/BottomSheet";
 import { IconInfoCircle } from '@tabler/icons-react';
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     isOpen: boolean;
@@ -27,11 +28,16 @@ export const YourWordsForTodayBottomSheet: React.FC<Props> = ({ isOpen, onClose 
         </Flex>;
     }
 
+    const navigate = useNavigate();
+
+    const handleStartQuiz = () => {
+        navigate(`/decks/3/quiz/daily`); // TODO: insert deck id
+    }
 
     if(alreadyStudied){
         return <BottomSheet isOpen={isOpen} header={[getHeader()]} body={[getBody()]} confirmText="Close" onConfirm={onClose} onClose={onClose} closeButtonVisible={false}  />
 
     }else{
-        return <BottomSheet isOpen={isOpen} header={[getHeader()]} body={[getBody()]} confirmText="Start quiz" onConfirm={() => {}} onClose={onClose} closeButtonVisible={true}  />
+        return <BottomSheet isOpen={isOpen} header={[getHeader()]} body={[getBody()]} confirmText="Start quiz" onConfirm={() => handleStartQuiz()} onClose={onClose} closeButtonVisible={true}  />
     }
 }

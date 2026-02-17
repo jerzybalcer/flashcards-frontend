@@ -43,7 +43,7 @@ export const FlashCardList: React.FC<Props> = ({ onEditCardFormOpen, searchText,
 
     return (
         <Box h='100%'>
-            <Flex flexDirection='column' h='100%' gap={4}>
+            <Flex flexDirection='column' h='100%' gap={4} px={2}>
                 <Box w='100%' flexGrow={1}>
                     {cards.length === 0 
                     ? <Center h='100%' opacity={0.8}>No flashcards to show.</Center>

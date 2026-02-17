@@ -15,8 +15,12 @@ enum QuizSteps {
     Result
 }
 
-export const QuizPage = () => {
-        const [currentStep, setCurrentStep] = useState<QuizSteps>(QuizSteps.Setup);
+interface Props {
+    useDailyCards?: boolean;
+}
+
+export const QuizPage: React.FC<Props> = ({ useDailyCards = false }) => {
+        const [currentStep, setCurrentStep] = useState<QuizSteps>(useDailyCards ? QuizSteps.Solve : QuizSteps.Setup);
 
         const context = useContext(QuizContext)!;
 
@@ -40,7 +44,7 @@ export const QuizPage = () => {
                 case QuizSteps.Setup: 
                     return <SetupQuiz deck={deck} onStartQuiz={() => setCurrentStep(QuizSteps.Solve)} />;
                 case QuizSteps.Solve: 
-                    return <SolveQuiz deck={deck} onSolvedQuiz={() => handleQuizSolved()} />
+                    return <SolveQuiz deck={deck} useDailyCards={useDailyCards} onSolvedQuiz={() => handleQuizSolved()} />
                 case QuizSteps.Result: 
                     return <QuizResult deck={deck}
                         onFinish={() => setCurrentStep(QuizSteps.Setup)} onStartAgain={() => handleStartAgain()} />;
@@ -58,7 +62,7 @@ export const QuizPage = () => {
             <Box flexGrow={0}>
                 <PageHeading title="Quiz" urlToGoBack={`/decks/${deckId}`} />
             </Box>
-            <Box px={4} pb={2} flexGrow={1} w='100%'>
+            <Box flexGrow={1} w='100%'>
                 {renderQuizStep()}
             </Box>
         </Flex>

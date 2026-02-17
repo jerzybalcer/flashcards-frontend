@@ -44,7 +44,7 @@ export const DeckPage = () => {
 
             {!deckLoading && deck &&
             (<>
-                <Flex direction='column' px={4} gap={4} h='90%' overflowY='auto'>
+                <Flex direction='column' gap={4} h='90%' overflowY='auto'>
                     <DeckHeader deck={deck} onDeckDetailsOpen={deckDetailsModal.onToggle} />
                     <DeckActions onLearnClick={handleLearnClick} onQuizClick={handleQuizClick} />
                     <DeckFlashCards deck={deck} />

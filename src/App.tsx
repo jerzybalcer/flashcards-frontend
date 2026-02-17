@@ -22,6 +22,7 @@ export const App = () => {
               <Route path='/decks/:deckId' element={<DeckPage />} />
               <Route path='/decks/:deckId/learn' element={<LearnPage></LearnPage>} />
               <Route path='/decks/:deckId/quiz' element={<QuizContextProvider><QuizPage /></QuizContextProvider>} />
+              <Route path='/decks/:deckId/quiz/daily' element={<QuizContextProvider><QuizPage useDailyCards/></QuizContextProvider>} />
             </Route>
           </Routes>
         </Box>

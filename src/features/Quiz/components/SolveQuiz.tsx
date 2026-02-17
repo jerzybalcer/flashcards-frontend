@@ -17,10 +17,11 @@ import { QuizMode } from "../../../model/QuizMode";
 
 interface SolveQuizProps {
     deck: Deck;
+    useDailyCards: boolean;
     onSolvedQuiz: () => void;
 }
 
-export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onSolvedQuiz }) => {
+export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, useDailyCards, onSolvedQuiz }) => {
     const [currentIndex, setCurrentIndex] = useState<number>(1);
     const [startTimeMs, setStartTimeMs] = useState<number>(0);
     const [currentAnswer, setCurrentAnswer] = useState<string>('');
@@ -30,7 +31,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, onSolvedQuiz }) => {
 
     const context = useContext(QuizContext)!;
     
-    const { data: cards, isFetching: cardsLoading } = useQuizCards(deck.id, context.numberOfCards, false)
+    const { data: cards, isFetching: cardsLoading } = useQuizCards(deck.id, context.numberOfCards, useDailyCards);
 
     const quizCardLogMutation = useMutation((quizCardLog: QuizCardLog) => addQuizCardLog(deck.id, quizCardLog));
 

@@ -47,7 +47,7 @@ export const LearnPage = () => {
             {(cardsLoading || deckLoading) && <Loading />}
             {!cardsLoading && !deckLoading && cards && deck &&
             (
-            <Flex flexGrow={1} direction='column' justify='space-between' px={4} pb={2} {...swipeHandlers}>
+            <Flex flexGrow={1} direction='column' justify='space-between' {...swipeHandlers}>
                 <LearnHeader currentCardNumber={currentCardNumber} cardsCount={cards.length}/>
                 <LearnContent flashcard={currentFlashCard} foreignLanguageId={deck.languageId} />
                 <LearnNavigation isPreviousEnabled={canGoPrevious} onPreviousClick={tryGoBack} onNextClick={tryGoNext} isNextEnabled={canGoNext} />

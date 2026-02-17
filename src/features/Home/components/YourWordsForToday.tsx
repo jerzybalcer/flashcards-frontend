@@ -3,6 +3,7 @@ import { IconArrowRight, IconCheck, IconInfoCircle } from "@tabler/icons-react";
 import { useDailyCards } from "../hooks/queries/useDailyCards";
 import { Loading } from "@/shared/components/Loading";
 import { Carousel } from "@/shared/components/Carousel";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     onInfoClick?: () => void;   
@@ -11,6 +12,12 @@ interface Props {
 export const YourWordsForToday: React.FC<Props> = ({ onInfoClick }) => {
     const { isFetching: cardsLoading, data: cards } = useDailyCards();
     const alreadyStudied: boolean = Math.random() < 0.5; // TODO: replace with actual logic
+
+    const navigate = useNavigate();
+
+    const handleStartQuiz = () => {
+        navigate(`/decks/3/quiz/daily`); // TODO: insert deck id
+    }
 
     return (
         <Flex direction="column" gap={5}>
@@ -30,7 +37,10 @@ export const YourWordsForToday: React.FC<Props> = ({ onInfoClick }) => {
                 <Flex gap={2} align='center' justify='space-between'>
                     <Text fontSize='t2' fontWeight={700}>Not studied yet</Text>
 
-                    <Button borderRadius='xl' variant='outline' color='blue.200' rightIcon={<IconArrowRight color="var(--chakra-colors-blue-200)" size='24px'/>}>
+                    <Button borderRadius='xl' variant='outline' color='blue.200' 
+                        rightIcon={<IconArrowRight color="var(--chakra-colors-blue-200)" size='24px'/>}
+                        onClick={() => handleStartQuiz()}
+                    >
                         Start quiz
                     </Button>
 

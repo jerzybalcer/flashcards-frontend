@@ -18,7 +18,7 @@ export const AllDecksPage = () => {
     return (
         <Flex direction='column' h='100%' w='100%'>
             <PageHeading title="Decks"/>
-            <Flex direction='column' h='100%' px={2} gap={8}>
+            <Flex direction='column' h='100%' gap={8}>
                 <ListNavigation onSearch={(phrase) => setSearchText(phrase)} onAddClick={addDeckModal.onToggle} onSortClick={sortMenuModal.onToggle}/>
                 <DeckList searchPhrase={searchText} sortSettings={sortSettings}/>
             </Flex>
