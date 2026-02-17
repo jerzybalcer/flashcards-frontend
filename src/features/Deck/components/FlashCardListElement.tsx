@@ -25,7 +25,6 @@ export const FlashCardListElement: React.FC<FlasCardListElementProps> = ({ flash
 
     function handleDeleteConfirmationClose() {
         setDeleteConfirmationOpen(false);
-        setDetailsOpen(false);
     }
 
     const isMobile = useIsMobile();

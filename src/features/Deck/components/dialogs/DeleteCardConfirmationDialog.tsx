@@ -3,6 +3,7 @@ import { QueryKeys } from "@/shared/hooks/queries/queryKeys";
 import { deleteCard } from "@/shared/services/CardService";
 import { successToast } from "@/shared/utils/toasts";
 import { Box, Button, Card, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Tag, Text } from "@chakra-ui/react";
+import { IconTrash } from "@tabler/icons-react";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 
@@ -38,31 +39,31 @@ export const DeleteCardConfirmationDialog: React.FC<Props> = ({ isOpen, flashCar
             <Modal isOpen={isOpen} onClose={() => onClose()} autoFocus={false} returnFocusOnClose={false} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Are you sure?</ModalHeader>
+                    <ModalHeader fontSize='h2'>Are you sure?</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Text>You're about to permanently delete this flashcard from your deck:</Text>
+                        <Text fontSize='t2'>You're about to permanently delete this flashcard from your deck:</Text>
                         <br/>
-                        <Card variant='outline' p={2} gap={4}>
+                        <Card variant='outline' p={2} gap={4} borderRadius='xl'>
                             <Flex direction='column' gap={2}>
                                 <Box>
-                                    <Tag size='sm' colorScheme="blue" variant='subtle'>{foreignLanguageName.toUpperCase()}</Tag>
+                                    <Tag colorScheme="blue" variant='subtle'>{foreignLanguageName.toUpperCase()}</Tag>
                                 </Box>
-                                <Text fontWeight='bold' color='blue.200' ml={2}>{flashCard.foreignWord}</Text>
+                                <Text fontSize='t1' fontWeight={600} color='blue.200' ml={2}>{flashCard.foreignWord}</Text>
                             </Flex>
                             <Flex direction='column' gap={2}>
                                 <Box>
-                                    <Tag size='sm' colorScheme="gray" variant='subtle'>POLISH</Tag>
+                                    <Tag colorScheme="gray" variant='subtle'>POLISH</Tag>
                                 </Box>
-                                <Text fontWeight='bold' ml={2}>{flashCard.translatedWord}</Text>
+                                <Text fontSize='t1' fontWeight={600} ml={2}>{flashCard.translatedWord}</Text>
                             </Flex>
                         </Card>
                         <br/>
                     </ModalBody>
 
-                    <ModalFooter>
-                        <Button colorScheme="red" mr={4} onClick={() => handleDeleteCard()} isLoading={deleteMutation.isLoading}>Delete</Button>
-                        <Button variant='ghost' onClick={() => onClose()}>Cancel</Button>
+                    <ModalFooter display='flex' flexDirection='column' gap={2} justifyContent='space-between' alignItems='center'>
+                        <Button w='100%' py={6} mt={2} fontSize='lg' borderRadius='xl' colorScheme="red" leftIcon={<IconTrash />} onClick={() => handleDeleteCard()} isLoading={deleteMutation.isLoading}>Delete</Button>
+                        <Button w='100%' py={6} mt={2} fontSize='lg' borderRadius='xl' variant='outline' onClick={() => onClose()}>Cancel</Button>
                     </ModalFooter>
                 </ModalContent>
         </Modal>
