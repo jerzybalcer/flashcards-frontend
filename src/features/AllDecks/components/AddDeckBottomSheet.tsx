@@ -19,7 +19,7 @@ export const AddDeckBottomSheet: React.FC<Props> = ({ isOpen, onClose }) => {
     }
 
     function getHeader() {
-        return <Text fontWeight='bold'>New deck</Text>;
+        return <Text fontSize='h2' fontWeight='bold'>New deck</Text>;
     }
 
     function getBody() {

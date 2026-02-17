@@ -1,6 +1,7 @@
 import { FlashCardSide } from "@/model/FlashCardSide";
 import { LearnSettings } from "@/model/LearnSettings";
-import { FormControl, Alert, AlertIcon, VStack, FormLabel, Switch, RadioGroup, HStack, Radio } from "@chakra-ui/react"
+import { RadioCardGroup } from "@/shared/components/RadioCardGroup";
+import { FormControl, Alert, AlertIcon, VStack, FormLabel, Switch } from "@chakra-ui/react"
 import { useLocalStorage } from "usehooks-ts";
 
 export const LearnSettingsForm = () => {
@@ -16,22 +17,20 @@ export const LearnSettingsForm = () => {
 
 
     return  <FormControl display='flex' flexDirection='column' gap={6}>
-                        <Alert status='warning' >
+                        <Alert status='warning' fontSize='bd'>
                             <AlertIcon />
                             Speech synthesis may not work on all devices.
                         </Alert>
                         <VStack gap={2} align='start'>
                             <FormLabel mb='0'>Auto read</FormLabel>
-                            <Switch size='md' isChecked={settings.autoRead} onChange={(ev) => onAutoReadChange(ev.currentTarget.checked)}/>
+                            <Switch size='lg' isChecked={settings.autoRead} onChange={(ev) => onAutoReadChange(ev.currentTarget.checked)}/>
                         </VStack>
                         <VStack gap={2} align='start'>
                             <FormLabel mb='0'>Default side</FormLabel>
-                            <RadioGroup value={settings.defaultSide} onChange={onDefaultSideChange}>
-                                <HStack gap={4}>
-                                    <Radio value='foreign'>Foreign</Radio>
-                                    <Radio value='translated'>Translated</Radio>
-                                </HStack>
-                            </RadioGroup>
+                            <RadioCardGroup defaultValue={settings.defaultSide} 
+                                onChange={(value) => onDefaultSideChange(value as FlashCardSide)}
+                                options={['foreign', 'translated']}
+                                />
                         </VStack>
                     </FormControl>
 }

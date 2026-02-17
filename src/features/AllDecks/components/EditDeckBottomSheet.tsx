@@ -22,7 +22,7 @@ export const EditDeckBottomSheet: React.FC<Props> = ({ isOpen, deck, onClose }) 
     }
 
     function getHeader() {
-        return <Text fontWeight='bold'>Edit deck</Text>;
+        return <Text fontSize='h2' fontWeight='bold'>Edit deck</Text>;
     }
 
     function getBody() {

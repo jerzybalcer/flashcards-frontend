@@ -26,7 +26,7 @@ export const EditCardBottomSheet: React.FC<Props> = ({ isOpen, flashCard, deckId
     }
 
     function getHeader(){
-        return <Text fontWeight='bold'>Edit flashcard</Text>;
+        return <Text fontSize='h2' fontWeight='bold'>Edit flashcard</Text>;
     }
 
     function getBody(){

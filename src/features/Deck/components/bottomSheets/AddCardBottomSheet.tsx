@@ -38,7 +38,7 @@ export const AddCardBottomSheet: React.FC<Props> = ({ isOpen, deckId, onClose })
     }
 
     function getHeader() {
-        return <Text fontWeight='bold'>New card</Text>;
+        return <Text fontSize='h2' fontWeight='bold'>New card</Text>;
     }
 
     function getBody() {

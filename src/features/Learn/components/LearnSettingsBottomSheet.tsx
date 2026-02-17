@@ -9,7 +9,7 @@ interface Props {
 
 export const LearnSettingsBottomSheet: React.FC<Props> = ({isOpen, onClose}) => {
     function getHeader() {
-        return <Text fontWeight='bold'>Settings</Text>;
+        return <Text fontSize='h2' fontWeight={700}>Settings</Text>;
     }
 
     function getBody() {

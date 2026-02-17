@@ -85,7 +85,7 @@ export const SolveQuiz: React.FC<SolveQuizProps> = ({ deck, useDailyCards, onSol
                     <ProgressBar currentValue={currentIndex} maxValue={cards.length} />
 
                     <Flex direction='column' flexGrow={1} gap={2}>
-                        <Heading size='lg'>Choose translation for:</Heading>
+                        <Heading as='h2' fontSize='h2'>Choose translation for:</Heading>
                         <Box flexGrow={1} ref={wordContainerRef} borderRadius='md'>
                             <FittedText maxFontSize={24} content={currentCard().translatedWord} containerRef={wordContainerRef} color='blue.200' />
                         </Box>
