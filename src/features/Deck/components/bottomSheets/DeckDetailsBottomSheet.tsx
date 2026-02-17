@@ -20,19 +20,19 @@ export const DeckDetailsBottomSheet: React.FC<Props> = ({ isOpen, onClose, deck,
                 <IconVocabulary size={60} />
             </Center>
             <Flex flex={1} justify='right'>
-                <IconButton colorScheme="red" icon={<IconTrash />} aria-label="delete" onClick={onDelete} />
+                <IconButton variant='outline' icon={<IconTrash />} aria-label="delete" onClick={onDelete} />
             </Flex>
         </Flex>;
     }
 
     function getBody() {
-        return <Flex direction='column' justify='space-between' align='center' gap='28px'>
-            <Flex direction='column' justify='space-between' align='center' gap='10px'>
+        return <Flex direction='column' justify='space-between' align='center' mb='30px'>
+            <Flex direction='column' justify='space-between' align='center' gap={4}>
+                <Flex direction='column' align='center' justify='space-between' gap={2}>
                     <Tag colorScheme="blue" variant='subtle'>{deck.languageName.toUpperCase()}</Tag>
-                <Flex gap={2} align='center' justify='space-between'>
-                <Text display='inline-block' lineHeight='100%' fontSize={32} userSelect='text'>{deck.name}</Text>
+                    <Text display='inline-block' lineHeight='100%' fontSize='h2' fontWeight={700} userSelect='text'>{deck.name}</Text>
                 </Flex>
-                    <Text display='inline-block' lineHeight='100%' fontSize={24} userSelect='text' color='blue.200'>{deck.cardsCount} {deck.cardsCount == 1 ? 'flashcard' : 'flashcards'}</Text>
+                <Text display='inline-block' lineHeight='100%' fontSize='t1' fontWeight={400} userSelect='text'>{deck.cardsCount} {deck.cardsCount == 1 ? 'flashcard' : 'flashcards'}</Text>
             </Flex>
         </Flex>;
     }

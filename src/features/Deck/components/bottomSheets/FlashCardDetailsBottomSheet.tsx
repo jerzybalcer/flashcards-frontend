@@ -19,23 +19,23 @@ export const FlashCardDetailsBottomSheet: React.FC<Props> = ({ isOpen, onClose, 
                 <IconSwipe size={60} />
             </Center>
             <Flex flex={1} justify='right'>
-                <IconButton colorScheme="red" icon={<IconTrash />} aria-label="delete" onClick={() => handleDelete()} />
+                <IconButton variant='outline' icon={<IconTrash />} aria-label="delete" onClick={() => handleDelete()} />
             </Flex>
         </Flex>;
     }
 
     function getBody() {
-        return <Flex direction='column' justify='space-between' align='center' gap='28px'>
+        return <Flex direction='column' justify='space-between' align='center' gap='28px' mb='30px'>
             <Flex direction='column' justify='space-between' align='center' gap='10px'>
-                <Text display='inline-block' lineHeight='100%' fontSize={32} userSelect='text' color='blue.200'>{flashCard.foreignWord}</Text>
-                <Text display='inline-block' lineHeight='100%' fontSize={24} userSelect='text'>{flashCard.translatedWord}</Text>
+                <Text display='inline-block' lineHeight='100%' fontSize='h2' fontWeight={600} userSelect='text' color='blue.200'>{flashCard.foreignWord}</Text>
+                <Text display='inline-block' lineHeight='100%' fontSize='h3' fontWeight={600} userSelect='text'>{flashCard.translatedWord}</Text>
             </Flex>
-            <Flex direction='column' justify='space-between' align='center' gap='10px' borderColor='blue.200' borderStyle='solid' borderWidth="1px" borderRadius='md' p='10px' w='100%'>
-                <Text display='inline-block' lineHeight='28px' fontSize={16} fontWeight={600} userSelect='text' color='blue.200'>{flashCard.foreignExampleSentence ?? 'No example sentence'}</Text>
-                <Text display='inline-block' lineHeight='28px' fontSize={16} fontWeight={600} userSelect='text'>{flashCard.translatedExampleSentence ?? 'Edit flashcard to add one'}</Text>
+            <Flex direction='column' justify='space-between' align='center' gap='10px' borderColor='blue.200' borderStyle='solid' borderWidth="1px" borderRadius='xl' p='10px' w='100%'>
+                <Text display='inline-block' lineHeight='28px' fontSize='bd' fontWeight={400} userSelect='text' color='blue.200'>{flashCard.foreignExampleSentence ?? 'No example sentence'}</Text>
+                <Text display='inline-block' lineHeight='28px' fontSize='bd' fontWeight={400} userSelect='text'>{flashCard.translatedExampleSentence ?? 'Edit flashcard to add one'}</Text>
             </Flex>
-        </Flex>;
-    }
+            </Flex>;
+        }
 
     function handleEdit(){
         onEdit();
