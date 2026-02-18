@@ -6,8 +6,8 @@ export enum SortCardsBy {
 }
 
 export const SortCardsByOptions: Record<SortCardsBy, string> = {
-    [SortCardsBy.ForeignWord]: 'Foreign word',
-    [SortCardsBy.TranslatedWord]: 'Translated word',
-    [SortCardsBy.DateAdded]: 'Date added',
-    // [SortCardsBy.DateOfLastQuiz]: 'Date of last quiz',
+    [SortCardsBy.ForeignWord]: 'foreign word',
+    [SortCardsBy.TranslatedWord]: 'translated word',
+    [SortCardsBy.DateAdded]: 'date added',
+    // [SortCardsBy.DateOfLastQuiz]: 'date of last quiz',
 }

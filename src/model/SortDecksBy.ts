@@ -5,7 +5,7 @@ export enum SortDecksBy {
 }
 
 export const SortDecksByOptions: Record<SortDecksBy, string> = {
-    [SortDecksBy.Name]: 'Name',
-    [SortDecksBy.NumberOfCards]: 'Number of flashcards',
-    // [SortDecksBy.DateOfLastQuiz]: 'Date of last quiz',
+    [SortDecksBy.Name]: 'name',
+    [SortDecksBy.NumberOfCards]: 'number of flashcards',
+    // [SortDecksBy.DateOfLastQuiz]: 'date of last quiz',
 }
