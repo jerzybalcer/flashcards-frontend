@@ -1,9 +1,11 @@
-import { Box, Button, Card, CardBody, Center, Divider, Flex, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Center, Divider, Flex, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
 import { useAuth } from "../shared/hooks/general/useAuth";
 import { useLayoutEffect, useRef, useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { errorToast } from "../shared/utils/toasts";
 import { Navigate } from "react-router-dom";
+import { PrimaryButton } from "@/shared/components/PrimaryButton";
+import ContinueWithGoogleButton from "@/shared/components/ContinueWithGoogleButton";
 
 export const LoginPage = () => {
     const auth = useAuth();
@@ -50,52 +52,49 @@ export const LoginPage = () => {
     }
 
     return (
-    <Flex justify='center' align='center' h='100%'>
-        <Card w='90%' maxW='440px' shadow='xl'>
-            <CardBody>
-                <Flex direction='column' gap={8}>
-                    <Flex direction='column' gap={1}>
-                        <Heading size='xl' mb={2}>Welcome back!</Heading>
-                        <Text opacity={0.8}>Please enter your login details</Text>
-                    </Flex>
+    <Flex h='100%'>
+        <Flex direction='column' gap={8}>
+            <Flex direction='column' gap={1}>
+                <Heading fontSize='h1' mb={2} fontFamily='Playwrite US Modern'>A perfect day to study with Flashcards</Heading>
+                <Text fontSize='t1'>Enter your info - we'll take it from here</Text>
+            </Flex>
 
-                    <Flex direction='column' gap={4}>
-                        <Box>
-                            <FormLabel>Email</FormLabel>
-                            <Input placeholder="Your email" onChange={(event) => setEmail(event.target.value)}/>
-                        </Box>
-                        <Box>
-                            <FormLabel>Password</FormLabel>
-                            <Input type="password" placeholder="Your password" onChange={(event) => setPassword(event.target.value)}/>
-                        </Box>
-                    </Flex>
-                    
-                    <Flex direction='column' gap={4}>
-                        <Button colorScheme="blue" onClick={() => handleLogin()}>Sign in</Button>
+            <Flex direction='column' gap={4}>
+                <Box>
+                    <FormLabel>Email</FormLabel>
+                    <Input placeholder="Your email" onChange={(event) => setEmail(event.target.value)}/>
+                </Box>
+                <Box>
+                    <FormLabel>Password</FormLabel>
+                    <Input type="password" placeholder="Your password" onChange={(event) => setPassword(event.target.value)}/>
+                </Box>
+            </Flex>
+            
+            <Flex direction='column' gap={4}>
+                <PrimaryButton text="Log in" onClick={() => handleLogin()} />
 
-                        <Flex align='center' justify='center' gap={2}>
-                            <Divider w='40%'/>
-                            <Text opacity={0.8}>or</Text>
-                            <Divider w='40%'/>
-                        </Flex>
-
-                        <Center style={{ colorScheme: 'light'}} ref={googleLoginButtonRef}>
-                            <GoogleLogin
-                                onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
-                                onError={() => errorToast('Login failed')}
-                                width={googleLoginWidth + 'px'}
-                                locale="en"
-                            /> 
-                        </Center>
-                    </Flex>
-
-                    <Flex gap={2} align='center'>
-                        <Text>Don't have an account?</Text>
-                        <Button color='blue.200' variant='link'>Sign up</Button>
-                    </Flex>
+                <Flex align='center' justify='center' gap={2}>
+                    <Divider w='40%'/>
+                    <Text opacity={0.8}>or</Text>
+                    <Divider w='40%'/>
                 </Flex>
-            </CardBody>
-        </Card>
+
+                {/* <Center style={{ colorScheme: 'light'}} ref={googleLoginButtonRef}>
+                    <GoogleLogin
+                        onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
+                        onError={() => errorToast('Login failed')}
+                        width={googleLoginWidth + 'px'}
+                        locale="en"
+                    /> 
+                </Center> */}
+                <ContinueWithGoogleButton />
+            </Flex>
+
+            <Flex gap={2} align='center'>
+                <Text>Don't have an account?</Text>
+                <Button color='blue.200' variant='link'>Register</Button>
+            </Flex>
+        </Flex>
     </Flex>
     );
 }
