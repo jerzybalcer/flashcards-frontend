@@ -1,53 +1,22 @@
-import { Box, Button, Center, Divider, Flex, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
 import { useAuth } from "../shared/hooks/general/useAuth";
-import { useLayoutEffect, useRef, useState } from "react";
-import { GoogleLogin } from "@react-oauth/google";
-import { errorToast } from "../shared/utils/toasts";
+import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
-import ContinueWithGoogleButton from "@/shared/components/ContinueWithGoogleButton";
+import { ContinueWithGoogleButton } from "@/shared/components/ContinueWithGoogleButton";
+import { getCurrentUser } from "@/shared/utils/getCurrentUser";
 
 export const LoginPage = () => {
     const auth = useAuth();
-
+    
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    
+    const handleLoginWithEmail = () => auth.loginWithEmail(email, password);
 
-    const googleLoginButtonRef = useRef<HTMLDivElement>(null);
-    const [googleLoginWidth, setGoogleLoginWidth] = useState<number>(280);
-
-    const handleLogin = () => {
-        if(!email || !password || !auth) return;
-
-        auth.login(email, password);
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleGoogleLogin = (credentialResponse: any) => {
-        auth!.loginWithGoogle(credentialResponse.credential);
-    }
-
-    // Resize Login with Google button
-    useLayoutEffect(() => {
-        const updateButtonWidth = () => {
-            if (googleLoginButtonRef.current) {
-                setGoogleLoginWidth(googleLoginButtonRef.current.clientWidth);
-            }
-        };
-
-        // First resize
-        updateButtonWidth();
-
-        // Resize button on window resize
-        window.addEventListener('resize', updateButtonWidth);
-
-        // Cleanup
-        return () => {
-        window.removeEventListener('resize', updateButtonWidth);
-        };
-    }, []);
-
-    if(auth?.currentUser) {
+    const handleLoginWithGoogle = () => auth.loginWithGoogle();
+    
+    if(getCurrentUser() !== null) {
         return <Navigate to='/'/>;
     }
 
@@ -71,7 +40,7 @@ export const LoginPage = () => {
             </Flex>
             
             <Flex direction='column' gap={4}>
-                <PrimaryButton text="Log in" onClick={() => handleLogin()} />
+                <PrimaryButton text="Log in" onClick={handleLoginWithEmail} isLoading={auth.isLoginWithEmailLoading} isDisabled={auth.isLoginWithGoogleLoading}/>
 
                 <Flex align='center' justify='center' gap={2}>
                     <Divider w='40%'/>
@@ -79,15 +48,7 @@ export const LoginPage = () => {
                     <Divider w='40%'/>
                 </Flex>
 
-                {/* <Center style={{ colorScheme: 'light'}} ref={googleLoginButtonRef}>
-                    <GoogleLogin
-                        onSuccess={credentialResponse => handleGoogleLogin(credentialResponse)}
-                        onError={() => errorToast('Login failed')}
-                        width={googleLoginWidth + 'px'}
-                        locale="en"
-                    /> 
-                </Center> */}
-                <ContinueWithGoogleButton />
+                <ContinueWithGoogleButton onClick={handleLoginWithGoogle} isLoading={auth.isLoginWithGoogleLoading} isDisabled={auth.isLoginWithEmailLoading} />
             </Flex>
 
             <Flex gap={2} align='center'>

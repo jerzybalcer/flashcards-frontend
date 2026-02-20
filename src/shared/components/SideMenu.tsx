@@ -1,12 +1,14 @@
 import { Avatar, Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Heading, Text, useDisclosure } from "@chakra-ui/react"
 import { IconLogout, IconMenu2 } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "../utils/getCurrentUser";
 import { useAuth } from "../hooks/general/useAuth";
 
 export const SideMenu: React.FC = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate();
-    const auth = useAuth();
+    const { logout } = useAuth();
+    const currentUser = getCurrentUser();
  
     return (
         <>
@@ -19,10 +21,10 @@ export const SideMenu: React.FC = () => {
                         <DrawerCloseButton />
                         <DrawerHeader borderBottomWidth='1px'>
                             <Flex align='center' gap={4}>
-                                <Avatar src={auth?.currentUser?.imageUrl} name={auth?.currentUser?.name}/>
+                                <Avatar src={currentUser?.imageUrl} name={currentUser?.name}/>
                                 <Box minW={0} pr={4}>
-                                    <Heading fontSize='t1' as='h1' textOverflow='ellipsis' whiteSpace='nowrap' overflow='hidden'>{auth?.currentUser?.name}</Heading>
-                                    <Text opacity={0.8} fontSize='t2'>{auth?.currentUser?.email}</Text>
+                                    <Heading fontSize='t1' as='h1' textOverflow='ellipsis' whiteSpace='nowrap' overflow='hidden'>{currentUser?.name}</Heading>
+                                    <Text opacity={0.8} fontSize='t2'>{currentUser?.email}</Text>
                                 </Box>
                             </Flex>
   
@@ -38,7 +40,7 @@ export const SideMenu: React.FC = () => {
                                 <Button variant='link' onClick={() => navigate('/stats')} borderRadius='xl' size='lg' fontSize='h2'>
                                     Stats
                                 </Button>
-                                <Button variant='ghost' colorScheme='red' onClick={() => auth?.logout()} borderRadius='xl' size='lg' fontSize='h2' rightIcon={<IconLogout />}>
+                                <Button variant='ghost' colorScheme='red' onClick={logout} borderRadius='xl' size='lg' fontSize='h2' rightIcon={<IconLogout />}>
                                     Logout
                                 </Button>
                             </Flex>

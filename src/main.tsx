@@ -8,7 +8,6 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { App } from './App.tsx'
 import theme from './theme.ts';
 import './index.css'
-import { AuthContextProvider } from './shared/context/AuthContext.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,11 +22,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <AuthContextProvider>
-            <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID!}>
-               <App />
-            </GoogleOAuthProvider>
-          </AuthContextProvider>
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID!}>
+              <App />
+          </GoogleOAuthProvider>
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

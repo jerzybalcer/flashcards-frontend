@@ -2,6 +2,7 @@ import axios from "axios";
 import { setupCasingInterceptor } from "./CasingConverterInterceptor";
 import { setupTokenRefreshInterceptor } from "./TokenRefreshInterceptor";
 import { setupErrorHandlerInterceptor } from "./ErrorHandlerInterceptor";
+import { getCurrentUser } from "../utils/getCurrentUser";
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000",
@@ -9,7 +10,7 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('accessToken');
+  const token = getCurrentUser()?.accessToken;
   
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
