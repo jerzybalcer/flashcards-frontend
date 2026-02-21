@@ -41,7 +41,7 @@ export const SideMenu: React.FC = () => {
                                     Stats
                                 </Button>
                                 <Button variant='ghost' colorScheme='red' onClick={logout} borderRadius='xl' size='lg' fontSize='h2' rightIcon={<IconLogout />}>
-                                    Logout
+                                    Log out
                                 </Button>
                             </Flex>
                         </DrawerBody>

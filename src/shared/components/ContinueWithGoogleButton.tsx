@@ -10,7 +10,7 @@ interface Props {
 export const ContinueWithGoogleButton: React.FC<Props> = ({ onClick, isLoading, isDisabled }) => {
   return (
     <Button
-      w='100%' py={6} mt={2}
+      w='100%' py={6}
       fontSize='lg'
       borderRadius='xl'
       variant='unstyled'

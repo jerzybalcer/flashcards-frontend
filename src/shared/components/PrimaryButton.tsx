@@ -11,7 +11,7 @@ interface Props {
 export const PrimaryButton: React.FC<Props> = ({text, icon, onClick, isLoading, isDisabled}) => {
     return (
         <Button 
-            w='100%' py={6} mt={2} 
+            w='100%' py={6}
             fontSize='lg' 
             borderRadius='xl' 
             colorScheme='blue'
