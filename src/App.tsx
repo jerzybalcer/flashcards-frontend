@@ -6,7 +6,7 @@ import { AllDecksPage } from './pages/AllDecksPage';
 import { Box, Flex } from '@chakra-ui/react';
 import { QuizContextProvider } from './features/Quiz/context/QuizContext';
 import { HomePage } from './pages/HomePage';
-import { LoginPage } from './pages/LoginPage';
+import { AuthPage } from './pages/AuthPage';
 import { ProtectedRoute } from '@/shared/components/ProtectedRoute';
 
 export const App = () => {
@@ -14,7 +14,7 @@ export const App = () => {
     <Flex justify='center' h='100%' w='100%' p={0}>
         <Box maxW='1200px' w='100%' p={4}> 
           <Routes>
-            <Route path='/login' element={<LoginPage />} />
+            <Route path='/auth' element={<AuthPage />} />
             <Route element={<ProtectedRoute />}>
               <Route path='/' element={<Navigate to='/home' />} />
               <Route path='/home' element={<HomePage />} />

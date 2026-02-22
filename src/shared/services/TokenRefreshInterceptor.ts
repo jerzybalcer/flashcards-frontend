@@ -75,7 +75,7 @@ export const setupTokenRefreshInterceptor = () => {
                     return apiClient(originalRequest); // Handle the first request
                 } catch (refreshError) {
                     localStorage.removeItem('user');
-                    window.location.href='/login';
+                    window.location.href='/auth';
                     
                     RetryQueue.failAll(refreshError);
                     return Promise.reject(refreshError);

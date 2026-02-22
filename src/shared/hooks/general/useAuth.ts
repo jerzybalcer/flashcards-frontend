@@ -41,7 +41,7 @@ export const useAuth = () => {
 
   const logout = () => {
     localStorage.removeItem('user');
-    navigate('/login');
+    navigate('/auth');
   };
 
   return { 

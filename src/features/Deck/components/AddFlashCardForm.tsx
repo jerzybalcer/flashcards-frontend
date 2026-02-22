@@ -81,5 +81,6 @@ export const AddFlashCardForm: React.FC<Props> = ({ formRef, onSubmit, defaultVa
             />
             <FormErrorMessage>{errors.translatedExampleSentence?.message}</FormErrorMessage>
         </FormControl>
+        <button type="submit" hidden />
     </form>
 }

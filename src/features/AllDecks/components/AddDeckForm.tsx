@@ -67,5 +67,6 @@ export const AddDeckForm: React.FC<Props> = ({ formRef, onSubmit, defaultValue }
             />
             <FormErrorMessage>{errors.language?.message}</FormErrorMessage>
         </FormControl>
+        <button type="submit" hidden />
     </form>
 }

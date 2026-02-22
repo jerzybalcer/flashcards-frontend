@@ -59,5 +59,6 @@ export const FileInputForm: React.FC<Props> = ({ formRef, onSubmit }) => {
                 <FormErrorMessage>{errors.delimiter?.message}</FormErrorMessage>
             </FormControl>
         </Flex>
+        <button type="submit" hidden />
     </form>);
 }
