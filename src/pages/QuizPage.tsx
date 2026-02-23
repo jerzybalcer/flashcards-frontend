@@ -9,7 +9,7 @@ import { QuizContext } from '@/features/Quiz/context/QuizContext';
 import { Loading } from "../shared/components/Loading";
 import { useDeck } from "@/shared/hooks/queries/useDeck";
 
-enum QuizSteps {
+enum QuizStep {
     Setup,
     Solve,
     Result
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export const QuizPage: React.FC<Props> = ({ useDailyCards = false }) => {
-        const [currentStep, setCurrentStep] = useState<QuizSteps>(useDailyCards ? QuizSteps.Solve : QuizSteps.Setup);
+        const [currentStep, setCurrentStep] = useState<QuizStep>(useDailyCards ? QuizStep.Solve : QuizStep.Setup);
 
         const context = useContext(QuizContext)!;
 
@@ -29,30 +29,30 @@ export const QuizPage: React.FC<Props> = ({ useDailyCards = false }) => {
         const { isFetching: deckLoading, data: deck } = useDeck(Number(deckId));
         
         const handleQuizSolved = () => {
-            setCurrentStep(QuizSteps.Result);
+            setCurrentStep(QuizStep.Result);
         };
 
         const handleStartAgain = () => {
             context.setAnsweredQuestions([]);
-            setCurrentStep(QuizSteps.Solve);
+            setCurrentStep(QuizStep.Solve);
         }
 
         const renderQuizStep = () => {
             if(deckLoading || !deck) return <Loading />;
 
             switch(currentStep){
-                case QuizSteps.Setup: 
-                    return <SetupQuiz deck={deck} onStartQuiz={() => setCurrentStep(QuizSteps.Solve)} />;
-                case QuizSteps.Solve: 
+                case QuizStep.Setup: 
+                    return <SetupQuiz deck={deck} onStartQuiz={() => setCurrentStep(QuizStep.Solve)} />;
+                case QuizStep.Solve: 
                     return <SolveQuiz deck={deck} useDailyCards={useDailyCards} onSolvedQuiz={() => handleQuizSolved()} />
-                case QuizSteps.Result: 
+                case QuizStep.Result: 
                     return <QuizResult deck={deck}
-                        onFinish={() => setCurrentStep(QuizSteps.Setup)} onStartAgain={() => handleStartAgain()} />;
+                        onFinish={() => setCurrentStep(QuizStep.Setup)} onStartAgain={() => handleStartAgain()} />;
             }
         };
 
         useEffect(() => {
-            if(currentStep !== QuizSteps.Result)
+            if(currentStep !== QuizStep.Result)
                 context.setAnsweredQuestions([]);
         // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [currentStep]);
