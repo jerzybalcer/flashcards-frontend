@@ -4,4 +4,5 @@ export interface User {
     email: string;
     accessToken: string;
     imageUrl?: string;
+    hasCompletedOnboarding: boolean;
 }

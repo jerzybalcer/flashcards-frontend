@@ -8,7 +8,7 @@ interface PageHeadingProps {
     urlToGoBack?: string | null;
 }
 
-export const PageHeading: React.FC<PageHeadingProps> = ({ title, urlToGoBack = '/home' }) => {
+export const PageHeading: React.FC<PageHeadingProps> = ({ title, urlToGoBack = '/dashboard' }) => {
     const navigate = useNavigate();
 
     return (

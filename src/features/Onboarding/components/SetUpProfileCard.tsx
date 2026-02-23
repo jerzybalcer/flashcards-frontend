@@ -1,19 +1,19 @@
 import { CardLayout } from "@/shared/components/CardLayout";
 import { Flex, Text } from "@chakra-ui/react";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
-import { CustomizeForm } from "./CustomizeForm";
+import { SetUpProfileForm } from "./SetUpProfileForm";
 import { useRef } from "react";
 
-export const CustomizeCard = () => {
+export const SetUpProfileCard = () => {
     const formRef = useRef<HTMLFormElement>(null);
 
     function getHeader(){
-        return [<Text fontSize='h1' fontWeight={700}>Make your account truly yours</Text>];
+        return [<Text fontSize='h1' fontWeight={700}>Set up your profile</Text>];
     }
 
     function getBody(){
         return [
-            <CustomizeForm formRef={formRef} isDisabled={false} onSubmit={() => {}} />
+            <SetUpProfileForm formRef={formRef} isDisabled={false} onSubmit={() => {}} />
         ];
     }
 
@@ -21,7 +21,7 @@ export const CustomizeCard = () => {
         return [
             <Flex direction='column' gap={4} align='center'>
                 <PrimaryButton text='Finish setup' onClick={() => {}} />
-                <Text fontSize='lb'>You can always personalize your account later</Text>
+                <Text fontSize='lb' textAlign='center'>You can always personalize your account later</Text>
             </Flex>
         ];
     }

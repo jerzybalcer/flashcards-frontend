@@ -31,7 +31,7 @@ export const SideMenu: React.FC = () => {
                         </DrawerHeader>
                         <DrawerBody>
                             <Flex direction='column' gap={8} pt={4}>
-                                <Button variant='link' onClick={() => navigate('/home')} borderRadius='xl' size='lg' fontSize='h2'>
+                                <Button variant='link' onClick={() => navigate('/dashboard')} borderRadius='xl' size='lg' fontSize='h2'>
                                     Dashboard
                                 </Button>
                                 <Button variant='link' onClick={() => navigate('/decks')} borderRadius='xl' size='lg' fontSize='h2'>

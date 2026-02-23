@@ -5,18 +5,18 @@ import { Flex, FormLabel, Input, FormControl, FormErrorMessage } from "@chakra-u
 import { Controller, useForm } from "react-hook-form";
 
 interface FormFields {
-    name: string;
+    username: string;
     nativeLanguage: Language;
     profilePicture: File;
 }
 
 interface Props {
     formRef: React.Ref<HTMLFormElement>;
-    onSubmit: (email: string, nativeLanguage: Language) => void;
+    onSubmit: (username: string, nativeLanguage: Language) => void;
     isDisabled: boolean;
 }
 
-export const CustomizeForm: React.FC<Props> = ({ formRef, onSubmit, isDisabled }) => {
+export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisabled }) => {
     // const { isFetching: languagesLoading, data: languages } = useLanguages();
     const languages: Language[] = [{ id: 'en', name: 'English' }];
     const languagesLoading = false;
@@ -30,25 +30,25 @@ export const CustomizeForm: React.FC<Props> = ({ formRef, onSubmit, isDisabled }
         });
 
     function onFormSubmit(data: FormFields) {
-        onSubmit(data.name, data.nativeLanguage);
+        onSubmit(data.username, data.nativeLanguage);
     }
 
-    const name = watch('name');
+    const name = watch('username');
 
     return (
     <form ref={formRef} onSubmit={handleSubmit(onFormSubmit)} noValidate autoComplete="off">
         <Flex direction='column' gap={4}>
-            <FormControl isRequired isInvalid={!!errors.name}>
-                <FormLabel>Your name</FormLabel>
+            <FormControl isRequired isInvalid={!!errors.username}>
+                <FormLabel>Username</FormLabel>
                 <Input 
-                    {...register("name", { required: "Name is required" })}
-                    placeholder="John Doe" 
+                    {...register("username", { required: "Username is required" })}
+                    placeholder="john_doe" 
                     isDisabled={isDisabled} 
                 />
-                <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+                <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
             </FormControl>
             <FormControl isRequired isInvalid={!!errors.nativeLanguage}>
-                <FormLabel>Your native language</FormLabel>
+                <FormLabel>Native language</FormLabel>
                 <Controller
                     name="nativeLanguage"
                     control={control}
@@ -65,7 +65,7 @@ export const CustomizeForm: React.FC<Props> = ({ formRef, onSubmit, isDisabled }
                 <FormErrorMessage>{errors.nativeLanguage?.message}</FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={!!errors.profilePicture}>
-                <FormLabel>Your profile picture</FormLabel>
+                <FormLabel>Profile picture</FormLabel>
                 <Controller
                     name="profilePicture"
                     control={control}

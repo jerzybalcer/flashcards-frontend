@@ -1,12 +1,12 @@
 import { Flex, useDisclosure } from "@chakra-ui/react"
 import { PageHeading } from "@/shared/components/PageHeading";
-import { RecentDecks } from "@/features/Home/components/RecentDecks";
-import { YourWordsForToday } from "@/features/Home/components/YourWordsForToday";
-import { YourGoals } from "@/features/Home/components/YourGoals";
+import { RecentDecks } from "@/features/Dashboard/components/RecentDecks";
+import { YourWordsForToday } from "@/features/Dashboard/components/YourWordsForToday";
+import { YourGoals } from "@/features/Dashboard/components/YourGoals";
 import { Scrollable } from "@/shared/components/Scrollable";
-import { YourWordsForTodayBottomSheet } from "@/features/Home/components/bottomSheets/YourWordsForTodayBottomSheet";
+import { YourWordsForTodayBottomSheet } from "@/features/Dashboard/components/bottomSheets/YourWordsForTodayBottomSheet";
 
-export const HomePage = () => {
+export const DashboardPage = () => {
     const yourWordsForTodayModal = useDisclosure();
 
     function handleYourWordsForTodayInfoClick() {
