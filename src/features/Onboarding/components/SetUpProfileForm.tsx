@@ -1,4 +1,5 @@
 import { Language } from "@/model/Language";
+import { UpdateProfileData } from "@/model/UpdateProfileData";
 import { AvatarInput } from "@/shared/components/AvatarInput";
 import { LanguageInput } from "@/shared/components/LanguageInput";
 import { Flex, FormLabel, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
@@ -12,7 +13,7 @@ interface FormFields {
 
 interface Props {
     formRef: React.Ref<HTMLFormElement>;
-    onSubmit: (username: string, nativeLanguage: Language) => void;
+    onSubmit: (profileData: UpdateProfileData) => void;
     isDisabled: boolean;
 }
 
@@ -30,7 +31,9 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
         });
 
     function onFormSubmit(data: FormFields) {
-        onSubmit(data.username, data.nativeLanguage);
+        const profileData: UpdateProfileData = {username: data.username, nativeLanguageId: data.nativeLanguage.id};
+        // TODO: include profile picture
+        onSubmit(profileData);
     }
 
     const name = watch('username');
