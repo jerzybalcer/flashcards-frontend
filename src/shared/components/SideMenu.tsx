@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Heading, Text, useDisclosure } from "@chakra-ui/react"
-import { IconLogout, IconMenu2 } from "@tabler/icons-react";
+import { IconLogout, IconMenu2, IconUser } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 import { getCurrentUser } from "../utils/getCurrentUser";
 import { useAuth } from "../hooks/general/useAuth";
@@ -21,10 +21,10 @@ export const SideMenu: React.FC = () => {
                         <DrawerCloseButton />
                         <DrawerHeader borderBottomWidth='1px'>
                             <Flex align='center' gap={4}>
-                                <Avatar src={currentUser?.imageUrl} name={currentUser?.name}/>
+                                <Avatar src={currentUser?.imageUrl} size='lg' name={currentUser?.name} bg='blue.600' color='white' icon={<IconUser size='32px'/>}/>
                                 <Box minW={0} pr={4}>
                                     <Heading fontSize='t1' as='h1' textOverflow='ellipsis' whiteSpace='nowrap' overflow='hidden'>{currentUser?.name}</Heading>
-                                    <Text opacity={0.8} fontSize='t2'>{currentUser?.email}</Text>
+                                    <Text fontSize='lb'>{currentUser?.email}</Text>
                                 </Box>
                             </Flex>
   
