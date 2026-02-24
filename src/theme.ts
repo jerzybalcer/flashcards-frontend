@@ -1,4 +1,4 @@
-import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
+import { extendTheme, StyleFunctionProps, type ThemeConfig, theme as defaultTheme } from "@chakra-ui/react";
 
 const config: ThemeConfig = {
   initialColorMode: "dark",
@@ -27,6 +27,53 @@ const theme = extendTheme({
     h2: "1.602rem", // headline2  -> 25.632px
     h1: "1.802rem", // headline1  -> 28.832px
   },
+components: {
+  Button: {
+    variants: {
+      ghost: () => ({
+        "@media (hover: none)": {
+          _hover: {
+            bg: "inherit",
+          },
+        },
+      }),
+
+      solid: (props: StyleFunctionProps) => {
+        const v = defaultTheme.components?.Button?.variants?.solid?.(props);
+
+        return {
+          "@media (hover: none)": {
+            _hover: {
+              bg: v?._hover?.bg ?? v?.bg,
+            },
+          },
+        };
+      },
+
+      outline: (props: StyleFunctionProps) => {
+        const v = defaultTheme.components?.Button?.variants?.outline?.(props);
+
+        return {
+          "@media (hover: none)": {
+            _hover: {
+              bg: v?._hover?.bg,
+            },
+          },
+        };
+      },
+
+      link: (_: StyleFunctionProps) => {
+        return {
+          "@media (hover: none)": {
+            _hover: {
+              textDecoration: 'none',
+            },
+          },
+        };
+      },
+    },
+  },
+}
 });
 
 export default theme;
