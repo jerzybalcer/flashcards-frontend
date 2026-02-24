@@ -39,24 +39,20 @@ components: {
       }),
 
       solid: (props: StyleFunctionProps) => {
-        const v = defaultTheme.components?.Button?.variants?.solid?.(props);
-
         return {
           "@media (hover: none)": {
             _hover: {
-              bg: v?._hover?.bg ?? v?.bg,
+              bg: defaultTheme.components?.Button?.variants?.solid?.(props),
             },
           },
         };
       },
 
       outline: (props: StyleFunctionProps) => {
-        const v = defaultTheme.components?.Button?.variants?.outline?.(props);
-
         return {
           "@media (hover: none)": {
             _hover: {
-              bg: v?._hover?.bg,
+              bg: defaultTheme.components?.Button?.variants?.outline?.(props),
             },
           },
         };
