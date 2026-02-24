@@ -2,6 +2,8 @@ import { Language } from "@/model/Language";
 import { UpdateProfileData } from "@/model/UpdateProfileData";
 import { AvatarInput } from "@/shared/components/AvatarInput";
 import { LanguageInput } from "@/shared/components/LanguageInput";
+import { useLanguages } from "@/shared/hooks/queries/useLanguages";
+import { getCurrentUser } from "@/shared/utils/getCurrentUser";
 import { Flex, FormLabel, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -18,15 +20,16 @@ interface Props {
 }
 
 export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisabled }) => {
-    // const { isFetching: languagesLoading, data: languages } = useLanguages();
-    const languages: Language[] = [{ id: 'en', name: 'English' }];
-    const languagesLoading = false;
+    const { isFetching: languagesLoading, data: languages } = useLanguages();
+
+    const user = getCurrentUser();
 
     const { register, control, watch, handleSubmit, formState: { errors } } = useForm<FormFields>(
         { 
             defaultValues: 
                 { 
-                    nativeLanguage: { id: 'en', name: 'English' }
+                    username: user?.name ?? '',
+                    nativeLanguage: { id: 'en', name: 'English' } // TODO: user native lang or eng
                 },
         });
 
@@ -73,7 +76,7 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
                     name="profilePicture"
                     control={control}
                     render={({ field }) => (
-                        <AvatarInput onChange={field.onChange} name={name} />
+                        <AvatarInput onChange={field.onChange} name={name} defaultImageUrl={user?.imageUrl} />
                     )}
                 />
                 <FormErrorMessage>{errors.profilePicture?.message}</FormErrorMessage>

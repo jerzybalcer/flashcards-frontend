@@ -22,5 +22,5 @@ export function useUpdateProfile() {
         await mutation.mutateAsync(profileData);
     }
 
-    return { handleSave }
+    return { handleSave, isLoading: mutation.isLoading }
 }

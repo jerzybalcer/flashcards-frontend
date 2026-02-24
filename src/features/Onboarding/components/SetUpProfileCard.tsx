@@ -7,11 +7,12 @@ import { useUpdateProfile } from "@/shared/hooks/mutations/useUpdateProfile";
 import { UpdateProfileData } from "@/model/UpdateProfileData";
 import { useNavigate } from "react-router-dom";
 
+
 export const SetUpProfileCard = () => {
     const formRef = useRef<HTMLFormElement>(null);
     const navigate = useNavigate();
 
-    const { handleSave } = useUpdateProfile();
+    const { handleSave, isLoading: isUpdateLoading } = useUpdateProfile();
 
     function handleFinishSetup(){
         formRef.current?.requestSubmit();
@@ -36,8 +37,8 @@ export const SetUpProfileCard = () => {
     function getFooter(){
         return [
             <Flex direction='column' gap={4} align='center'>
-                <PrimaryButton text='Finish setup' onClick={handleFinishSetup} />
-                <Text fontSize='lb' textAlign='center'>You can always personalize your account later</Text>
+                <PrimaryButton text='Finish setup' isLoading={isUpdateLoading} onClick={handleFinishSetup} />
+                <Text fontSize='lb' textAlign='center'>You can always change it later</Text>
             </Flex>
         ];
     }
