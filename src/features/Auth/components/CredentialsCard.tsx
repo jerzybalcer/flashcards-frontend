@@ -6,11 +6,12 @@ import { OrHorizontalDivider } from "@/shared/components/OrHorizontalDivider";
 import { PrimaryButton } from "@/shared/components/PrimaryButton";
 import { useAuth } from "@/shared/hooks/general/useAuth";
 import { useState, useRef } from "react";
+import { AuthMode } from "../model/AuthMode";
 
 export const CredentialsCard = () => {
     const auth = useAuth();
     
-    const [mode, setMode] = useState<'login' | 'register'>('login');
+    const [mode, setMode] = useState<AuthMode>('login');
     const formRef = useRef<HTMLFormElement>(null);
 
     const getModeText = () => mode === 'login' ? 'Log in' : 'Create an account';
@@ -19,7 +20,6 @@ export const CredentialsCard = () => {
     
     const handleLoginWithEmail = (email: string, password: string) => auth.loginWithEmail(email, password);
     const handleLoginWithGoogle = () => auth.loginWithGoogle();
-    
 
     function getHeader(){
         return [<Text fontSize='h1' fontWeight={700}>{getModeText()}</Text>];
@@ -29,7 +29,8 @@ export const CredentialsCard = () => {
         return [<CredentialsForm 
             formRef={formRef}
             onSubmit={handleLoginWithEmail}
-            isDisabled={auth.isLoginWithEmailLoading || auth.isLoginWithGoogleLoading} 
+            isDisabled={auth.isLoginWithEmailLoading || auth.isLoginWithGoogleLoading}
+            authMode={mode}
         />];
     }
 

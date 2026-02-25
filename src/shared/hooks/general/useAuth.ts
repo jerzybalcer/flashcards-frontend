@@ -44,6 +44,19 @@ export const useAuth = () => {
     navigate('/auth');
   };
 
+  const createAccount = async (email: string, password: string) => {
+    setLoginWithEmailLoading(true);
+    try {
+      const user = await createAccount(email, password);
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoginWithEmailLoading(false);
+    }
+  };
+
   return { 
     loginWithEmail, 
     loginWithGoogle, 

@@ -29,7 +29,7 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
             defaultValues: 
                 { 
                     username: user?.name ?? '',
-                    nativeLanguage: { id: 'en', name: 'English' } // TODO: user native lang or eng
+                    nativeLanguage: undefined // TODO: user native lang or eng
                 },
         });
 
@@ -47,7 +47,15 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
             <FormControl isRequired isInvalid={!!errors.username}>
                 <FormLabel>Username</FormLabel>
                 <Input 
-                    {...register("username", { required: "Username is required" })}
+                    {...register("username", 
+                        { 
+                            required: "Username is required",
+                            pattern: {
+                                value: /^[a-zA-Z0-9_]+$/,
+                                message: 'Username can only contain letters, numbers, and _'
+                            }
+                        }
+                    )}
                     placeholder="john_doe" 
                     isDisabled={isDisabled} 
                 />

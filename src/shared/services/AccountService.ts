@@ -26,3 +26,11 @@ export const refreshToken = async () =>
         { headers: {'Content-Type': 'application/json'}, withCredentials: true })
     .then(res => camelizeKeys(res.data) as User)
     .catch((err: AxiosError) => Promise.reject(err));
+
+export const createAccount = async (email: string, password: string) =>
+    apiClient
+        .post(`/accounts`, 
+            { email: email, password: password }, 
+            { headers: {'Content-Type': 'application/json'} })
+        .then(res => camelizeKeys(res.data) as User)
+        .catch((err: AxiosError) => Promise.reject(err));
