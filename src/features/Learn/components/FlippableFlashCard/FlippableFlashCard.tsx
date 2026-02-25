@@ -8,6 +8,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import { useSpeechSynthesis } from '@/shared/hooks/general/useSpeechSynthesis';
 import { FlashCardSide } from '@/model/FlashCardSide';
 import { LearnSettings } from '@/model/LearnSettings';
+import { getCurrentUser } from '@/shared/utils/getCurrentUser';
 
 
 interface FlippableFlashCardProps {
@@ -25,7 +26,7 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
 
     const [currentSide, setCurrentSide] = useState<FlashCardSide>(initialSide);
     const { isLanguageAvailable: isSpeechLanguageAvailable } = useSpeechSynthesis();
-    const nativeLanguage = 'pl'; // user.nativeLanguage
+    const nativeLanguage = getCurrentUser()!.nativeLanguageId!;
 
     const canReadAloudForeignWord = isSpeechLanguageAvailable(foreignLanguage);
     const canReadAloudTranslatedWord = isSpeechLanguageAvailable(foreignLanguage) && isSpeechLanguageAvailable(nativeLanguage);

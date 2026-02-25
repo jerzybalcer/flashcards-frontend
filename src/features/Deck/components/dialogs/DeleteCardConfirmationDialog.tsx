@@ -53,6 +53,7 @@ export const DeleteCardConfirmationDialog: React.FC<Props> = ({ isOpen, flashCar
                             </Flex>
                             <Flex direction='column' gap={2}>
                                 <Box>
+                                    {/* TODO: use user's nativeLanguage */}
                                     <Tag colorScheme="gray" variant='subtle'>POLISH</Tag>
                                 </Box>
                                 <Text fontSize='t1' fontWeight={600} ml={2}>{flashCard.translatedWord}</Text>
