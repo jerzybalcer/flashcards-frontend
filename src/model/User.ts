@@ -1,8 +1,9 @@
 export interface User {
     id: number;
-    name: string;
     email: string;
     accessToken: string;
-    imageUrl?: string;
+    username: string | null;
+    imageUrl: string | null;
+    nativeLanguageId: string | null;
     hasCompletedOnboarding: boolean;
 }

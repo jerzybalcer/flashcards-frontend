@@ -5,6 +5,7 @@ import { LanguageInput } from "@/shared/components/LanguageInput";
 import { useLanguages } from "@/shared/hooks/queries/useLanguages";
 import { getCurrentUser } from "@/shared/utils/getCurrentUser";
 import { Flex, FormLabel, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 interface FormFields {
@@ -24,12 +25,12 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
 
     const user = getCurrentUser();
 
-    const { register, control, watch, handleSubmit, formState: { errors } } = useForm<FormFields>(
+    const { register, control, watch, setValue, handleSubmit, formState: { errors } } = useForm<FormFields>(
         { 
             defaultValues: 
                 { 
-                    username: user?.name ?? '',
-                    nativeLanguage: undefined // TODO: user native lang or eng
+                    username: user?.username ?? '',
+                    nativeLanguage: undefined // Set after fetch is completed
                 },
         });
 
@@ -40,6 +41,12 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
     }
 
     const name = watch('username');
+
+    useEffect(() => {
+        if(user && user.nativeLanguageId){
+            setValue('nativeLanguage.id', user.nativeLanguageId);
+        }
+    }, [languages]);
 
     return (
     <form ref={formRef} onSubmit={handleSubmit(onFormSubmit)} noValidate autoComplete="off">
@@ -84,7 +91,7 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
                     name="profilePicture"
                     control={control}
                     render={({ field }) => (
-                        <AvatarInput onChange={field.onChange} name={name} defaultImageUrl={user?.imageUrl} />
+                        <AvatarInput onChange={field.onChange} name={name} defaultImageUrl={user?.imageUrl ?? ''} />
                     )}
                 />
                 <FormErrorMessage>{errors.profilePicture?.message}</FormErrorMessage>
