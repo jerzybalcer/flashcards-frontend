@@ -21,7 +21,7 @@ export const SideMenu: React.FC = () => {
                         <DrawerCloseButton />
                         <DrawerHeader borderBottomWidth='1px'>
                             <Flex align='center' gap={4}>
-                                <Avatar src={currentUser?.imageUrl ?? undefined} size='lg' name={currentUser?.username ?? undefined} bg='blue.600' color='white' icon={<IconUser size='32px'/>}/>
+                                <Avatar src={currentUser?.profilePictureUrl ?? undefined} size='lg' name={currentUser?.username ?? undefined} bg='blue.600' color='white' icon={<IconUser size='32px'/>}/>
                                 <Box minW={0} pr={4}>
                                     <Heading fontSize='t1' as='h1' textOverflow='ellipsis' whiteSpace='nowrap' overflow='hidden'>{currentUser?.username}</Heading>
                                     <Text fontSize='lb'>{currentUser?.email}</Text>

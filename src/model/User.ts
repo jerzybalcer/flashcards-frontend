@@ -3,7 +3,7 @@ export interface User {
     email: string;
     accessToken: string;
     username: string | null;
-    imageUrl: string | null;
+    profilePictureUrl: string | null;
     nativeLanguageId: string | null;
     hasCompletedOnboarding: boolean;
 }

@@ -4,6 +4,7 @@ import { AvatarInput } from "@/shared/components/AvatarInput";
 import { LanguageInput } from "@/shared/components/LanguageInput";
 import { useLanguages } from "@/shared/hooks/queries/useLanguages";
 import { getCurrentUser } from "@/shared/utils/getCurrentUser";
+import { urlToFile } from "@/shared/utils/urlToFile";
 import { Flex, FormLabel, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -26,17 +27,18 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
     const user = getCurrentUser();
 
     const { register, control, watch, setValue, handleSubmit, formState: { errors } } = useForm<FormFields>(
+    { 
+        defaultValues: 
         { 
-            defaultValues: 
-                { 
-                    username: user?.username ?? '',
-                    nativeLanguage: undefined // Set after fetch is completed
-                },
-        });
+            username: user?.username ?? '',
+        },
+    });
 
-    function onFormSubmit(data: FormFields) {
-        const profileData: UpdateProfileData = {username: data.username, nativeLanguageId: data.nativeLanguage.id};
-        // TODO: include profile picture
+    async function onFormSubmit(data: FormFields) {
+        if(!data.profilePicture && user && user.profilePictureUrl){
+            data.profilePicture = await urlToFile(user.profilePictureUrl, user.email + "_picture");
+        }
+        const profileData: UpdateProfileData = {username: data.username, nativeLanguageId: data.nativeLanguage.id, profilePicture: data.profilePicture};
         onSubmit(profileData);
     }
 
@@ -44,7 +46,10 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
 
     useEffect(() => {
         if(user && user.nativeLanguageId){
-            setValue('nativeLanguage.id', user.nativeLanguageId);
+            const language = languages?.find(l => l.id === user.nativeLanguageId);
+            if(language){
+                setValue('nativeLanguage', language);
+            }
         }
     }, [languages]);
 
@@ -91,7 +96,7 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
                     name="profilePicture"
                     control={control}
                     render={({ field }) => (
-                        <AvatarInput onChange={field.onChange} name={name} defaultImageUrl={user?.imageUrl ?? ''} />
+                        <AvatarInput onChange={field.onChange} name={name} defaultImageUrl={user?.profilePictureUrl ?? ''} />
                     )}
                 />
                 <FormErrorMessage>{errors.profilePicture?.message}</FormErrorMessage>
