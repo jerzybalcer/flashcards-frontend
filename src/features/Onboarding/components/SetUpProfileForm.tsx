@@ -4,7 +4,6 @@ import { AvatarInput } from "@/shared/components/AvatarInput";
 import { LanguageInput } from "@/shared/components/LanguageInput";
 import { useLanguages } from "@/shared/hooks/queries/useLanguages";
 import { getCurrentUser } from "@/shared/utils/getCurrentUser";
-import { urlToFile } from "@/shared/utils/urlToFile";
 import { Flex, FormLabel, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -35,9 +34,6 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
     });
 
     async function onFormSubmit(data: FormFields) {
-        if(!data.profilePicture && user && user.profilePictureUrl){
-            data.profilePicture = await urlToFile(user.profilePictureUrl, user.email + "_picture");
-        }
         const profileData: UpdateProfileData = {username: data.username, nativeLanguageId: data.nativeLanguage.id, profilePicture: data.profilePicture};
         onSubmit(profileData);
     }
