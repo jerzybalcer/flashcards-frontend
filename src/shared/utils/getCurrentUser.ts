@@ -1,7 +1,7 @@
-import { User } from "@/model/User";
+import { AccountWithToken } from "@/model/AccountWithToken";
 
-export const getCurrentUser = (): User | null => {
+export const getCurrentUser = (): AccountWithToken | null => {
     const storedUser = localStorage.getItem('user');
 
-    return storedUser ? JSON.parse(storedUser) as User : null;
+    return storedUser ? JSON.parse(storedUser) as AccountWithToken : null;
 }

@@ -1,9 +1,8 @@
+import { Language } from "./Language";
+
 export interface User {
     id: number;
-    email: string;
-    accessToken: string;
-    username: string | null;
-    profilePictureUrl: string | null;
-    nativeLanguageId: string | null;
-    hasCompletedOnboarding: boolean;
+    username: string;
+    profilePictureUrl: string;
+    nativeLanguage: Language;
 }

@@ -1,6 +1,7 @@
 import { UpdateProfileData } from "@/model/UpdateProfileData";
 import { updateProfile } from "@/shared/services/UserService";
 import { getCurrentUser } from "@/shared/utils/getCurrentUser";
+import { errorToast } from "@/shared/utils/toasts";
 import { useMutation } from "react-query";
 
 
@@ -15,7 +16,10 @@ export function useUpdateProfile() {
 
     const mutation = useMutation((profileData: UpdateProfileData) => updateProfile(profileData), 
     {
-        onSuccess: (_, profileData) => handleSuccess(profileData)
+        onSuccess: (_, profileData) => handleSuccess(profileData),
+        onError: () => {
+            errorToast('Unexpected error');
+        }
     })
 
     const handleSave = async(profileData: UpdateProfileData) => {

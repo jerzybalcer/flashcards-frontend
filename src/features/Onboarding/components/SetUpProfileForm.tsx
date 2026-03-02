@@ -4,9 +4,11 @@ import { AvatarInput } from "@/shared/components/AvatarInput";
 import { LanguageInput } from "@/shared/components/LanguageInput";
 import { useLanguages } from "@/shared/hooks/queries/useLanguages";
 import { getCurrentUser } from "@/shared/utils/getCurrentUser";
-import { Flex, FormLabel, Input, FormControl, FormErrorMessage } from "@chakra-ui/react";
+import { Flex, FormLabel, Input, FormControl, FormErrorMessage, InputGroup, InputRightElement, Spinner } from "@chakra-ui/react";
+import { IconCheck } from "@tabler/icons-react";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useUsernameValidation } from "../hooks/useUsernameValidation";
 
 interface FormFields {
     username: string;
@@ -37,9 +39,7 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
         const profileData: UpdateProfileData = {username: data.username, nativeLanguageId: data.nativeLanguage.id, profilePicture: data.profilePicture};
         onSubmit(profileData);
     }
-
-    const name = watch('username');
-
+    
     useEffect(() => {
         if(user && user.nativeLanguageId){
             const language = languages?.find(l => l.id === user.nativeLanguageId);
@@ -48,26 +48,27 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
             }
         }
     }, [languages]);
+    
+    const usernameFormField = watch('username');
+    const { error: usernameError, isLoading: usernameValidationLoading } = useUsernameValidation(usernameFormField);
 
     return (
     <form ref={formRef} onSubmit={handleSubmit(onFormSubmit)} noValidate autoComplete="off">
         <Flex direction='column' gap={4}>
-            <FormControl isRequired isInvalid={!!errors.username}>
+            <FormControl isRequired isInvalid={!!usernameError}>
                 <FormLabel>Username</FormLabel>
-                <Input 
-                    {...register("username", 
-                        { 
-                            required: "Username is required",
-                            pattern: {
-                                value: /^[a-zA-Z0-9_]+$/,
-                                message: 'Username can only contain letters, numbers, and _'
-                            }
-                        }
-                    )}
-                    placeholder="john_doe" 
-                    isDisabled={isDisabled} 
-                />
-                <FormErrorMessage>{errors.username?.message}</FormErrorMessage>
+                <InputGroup>
+                    <Input 
+                        {...register("username")}
+                        placeholder="john_doe" 
+                        isDisabled={isDisabled} 
+                    />
+                    <InputRightElement>
+                        {usernameValidationLoading && <Spinner size='sm' /> }
+                        {!usernameValidationLoading && !usernameError && <IconCheck color='var(--chakra-colors-blue-200)'/>}
+                    </InputRightElement>
+                </InputGroup>
+                <FormErrorMessage>{usernameError}</FormErrorMessage>
             </FormControl>
             <FormControl isRequired isInvalid={!!errors.nativeLanguage}>
                 <FormLabel>Native language</FormLabel>
@@ -92,7 +93,7 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
                     name="profilePicture"
                     control={control}
                     render={({ field }) => (
-                        <AvatarInput onChange={field.onChange} name={name} defaultImageUrl={user?.profilePictureUrl ?? ''} />
+                        <AvatarInput onChange={field.onChange} name={usernameFormField} defaultImageUrl={user?.profilePictureUrl ?? ''} />
                     )}
                 />
                 <FormErrorMessage>{errors.profilePicture?.message}</FormErrorMessage>
