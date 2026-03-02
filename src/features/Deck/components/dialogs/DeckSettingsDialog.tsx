@@ -3,6 +3,7 @@ import { ThreeDotsButton } from "@/shared/components/ThreeDotsButton";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, ModalFooter, Button, Input, Select, Alert, AlertIcon } from "@chakra-ui/react";
 import { useState } from "react";
 import { DeleteDeckConfirmationDialog } from "./DeleteDeckConfirmationDialog";
+import { IconChevronDown } from "@tabler/icons-react";
 
 
 interface Props {
@@ -32,7 +33,7 @@ export const DeckSettingsDialog: React.FC<Props> = ({ deck }) => {
                     </FormControl>
                     <FormControl isRequired isDisabled>
                         <FormLabel>Language</FormLabel>
-                        <Select value={deck.languageId} >
+                        <Select value={deck.languageId} icon={<IconChevronDown />}>
                             <option value={deck.languageId}>{deck.languageName}</option>
                         </Select>
                     </FormControl>
