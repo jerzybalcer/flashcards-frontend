@@ -18,7 +18,8 @@ export const useUsernameValidation = (username: string) => {
 
     const error = useMemo(() => {
         if (formatError) return formatError;
-        if (!isAvailabilityLoading && !isAvailable) return "Username is taken";
+        if (isAvailabilityLoading) return null;
+        if (!isAvailable) return "Username is taken";
         return null;
     }, [formatError, isAvailable, isAvailabilityLoading]);
 
