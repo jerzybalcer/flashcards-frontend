@@ -8,7 +8,8 @@ import { useLocalStorage } from 'usehooks-ts';
 import { useSpeechSynthesis } from '@/shared/hooks/general/useSpeechSynthesis';
 import { FlashCardSide } from '@/model/FlashCardSide';
 import { LearnSettings } from '@/model/LearnSettings';
-import { getCurrentUser } from '@/shared/utils/getCurrentUser';
+import { LocalStorage } from '@/shared/utils/localStorage';
+import { UserOwnProfile } from '@/model/UserOwnProfile';
 
 
 interface FlippableFlashCardProps {
@@ -26,10 +27,10 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
 
     const [currentSide, setCurrentSide] = useState<FlashCardSide>(initialSide);
     const { isLanguageAvailable: isSpeechLanguageAvailable } = useSpeechSynthesis();
-    const nativeLanguage = getCurrentUser()!.nativeLanguageId!;
+    const nativeLanguageId = LocalStorage.get<UserOwnProfile>('user')!.nativeLanguage!.id;
 
     const canReadAloudForeignWord = isSpeechLanguageAvailable(foreignLanguage);
-    const canReadAloudTranslatedWord = isSpeechLanguageAvailable(foreignLanguage) && isSpeechLanguageAvailable(nativeLanguage);
+    const canReadAloudTranslatedWord = isSpeechLanguageAvailable(foreignLanguage) && isSpeechLanguageAvailable(nativeLanguageId);
 
     const flip = (newSide: FlashCardSide, withAnimation: boolean = true) => {
         flipCardRef.current!.style.transition = withAnimation ? 'transform 0.6s' : 'transform 0s';
@@ -79,7 +80,7 @@ export const FlippableFlashCard: React.FC<FlippableFlashCardProps> = ({ flashCar
 
             <Flex className="flip-card-back" direction='column'>
                 <Box alignSelf='end' h='10%' p='5%'>
-                    <ReadAloudButton word={flashCard.translatedWord} language={nativeLanguage} autoRead={settings.autoRead && currentSide === 'translated'} canRead={canReadAloudTranslatedWord}/>
+                    <ReadAloudButton word={flashCard.translatedWord} language={nativeLanguageId} autoRead={settings.autoRead && currentSide === 'translated'} canRead={canReadAloudTranslatedWord}/>
                 </Box>
 
                 <Box w='100%' h='90%' ref={translatedSideRef} p={4}>

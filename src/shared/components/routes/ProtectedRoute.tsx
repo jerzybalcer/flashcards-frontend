@@ -1,6 +1,8 @@
+import { UserOwnProfile } from "@/model/UserOwnProfile";
+import { LocalStorage } from "@/shared/utils/localStorage";
 import { Navigate, Outlet } from "react-router-dom";
-import { getCurrentUser } from "../../utils/getCurrentUser";
 
 export const ProtectedRoute = () => {
-  return getCurrentUser() ? <Outlet /> : <Navigate to="/auth" />;
+  const currentUser = LocalStorage.get<UserOwnProfile>('user');
+  return currentUser ? <Outlet /> : <Navigate to="/auth" />;
 };

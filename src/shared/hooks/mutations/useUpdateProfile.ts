@@ -1,22 +1,19 @@
 import { UpdateProfileData } from "@/model/UpdateProfileData";
+import { UserOwnProfile } from "@/model/UserOwnProfile";
 import { updateProfile } from "@/shared/services/UserService";
-import { getCurrentUser } from "@/shared/utils/getCurrentUser";
+import { LocalStorage } from "@/shared/utils/localStorage";
 import { errorToast } from "@/shared/utils/toasts";
 import { useMutation } from "react-query";
 
 
 export function useUpdateProfile() {
-    const handleSuccess = (profileData: UpdateProfileData) => {
-        const user = getCurrentUser();
-        user!.username = profileData.username;
-        user!.nativeLanguageId = profileData.nativeLanguageId;
-        user!.hasCompletedOnboarding = true;
-        localStorage.setItem('user', JSON.stringify(user));
+    const handleSuccess = (updatedProfile: UserOwnProfile) => {
+        LocalStorage.set('user', updatedProfile);
     };
 
     const mutation = useMutation((profileData: UpdateProfileData) => updateProfile(profileData), 
     {
-        onSuccess: (_, profileData) => handleSuccess(profileData),
+        onSuccess: (updatedProfile) => handleSuccess(updatedProfile),
         onError: () => {
             errorToast('Unexpected error');
         }

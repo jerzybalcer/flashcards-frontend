@@ -1,4 +1,5 @@
 import { authorizeWithEmail, authorizeWithGoogle } from "@/shared/services/AccountService";
+import { LocalStorage } from "@/shared/utils/localStorage";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,8 +12,9 @@ export const useAuth = () => {
   const loginWithEmail = async (email: string, password: string) => {
     setLoginWithEmailLoading(true);
     try {
-      const user = await authorizeWithEmail(email, password);
-      localStorage.setItem('user', JSON.stringify(user));
+      const tokenResponse = await authorizeWithEmail(email, password);
+      LocalStorage.set('user', tokenResponse.user)
+      LocalStorage.set('accessToken', tokenResponse.accessToken)
       navigate('/');
     } catch (error) {
       console.error(error);
@@ -27,8 +29,9 @@ export const useAuth = () => {
     onSuccess: async ({ code }) => {
       setLoginWithGoogleLoading(true);
       try {
-        const user = await authorizeWithGoogle(code);
-        localStorage.setItem('user', JSON.stringify(user));
+        const tokenResponse = await authorizeWithGoogle(code);
+        LocalStorage.set('user', tokenResponse.user)
+        LocalStorage.set('accessToken', tokenResponse.accessToken)
         navigate('/');
       } catch (error) {
         console.error(error);
@@ -40,15 +43,15 @@ export const useAuth = () => {
   });
 
   const logout = () => {
-    localStorage.removeItem('user');
+    LocalStorage.clear('user');
+    LocalStorage.clear('accessToken');
     navigate('/auth');
   };
 
   const createAccount = async (email: string, password: string) => {
     setLoginWithEmailLoading(true);
     try {
-      const user = await createAccount(email, password);
-      localStorage.setItem('user', JSON.stringify(user));
+      await createAccount(email, password);
       navigate('/');
     } catch (error) {
       console.error(error);

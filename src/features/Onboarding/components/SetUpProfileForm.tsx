@@ -3,12 +3,12 @@ import { UpdateProfileData } from "@/model/UpdateProfileData";
 import { AvatarInput } from "@/shared/components/AvatarInput";
 import { LanguageInput } from "@/shared/components/LanguageInput";
 import { useLanguages } from "@/shared/hooks/queries/useLanguages";
-import { getCurrentUser } from "@/shared/utils/getCurrentUser";
 import { Flex, FormLabel, Input, FormControl, FormErrorMessage, InputGroup, InputRightElement, Spinner } from "@chakra-ui/react";
 import { IconCheck } from "@tabler/icons-react";
-import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useUsernameValidation } from "../hooks/useUsernameValidation";
+import { LocalStorage } from "@/shared/utils/localStorage";
+import { UserOwnProfile } from "@/model/UserOwnProfile";
 
 interface FormFields {
     username: string;
@@ -25,13 +25,14 @@ interface Props {
 export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisabled }) => {
     const { isFetching: languagesLoading, data: languages } = useLanguages();
 
-    const user = getCurrentUser();
+    const user = LocalStorage.get<UserOwnProfile>('user');
 
     const { register, control, watch, setValue, handleSubmit, formState: { errors } } = useForm<FormFields>(
     { 
         defaultValues: 
         { 
             username: user?.username ?? '',
+            nativeLanguage: user?.nativeLanguage ?? undefined
         },
     });
 
@@ -40,14 +41,14 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
         onSubmit(profileData);
     }
     
-    useEffect(() => {
-        if(user && user.nativeLanguageId){
-            const language = languages?.find(l => l.id === user.nativeLanguageId);
-            if(language){
-                setValue('nativeLanguage', language);
-            }
-        }
-    }, [languages]);
+    // useEffect(() => {
+    //     if(user && user.nativeLanguageId){
+    //         const language = languages?.find(l => l.id === user.nativeLanguageId);
+    //         if(language){
+    //             setValue('nativeLanguage', language);
+    //         }
+    //     }
+    // }, [languages]);
     
     const usernameFormField = watch('username');
     const { error: usernameError, isLoading: usernameValidationLoading } = useUsernameValidation(usernameFormField);

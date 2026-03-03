@@ -2,7 +2,7 @@
 import { AxiosResponse } from "axios";
 import { refreshToken } from "./AccountService";
 import { apiClient } from "./AxiosInstance";
-import { getCurrentUser } from "../utils/getCurrentUser";
+import { LocalStorage } from "../utils/localStorage";
 
 interface RequestInQueue {
     retryRequest: () => Promise<AxiosResponse<any, any>>;
@@ -63,10 +63,9 @@ export const setupTokenRefreshInterceptor = () => {
                     // Refresh token
                     const refreshTokenResponse = await refreshToken()
 
-                    const currentUser = getCurrentUser();
-                    currentUser!.accessToken = refreshTokenResponse.accessToken;
+                    LocalStorage.set('user', refreshTokenResponse.user);
+                    LocalStorage.set('accessToken', refreshTokenResponse.accessToken);
 
-                    localStorage.setItem('user', JSON.stringify(currentUser));
                     apiClient.defaults.headers.common.Authorization = `Bearer ${refreshTokenResponse.accessToken}`;
 
                     // Retry all requests from queue
@@ -74,7 +73,7 @@ export const setupTokenRefreshInterceptor = () => {
 
                     return apiClient(originalRequest); // Handle the first request
                 } catch (refreshError) {
-                    localStorage.removeItem('user');
+                    LocalStorage.clear('user');
                     window.location.href='/auth';
                     
                     RetryQueue.failAll(refreshError);

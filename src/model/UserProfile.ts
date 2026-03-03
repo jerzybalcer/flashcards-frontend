@@ -1,8 +1,8 @@
 import { Language } from "./Language";
 
-export interface User {
-    id: number;
+export interface UserProfile {
+    accountId: number;
     username: string;
-    profilePictureUrl: string;
+    profilePictureUrl: string | null;
     nativeLanguage: Language;
 }

@@ -3,7 +3,8 @@ import { apiClient } from "./AxiosInstance";
 import { AxiosError } from "axios";
 import { Goal } from "@/model/Goal";
 import { UpdateProfileData } from "@/model/UpdateProfileData";
-import { User } from "@/model/User";
+import { UserProfile } from "@/model/UserProfile";
+import { UserOwnProfile } from "@/model/UserOwnProfile";
 
 export const getGoals = async () =>
     apiClient
@@ -11,7 +12,7 @@ export const getGoals = async () =>
         .then(res => humps.camelizeKeys(res.data) as Goal[])
         .catch((err: AxiosError) => Promise.reject(err));
 
-export const updateProfile = async (data: UpdateProfileData) => {
+export const updateProfile = async (data: UpdateProfileData): Promise<UserOwnProfile> => {
     const formData = new FormData();
 
     formData.append('username', data.username);
@@ -21,15 +22,16 @@ export const updateProfile = async (data: UpdateProfileData) => {
         formData.append('profile_picture', data.profilePicture);
     }
  
-    apiClient
+    return apiClient
         .put(`/users/profile`, 
             formData, 
             { headers: {'Content-Type': 'multipart/form-data'} })
+        .then(res => camelizeKeys(res.data) as UserOwnProfile)
         .catch((err: AxiosError) => Promise.reject(err));
 }
 
 export const getUsersByUsername = async (username: string, exactMatch: boolean) =>
     apiClient
         .get(`/users?username=${username}&exact_match=${exactMatch}`)
-        .then(res => camelizeKeys(res.data) as User[])
+        .then(res => camelizeKeys(res.data) as UserProfile[])
         .catch((err: AxiosError) => Promise.reject(err));

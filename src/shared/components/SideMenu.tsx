@@ -1,14 +1,15 @@
-import { Avatar, Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Heading, Text, useDisclosure } from "@chakra-ui/react"
+import { Avatar, Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerHeader, DrawerOverlay, Flex, Heading, useDisclosure } from "@chakra-ui/react"
 import { IconLogout, IconMenu2, IconUser } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
-import { getCurrentUser } from "../utils/getCurrentUser";
 import { useAuth } from "../hooks/general/useAuth";
+import { UserOwnProfile } from "@/model/UserOwnProfile";
+import { LocalStorage } from "../utils/localStorage";
 
 export const SideMenu: React.FC = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const navigate = useNavigate();
     const { logout } = useAuth();
-    const currentUser = getCurrentUser();
+    const currentUser = LocalStorage.get<UserOwnProfile>('user');
  
     return (
         <>
@@ -24,7 +25,6 @@ export const SideMenu: React.FC = () => {
                                 <Avatar src={currentUser?.profilePictureUrl ?? undefined} size='lg' name={currentUser?.username ?? undefined} bg='blue.600' color='white' icon={<IconUser size='32px'/>}/>
                                 <Box minW={0} pr={4}>
                                     <Heading fontSize='t1' as='h1' textOverflow='ellipsis' whiteSpace='nowrap' overflow='hidden'>{currentUser?.username}</Heading>
-                                    <Text fontSize='lb'>{currentUser?.email}</Text>
                                 </Box>
                             </Flex>
   

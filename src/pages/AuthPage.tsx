@@ -1,12 +1,13 @@
 import { Flex, Heading } from "@chakra-ui/react";
 import { Navigate } from "react-router-dom";
-import { getCurrentUser } from "@/shared/utils/getCurrentUser";
 import { CredentialsCard } from "@/features/Auth/components/CredentialsCard";
+import { LocalStorage } from "@/shared/utils/localStorage";
+import { UserOwnProfile } from "@/model/UserOwnProfile";
 
 
 export const AuthPage = () => {
     
-    if(getCurrentUser() !== null) {
+    if(LocalStorage.get<UserOwnProfile>('user') !== null) {
         return <Navigate to='/'/>;
     }
 
