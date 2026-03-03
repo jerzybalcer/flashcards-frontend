@@ -27,7 +27,7 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
 
     const user = LocalStorage.get<UserOwnProfile>('user');
 
-    const { register, control, watch, setValue, handleSubmit, formState: { errors } } = useForm<FormFields>(
+    const { register, control, watch, handleSubmit, formState: { errors } } = useForm<FormFields>(
     { 
         defaultValues: 
         { 
@@ -40,15 +40,6 @@ export const SetUpProfileForm: React.FC<Props> = ({ formRef, onSubmit, isDisable
         const profileData: UpdateProfileData = {username: data.username, nativeLanguageId: data.nativeLanguage.id, profilePicture: data.profilePicture};
         onSubmit(profileData);
     }
-    
-    // useEffect(() => {
-    //     if(user && user.nativeLanguageId){
-    //         const language = languages?.find(l => l.id === user.nativeLanguageId);
-    //         if(language){
-    //             setValue('nativeLanguage', language);
-    //         }
-    //     }
-    // }, [languages]);
     
     const usernameFormField = watch('username');
     const { error: usernameError, isLoading: usernameValidationLoading } = useUsernameValidation(usernameFormField);
