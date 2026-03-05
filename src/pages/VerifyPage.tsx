@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Box, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
 import { useVerifyAccount } from "@/features/Verify/hooks/mutations/useVerifyAccount";
@@ -7,10 +7,12 @@ export const VerifyPage = () => {
     const [searchParams] = useSearchParams();
     const token = searchParams.get("token");
     const { handleVerification, isLoading: isVerificationLoading } = useVerifyAccount();
+    const verifiedToken = useRef<string | null>(null);
     
     useEffect(() => {
-        if (token) {
-            handleVerification(token);
+        if (token && verifiedToken.current !== token) {
+            handleVerification(token)
+                .then(() => { verifiedToken.current = token });
         }
     }, [token]);
 
