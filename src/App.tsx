@@ -10,6 +10,7 @@ import { AuthPage } from './pages/AuthPage';
 import { ProtectedRoute } from '@/shared/components/routes/ProtectedRoute';
 import { OnboardingGuard } from '@/shared/components/routes/OnboardingGuard';
 import { OnboardingRoute } from '@/shared/components/routes/OnboardingRoute';
+import { VerifyPage } from './pages/VerifyPage';
 
 
 export const App = () => {
@@ -18,6 +19,7 @@ export const App = () => {
         <Box maxW='1200px' w='100%' p={4}> 
           <Routes>
             <Route path='/auth' element={<AuthPage />} />
+            <Route path='/verify' element={<VerifyPage />} />
             <Route element={<ProtectedRoute />}>
               <Route path='/onboarding' element={<OnboardingRoute />} />
               <Route element={<OnboardingGuard />}>

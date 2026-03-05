@@ -27,10 +27,17 @@ export const refreshToken = async () =>
     .then(res => camelizeKeys(res.data) as TokenResponse)
     .catch((err: AxiosError) => Promise.reject(err));
 
-export const createAccount = async (email: string, password: string) =>
+export const createAccountWithEmail = async (email: string, password: string) =>
     apiClient
         .post(`/accounts`, 
             { email: email, password: password }, 
+            { headers: {'Content-Type': 'application/json'}}
+        )
+        .catch((err: AxiosError) => Promise.reject(err));
+
+export const verifyAccount = async (token: string) =>
+    apiClient
+        .post(`/accounts/verify?token=${token}`, 
             { headers: {'Content-Type': 'application/json'} })
         .then(res => camelizeKeys(res.data) as TokenResponse)
         .catch((err: AxiosError) => Promise.reject(err));

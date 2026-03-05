@@ -1,4 +1,4 @@
-import { authorizeWithEmail, authorizeWithGoogle } from "@/shared/services/AccountService";
+import { authorizeWithEmail, authorizeWithGoogle, createAccountWithEmail } from "@/shared/services/AccountService";
 import { LocalStorage } from "@/shared/utils/localStorage";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useState } from "react";
@@ -51,8 +51,8 @@ export const useAuth = () => {
   const createAccount = async (email: string, password: string) => {
     setLoginWithEmailLoading(true);
     try {
-      await createAccount(email, password);
-      navigate('/');
+      await createAccountWithEmail(email, password);
+      navigate('/verify');
     } catch (error) {
       console.error(error);
     } finally {
@@ -63,6 +63,7 @@ export const useAuth = () => {
   return { 
     loginWithEmail, 
     loginWithGoogle, 
+    createAccount,
     logout, 
     isLoginWithEmailLoading, 
     isLoginWithGoogleLoading 

@@ -20,6 +20,7 @@ export const CredentialsCard = () => {
     
     const handleLoginWithEmail = (email: string, password: string) => auth.loginWithEmail(email, password);
     const handleLoginWithGoogle = () => auth.loginWithGoogle();
+    const handleCreateAccount = (email: string, password: string) => auth.createAccount(email, password);
 
     function getHeader(){
         return [<Text fontSize='h1' fontWeight={700}>{getModeText()}</Text>];
@@ -28,7 +29,7 @@ export const CredentialsCard = () => {
     function getBody(){
         return [<CredentialsForm 
             formRef={formRef}
-            onSubmit={handleLoginWithEmail}
+            onSubmit={mode === 'login' ? handleLoginWithEmail : handleCreateAccount}
             isDisabled={auth.isLoginWithEmailLoading || auth.isLoginWithGoogleLoading}
             authMode={mode}
         />];
